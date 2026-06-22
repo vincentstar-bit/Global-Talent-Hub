@@ -1,4 +1,4 @@
-import { Switch, Route, Router as WouterRouter } from "wouter";
+import { Switch, Route, Router as WouterRouter, Redirect } from "wouter";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -7,6 +7,10 @@ import HomePage from "@/pages/home";
 import AboutPage from "@/pages/about";
 import CareersPage from "@/pages/careers";
 import ContactPage from "@/pages/contact";
+import ServicesPage from "@/pages/services";
+import SustainabilityPage from "@/pages/sustainability";
+import NewsroomPage from "@/pages/newsroom";
+import InvestorsPage from "@/pages/investors";
 import PortalPage from "@/pages/portal/index";
 import PortalApplyPage from "@/pages/portal/apply";
 import PortalLetterPage from "@/pages/portal/letter";
@@ -31,9 +35,16 @@ function Router() {
       <Route path="/about" component={AboutPage} />
       <Route path="/careers" component={CareersPage} />
       <Route path="/contact" component={ContactPage} />
+      <Route path="/services" component={ServicesPage} />
+      <Route path="/sustainability" component={SustainabilityPage} />
+      <Route path="/newsroom" component={NewsroomPage} />
+      <Route path="/investors" component={InvestorsPage} />
       <Route path="/portal" component={PortalPage} />
       <Route path="/portal/apply" component={PortalApplyPage} />
       <Route path="/portal/letter" component={PortalLetterPage} />
+      <Route path="/admin">
+        {() => <Redirect to="/admin/login" />}
+      </Route>
       <Route path="/admin/login" component={AdminLoginPage} />
       <Route path="/admin/dashboard" component={AdminDashboardPage} />
       <Route path="/admin/workers" component={AdminWorkersPage} />
