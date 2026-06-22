@@ -1,22 +1,34 @@
 openapi: 3.1.0
 info:
-  # Do not change the title, if the title changes, the import paths will be broken
   title: Api
   version: 0.1.0
-  description: API specification
+  description: SinoGlobal Enterprise API
 servers:
   - url: /api
     description: Base API path
 tags:
   - name: health
     description: Health operations
+  - name: auth
+    description: Admin authentication
+  - name: workers
+    description: Worker management
+  - name: jobs
+    description: Job roles and departments
+  - name: leaveTypes
+    description: Leave type configuration
+  - name: leaveRequests
+    description: Leave request management
+  - name: leaveLetters
+    description: Leave request letters
+  - name: dashboard
+    description: Dashboard analytics
 paths:
   /healthz:
     get:
       operationId: healthCheck
       tags: [health]
       summary: Health check
-      description: Returns server health status
       responses:
         "200":
           description: Healthy
@@ -24,6 +36,448 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+
+  /auth/admin/login:
+    post:
+      operationId: adminLogin
+      tags: [auth]
+      summary: Admin login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AdminCredentials"
+      responses:
+        "200":
+          description: Logged in
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminSession"
+        "401":
+          description: Invalid credentials
+
+  /auth/admin/logout:
+    post:
+      operationId: adminLogout
+      tags: [auth]
+      summary: Admin logout
+      responses:
+        "200":
+          description: Logged out
+
+  /auth/admin/me:
+    get:
+      operationId: getAdminMe
+      tags: [auth]
+      summary: Get current admin session
+      responses:
+        "200":
+          description: Current session
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminSession"
+        "401":
+          description: Not authenticated
+
+  /workers:
+    get:
+      operationId: listWorkers
+      tags: [workers]
+      summary: List all workers
+      parameters:
+        - name: search
+          in: query
+          schema:
+            type: string
+        - name: department
+          in: query
+          schema:
+            type: string
+        - name: status
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: List of workers
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Worker"
+    post:
+      operationId: createWorker
+      tags: [workers]
+      summary: Create a worker
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/WorkerInput"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Worker"
+
+  /workers/{id}:
+    get:
+      operationId: getWorker
+      tags: [workers]
+      summary: Get worker by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Worker details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Worker"
+        "404":
+          description: Not found
+    patch:
+      operationId: updateWorker
+      tags: [workers]
+      summary: Update worker
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/WorkerUpdate"
+      responses:
+        "200":
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Worker"
+    delete:
+      operationId: deleteWorker
+      tags: [workers]
+      summary: Delete worker
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Deleted
+
+  /workers/token/{token}:
+    get:
+      operationId: getWorkerByToken
+      tags: [workers]
+      summary: Get worker by access token (public)
+      parameters:
+        - name: token
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Worker details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WorkerPublicProfile"
+        "404":
+          description: Not found
+
+  /jobs:
+    get:
+      operationId: listJobs
+      tags: [jobs]
+      summary: List all job roles
+      responses:
+        "200":
+          description: List of job roles
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/JobRole"
+    post:
+      operationId: createJob
+      tags: [jobs]
+      summary: Create job role
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/JobRoleInput"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/JobRole"
+
+  /jobs/{id}:
+    patch:
+      operationId: updateJob
+      tags: [jobs]
+      summary: Update job role
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/JobRoleUpdate"
+      responses:
+        "200":
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/JobRole"
+    delete:
+      operationId: deleteJob
+      tags: [jobs]
+      summary: Delete job role
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Deleted
+
+  /leave-types:
+    get:
+      operationId: listLeaveTypes
+      tags: [leaveTypes]
+      summary: List leave types
+      responses:
+        "200":
+          description: List of leave types
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/LeaveType"
+    post:
+      operationId: createLeaveType
+      tags: [leaveTypes]
+      summary: Create leave type
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LeaveTypeInput"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LeaveType"
+
+  /leave-types/{id}:
+    patch:
+      operationId: updateLeaveType
+      tags: [leaveTypes]
+      summary: Update leave type
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LeaveTypeUpdate"
+      responses:
+        "200":
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LeaveType"
+    delete:
+      operationId: deleteLeaveType
+      tags: [leaveTypes]
+      summary: Delete leave type
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Deleted
+
+  /leave-requests:
+    get:
+      operationId: listLeaveRequests
+      tags: [leaveRequests]
+      summary: List leave requests
+      parameters:
+        - name: workerId
+          in: query
+          schema:
+            type: integer
+        - name: status
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: List of leave requests
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/LeaveRequest"
+    post:
+      operationId: createLeaveRequest
+      tags: [leaveRequests]
+      summary: Submit a leave request
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LeaveRequestInput"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LeaveRequest"
+
+  /leave-requests/{id}:
+    get:
+      operationId: getLeaveRequest
+      tags: [leaveRequests]
+      summary: Get leave request details
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Leave request details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LeaveRequest"
+    patch:
+      operationId: updateLeaveRequest
+      tags: [leaveRequests]
+      summary: Update leave request status (admin)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LeaveRequestUpdate"
+      responses:
+        "200":
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LeaveRequest"
+
+  /leave-letters:
+    post:
+      operationId: createLeaveLetter
+      tags: [leaveLetters]
+      summary: Submit a leave letter
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LeaveLetterInput"
+      responses:
+        "201":
+          description: Submitted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LeaveLetter"
+    get:
+      operationId: listLeaveLetters
+      tags: [leaveLetters]
+      summary: List leave letters (admin)
+      parameters:
+        - name: workerId
+          in: query
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Leave letters
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/LeaveLetter"
+
+  /dashboard/stats:
+    get:
+      operationId: getDashboardStats
+      tags: [dashboard]
+      summary: Get admin dashboard statistics
+      responses:
+        "200":
+          description: Dashboard stats
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DashboardStats"
+
 components:
   schemas:
     HealthStatus:
@@ -34,3 +488,460 @@ components:
       required:
         - status
 
+    AdminCredentials:
+      type: object
+      required: [username, password]
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+
+    AdminSession:
+      type: object
+      required: [username, role]
+      properties:
+        username:
+          type: string
+        role:
+          type: string
+
+    Worker:
+      type: object
+      required: [id, firstName, lastName, accessToken, jobTitle, department, contractStart, contractEnd, contractDeal, paymentStatus, paymentAmount, status, createdAt]
+      properties:
+        id:
+          type: integer
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+        phone:
+          type: ["string", "null"]
+        accessToken:
+          type: string
+        jobTitle:
+          type: string
+        department:
+          type: string
+        contractStart:
+          type: string
+        contractEnd:
+          type: string
+        contractDeal:
+          type: string
+        paymentStatus:
+          type: string
+          description: "completed | half | pending"
+        paymentAmount:
+          type: number
+        paymentPaid:
+          type: number
+        assignedCountry:
+          type: ["string", "null"]
+        countryEntryDate:
+          type: ["string", "null"]
+        countryStayYears:
+          type: ["integer", "null"]
+        photoUrl:
+          type: ["string", "null"]
+        nationality:
+          type: ["string", "null"]
+        passportNumber:
+          type: ["string", "null"]
+        status:
+          type: string
+          description: "active | suspended | terminated"
+        hiredBy:
+          type: ["string", "null"]
+        notes:
+          type: ["string", "null"]
+        createdAt:
+          type: string
+
+    WorkerInput:
+      type: object
+      required: [firstName, lastName, jobTitle, department, contractStart, contractEnd, contractDeal, paymentStatus, paymentAmount]
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+        phone:
+          type: string
+        jobTitle:
+          type: string
+        department:
+          type: string
+        contractStart:
+          type: string
+        contractEnd:
+          type: string
+        contractDeal:
+          type: string
+        paymentStatus:
+          type: string
+        paymentAmount:
+          type: number
+        paymentPaid:
+          type: number
+        assignedCountry:
+          type: string
+        countryEntryDate:
+          type: string
+        countryStayYears:
+          type: integer
+        photoUrl:
+          type: string
+        nationality:
+          type: string
+        passportNumber:
+          type: string
+        status:
+          type: string
+        hiredBy:
+          type: string
+        notes:
+          type: string
+
+    WorkerUpdate:
+      type: object
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+        phone:
+          type: string
+        jobTitle:
+          type: string
+        department:
+          type: string
+        contractStart:
+          type: string
+        contractEnd:
+          type: string
+        contractDeal:
+          type: string
+        paymentStatus:
+          type: string
+        paymentAmount:
+          type: number
+        paymentPaid:
+          type: number
+        assignedCountry:
+          type: string
+        countryEntryDate:
+          type: string
+        countryStayYears:
+          type: integer
+        photoUrl:
+          type: string
+        nationality:
+          type: string
+        passportNumber:
+          type: string
+        status:
+          type: string
+        hiredBy:
+          type: string
+        notes:
+          type: string
+
+    WorkerPublicProfile:
+      type: object
+      required: [firstName, lastName, jobTitle, department, contractStart, contractEnd, contractDeal, paymentStatus, paymentAmount, status]
+      properties:
+        id:
+          type: integer
+        firstName:
+          type: string
+        lastName:
+          type: string
+        jobTitle:
+          type: string
+        department:
+          type: string
+        contractStart:
+          type: string
+        contractEnd:
+          type: string
+        contractDeal:
+          type: string
+        paymentStatus:
+          type: string
+        paymentAmount:
+          type: number
+        paymentPaid:
+          type: number
+        assignedCountry:
+          type: ["string", "null"]
+        countryEntryDate:
+          type: ["string", "null"]
+        countryStayYears:
+          type: ["integer", "null"]
+        photoUrl:
+          type: ["string", "null"]
+        nationality:
+          type: ["string", "null"]
+        status:
+          type: string
+        hiredBy:
+          type: ["string", "null"]
+        accessToken:
+          type: string
+        leaveTypes:
+          type: array
+          items:
+            $ref: "#/components/schemas/LeaveType"
+
+    JobRole:
+      type: object
+      required: [id, title, department, description, responsibilities, requirements, salary, photoUrl]
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        department:
+          type: string
+        description:
+          type: string
+        responsibilities:
+          type: string
+        requirements:
+          type: string
+        salary:
+          type: string
+        photoUrl:
+          type: string
+        isActive:
+          type: boolean
+
+    JobRoleInput:
+      type: object
+      required: [title, department, description, responsibilities, requirements, salary, photoUrl]
+      properties:
+        title:
+          type: string
+        department:
+          type: string
+        description:
+          type: string
+        responsibilities:
+          type: string
+        requirements:
+          type: string
+        salary:
+          type: string
+        photoUrl:
+          type: string
+        isActive:
+          type: boolean
+
+    JobRoleUpdate:
+      type: object
+      properties:
+        title:
+          type: string
+        department:
+          type: string
+        description:
+          type: string
+        responsibilities:
+          type: string
+        requirements:
+          type: string
+        salary:
+          type: string
+        photoUrl:
+          type: string
+        isActive:
+          type: boolean
+
+    LeaveType:
+      type: object
+      required: [id, name, description, maxDays, amount, requiresApproval]
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        description:
+          type: string
+        maxDays:
+          type: integer
+        amount:
+          type: number
+          description: Payment/compensation amount for this leave
+        requiresApproval:
+          type: boolean
+        isActive:
+          type: boolean
+
+    LeaveTypeInput:
+      type: object
+      required: [name, description, maxDays, amount, requiresApproval]
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        maxDays:
+          type: integer
+        amount:
+          type: number
+        requiresApproval:
+          type: boolean
+        isActive:
+          type: boolean
+
+    LeaveTypeUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        maxDays:
+          type: integer
+        amount:
+          type: number
+        requiresApproval:
+          type: boolean
+        isActive:
+          type: boolean
+
+    LeaveRequest:
+      type: object
+      required: [id, workerId, leaveTypeId, startDate, endDate, status, createdAt]
+      properties:
+        id:
+          type: integer
+        workerId:
+          type: integer
+        workerName:
+          type: ["string", "null"]
+        leaveTypeId:
+          type: integer
+        leaveTypeName:
+          type: ["string", "null"]
+        startDate:
+          type: string
+        endDate:
+          type: string
+        reason:
+          type: ["string", "null"]
+        status:
+          type: string
+          description: "pending | approved | rejected"
+        adminNote:
+          type: ["string", "null"]
+        createdAt:
+          type: string
+
+    LeaveRequestInput:
+      type: object
+      required: [workerId, leaveTypeId, startDate, endDate]
+      properties:
+        workerId:
+          type: integer
+        leaveTypeId:
+          type: integer
+        startDate:
+          type: string
+        endDate:
+          type: string
+        reason:
+          type: string
+
+    LeaveRequestUpdate:
+      type: object
+      properties:
+        status:
+          type: string
+        adminNote:
+          type: string
+
+    LeaveLetter:
+      type: object
+      required: [id, workerId, leaveTypeId, subject, body, recipientTitle, createdAt]
+      properties:
+        id:
+          type: integer
+        workerId:
+          type: integer
+        workerName:
+          type: ["string", "null"]
+        leaveTypeId:
+          type: integer
+        leaveTypeName:
+          type: ["string", "null"]
+        subject:
+          type: string
+        body:
+          type: string
+        recipientTitle:
+          type: string
+        status:
+          type: string
+        createdAt:
+          type: string
+
+    LeaveLetterInput:
+      type: object
+      required: [workerId, leaveTypeId, subject, body, recipientTitle]
+      properties:
+        workerId:
+          type: integer
+        leaveTypeId:
+          type: integer
+        subject:
+          type: string
+        body:
+          type: string
+        recipientTitle:
+          type: string
+
+    DashboardStats:
+      type: object
+      required: [totalWorkers, activeWorkers, pendingLeaveRequests, totalLeaveRequests, workersByDepartment, leaveRequestsByStatus, recentWorkers]
+      properties:
+        totalWorkers:
+          type: integer
+        activeWorkers:
+          type: integer
+        pendingLeaveRequests:
+          type: integer
+        totalLeaveRequests:
+          type: integer
+        workersByDepartment:
+          type: array
+          items:
+            type: object
+            required: [department, count]
+            properties:
+              department:
+                type: string
+              count:
+                type: integer
+        leaveRequestsByStatus:
+          type: array
+          items:
+            type: object
+            required: [status, count]
+            properties:
+              status:
+                type: string
+              count:
+                type: integer
+        recentWorkers:
+          type: array
+          items:
+            $ref: "#/components/schemas/Worker"
