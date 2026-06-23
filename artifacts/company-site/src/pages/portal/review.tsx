@@ -5,7 +5,7 @@ import { useLocation } from "wouter";
 import {
   Mail, Search, CheckCircle2, XCircle, Clock,
   Calendar, ChevronLeft, FileText, AlertCircle,
-  MessageSquare, ArrowRight
+  MessageSquare, ArrowRight, RefreshCw
 } from "lucide-react";
 
 const BASE = import.meta.env.BASE_URL?.replace(/\/$/, "") ?? "";
@@ -108,11 +108,28 @@ function RequestCard({ req }: { req: any }) {
           </div>
         )}
 
-        {/* Pending message */}
+        {/* Pending — spinning rings animation */}
         {isPending && (
-          <div className="flex items-start gap-2 bg-amber-50 border border-amber-200 rounded-xl px-3 py-2.5 text-xs text-amber-700">
-            <Clock className="w-3.5 h-3.5 shrink-0 mt-0.5" />
-            Your request is currently under review by the HR department.
+          <div className="flex flex-col items-center py-6">
+            <div className="relative w-20 h-20 mb-4">
+              <div className="absolute inset-0 rounded-full border-4 border-[#c9a227] animate-spin" style={{ animationDuration: "2s" }} />
+              <div className="absolute inset-2 rounded-full border-4 border-[#c9a227]/40 animate-spin" style={{ animationDuration: "3s", animationDirection: "reverse" }} />
+              <div className="absolute inset-4 rounded-full border-4 border-[#c9a227]/20 animate-spin" style={{ animationDuration: "4s" }} />
+              <div className="absolute inset-0 flex items-center justify-center">
+                <Clock className="w-6 h-6 text-[#c9a227]" />
+              </div>
+            </div>
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold border bg-amber-100 text-amber-800 border-amber-200 mb-2">
+              Under Review
+            </div>
+            <p className="text-sm font-semibold text-foreground mb-1">Awaiting Decision</p>
+            <p className="text-xs text-muted-foreground text-center max-w-xs leading-relaxed">
+              Your request is currently being reviewed by the HR department.
+            </p>
+            <div className="flex items-center gap-1.5 mt-3 text-xs text-muted-foreground">
+              <RefreshCw className="w-3 h-3 animate-spin" style={{ animationDuration: "3s" }} />
+              Check back here for updates
+            </div>
           </div>
         )}
       </div>
