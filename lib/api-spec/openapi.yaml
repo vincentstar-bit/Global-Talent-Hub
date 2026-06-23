@@ -660,7 +660,7 @@ components:
 
     WorkerPublicProfile:
       type: object
-      required: [firstName, lastName, jobTitle, department, contractStart, contractEnd, contractDeal, paymentStatus, paymentAmount, status]
+      required: [firstName, lastName, jobTitle, department, contractStart, contractEnd, contractDeal, paymentStatus, paymentAmount, paymentPaid, status]
       properties:
         id:
           type: integer
@@ -693,6 +693,12 @@ components:
         photoUrl:
           type: ["string", "null"]
         nationality:
+          type: ["string", "null"]
+        passportNumber:
+          type: ["string", "null"]
+        email:
+          type: ["string", "null"]
+        phone:
           type: ["string", "null"]
         status:
           type: string

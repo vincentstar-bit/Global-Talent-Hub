@@ -62,7 +62,7 @@ const languages = [
 
 const dropdownVariants = {
   hidden: { opacity: 0, y: -8, scale: 0.97 },
-  visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.18, ease: "easeOut" } },
+  visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.18, ease: "easeOut" as const } },
   exit: { opacity: 0, y: -6, scale: 0.97, transition: { duration: 0.12 } },
 };
 

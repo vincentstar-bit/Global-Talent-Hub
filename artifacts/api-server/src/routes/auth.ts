@@ -12,11 +12,6 @@ const router = Router();
 const SUPER_USERNAME = process.env.ADMIN_USERNAME || "admin";
 const SUPER_PASSWORD = process.env.ADMIN_PASSWORD || "SinoGlobal@2024";
 
-declare module "express-serve-static-core" {
-  interface Request {
-    session?: { username: string; role: string; isSuperAdmin: boolean };
-  }
-}
 
 const sessions = new Map<string, { username: string; role: string; isSuperAdmin: boolean }>();
 

@@ -18,7 +18,7 @@ export interface WorkerPublicProfile {
   contractDeal: string;
   paymentStatus: string;
   paymentAmount: number;
-  paymentPaid?: number;
+  paymentPaid: number;
   /** @nullable */
   assignedCountry?: string | null;
   /** @nullable */
@@ -29,6 +29,12 @@ export interface WorkerPublicProfile {
   photoUrl?: string | null;
   /** @nullable */
   nationality?: string | null;
+  /** @nullable */
+  passportNumber?: string | null;
+  /** @nullable */
+  email?: string | null;
+  /** @nullable */
+  phone?: string | null;
   status: string;
   /** @nullable */
   hiredBy?: string | null;

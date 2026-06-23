@@ -125,8 +125,8 @@ export default function AdminWorkerDetailPage() {
           </div>
           <div className="bg-card border border-border rounded-lg p-4">
             <div className="text-xs text-muted-foreground mb-1">Payment Progress</div>
-            <div className="text-2xl font-bold text-foreground">{Math.round((worker!.paymentPaid / Math.max(worker!.paymentAmount, 1)) * 100)}%</div>
-            <div className="text-xs text-muted-foreground mt-0.5">${worker!.paymentPaid.toLocaleString()} / ${worker!.paymentAmount.toLocaleString()}</div>
+            <div className="text-2xl font-bold text-foreground">{Math.round(((worker!.paymentPaid ?? 0) / Math.max(worker!.paymentAmount, 1)) * 100)}%</div>
+            <div className="text-xs text-muted-foreground mt-0.5">${(worker!.paymentPaid ?? 0).toLocaleString()} / ${worker!.paymentAmount.toLocaleString()}</div>
           </div>
           {countryTimeLeft && (
             <div className="bg-card border border-border rounded-lg p-4">
