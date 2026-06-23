@@ -4,14 +4,18 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   Menu, X, Globe, ChevronDown, Building2, Leaf, Newspaper, TrendingUp,
   Users, Award, Clock, Briefcase, Cpu, HeartPulse, Ship, FlaskConical,
-  Home as HomeIcon, BarChart3, Phone, Mail, Search, Languages
+  Home as HomeIcon, BarChart3, Phone, Mail, Search, Languages,
+  Truck, Wrench, HardHat, Plane, Anchor, FileText, Scale, BookOpen,
+  ShieldCheck, LineChart, Handshake, MapPin, CalendarDays, Info
 } from "lucide-react";
 
 const aboutLinks = [
-  { href: "/about", label: "Our Story", sub: "History & founding", icon: Clock },
+  { href: "/about", label: "Our Story", sub: "History & founding since 2003", icon: Clock },
   { href: "/about#team", label: "Executive Team", sub: "Leadership profiles", icon: Users },
   { href: "/about#milestones", label: "Milestones", sub: "21 years of growth", icon: TrendingUp },
-  { href: "/about#certifications", label: "Certifications", sub: "ISO & global awards", icon: Award },
+  { href: "/about#certifications", label: "Certifications & Awards", sub: "ISO & global recognitions", icon: Award },
+  { href: "/about", label: "Corporate Governance", sub: "Policies & compliance", icon: ShieldCheck },
+  { href: "/about", label: "Global Offices", sub: "40+ locations worldwide", icon: MapPin },
 ];
 
 const businessLinks = [
@@ -21,12 +25,28 @@ const businessLinks = [
   { href: "/services#logistics", label: "Operations & Logistics", sub: "43-country supply chain", icon: Ship },
   { href: "/services#it", label: "Information Technology", sub: "Cloud & cybersecurity", icon: Cpu },
   { href: "/services#research", label: "Research & Development", sub: "Biotech & clean energy", icon: FlaskConical },
+  { href: "/services", label: "Construction & Real Estate", sub: "Landmark developments", icon: HardHat },
+  { href: "/services", label: "International Trade", sub: "Cross-border compliance", icon: Handshake },
+];
+
+const careersLinks = [
+  { href: "/careers", label: "Moving & Relocation Jobs", sub: "International placement roles", icon: Truck },
+  { href: "/careers", label: "Engineering Positions", sub: "Technical & field roles", icon: Wrench },
+  { href: "/careers", label: "Operations & Logistics", sub: "Supply chain & transport", icon: Anchor },
+  { href: "/careers", label: "Corporate & Finance", sub: "Office & professional roles", icon: Briefcase },
+  { href: "/careers", label: "Healthcare & Medical", sub: "Clinical & pharma careers", icon: HeartPulse },
+  { href: "/careers", label: "Technology & IT", sub: "Software & infrastructure", icon: Cpu },
+  { href: "/careers", label: "International Assignments", sub: "Expat & overseas postings", icon: Plane },
+  { href: "/careers", label: "Graduate Programme", sub: "Entry-level & internships", icon: BookOpen },
 ];
 
 const moreLinks = [
-  { href: "/sustainability", label: "Sustainability", sub: "ESG & carbon goals", icon: Leaf },
+  { href: "/sustainability", label: "Sustainability & ESG", sub: "Carbon goals & impact", icon: Leaf },
   { href: "/newsroom", label: "Newsroom", sub: "Press & announcements", icon: Newspaper },
-  { href: "/investors", label: "Investors", sub: "Reports & IR contact", icon: TrendingUp },
+  { href: "/investors", label: "Investor Relations", sub: "Reports & IR contact", icon: LineChart },
+  { href: "/contact", label: "Global Offices", sub: "Find a location near you", icon: MapPin },
+  { href: "/contact", label: "Media & PR", sub: "Press enquiries", icon: FileText },
+  { href: "/contact", label: "Legal & Compliance", sub: "Policies & documents", icon: Scale },
 ];
 
 const languages = [
@@ -36,6 +56,8 @@ const languages = [
   { code: "FR", label: "Français", flag: "🇫🇷" },
   { code: "DE", label: "Deutsch", flag: "🇩🇪" },
   { code: "JA", label: "日本語", flag: "🇯🇵" },
+  { code: "KO", label: "한국어", flag: "🇰🇷" },
+  { code: "ES", label: "Español", flag: "🇪🇸" },
 ];
 
 const dropdownVariants = {
@@ -60,7 +82,7 @@ function NavDropdown({ label, children, isActive }: { label: string; children: R
     <div ref={ref} className="relative">
       <button
         onClick={() => setOpen(!open)}
-        className={`flex items-center gap-1 px-4 py-2 text-sm font-medium transition-colors rounded ${
+        className={`flex items-center gap-1 px-3 py-2 text-sm font-medium transition-colors rounded ${
           isActive || open ? "text-[#c9a227] bg-white/5" : "text-white/80 hover:text-white hover:bg-white/5"
         }`}
       >
@@ -74,7 +96,7 @@ function NavDropdown({ label, children, isActive }: { label: string; children: R
             initial="hidden"
             animate="visible"
             exit="exit"
-            className="absolute top-full left-0 mt-1 bg-[#0d1b2e] border border-white/10 rounded-xl shadow-2xl z-50 min-w-[240px] py-2 overflow-hidden"
+            className="absolute top-full left-0 mt-1 bg-[#0d1b2e] border border-white/10 rounded-xl shadow-2xl z-50 min-w-[260px] py-2 overflow-hidden"
           >
             {children}
           </motion.div>
@@ -84,7 +106,7 @@ function NavDropdown({ label, children, isActive }: { label: string; children: R
   );
 }
 
-function MegaDropdown({ label, children, isActive }: { label: string; children: React.ReactNode; isActive?: boolean }) {
+function MegaDropdown({ label, children, isActive, wide }: { label: string; children: React.ReactNode; isActive?: boolean; wide?: boolean }) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -100,7 +122,7 @@ function MegaDropdown({ label, children, isActive }: { label: string; children: 
     <div ref={ref} className="relative">
       <button
         onClick={() => setOpen(!open)}
-        className={`flex items-center gap-1 px-4 py-2 text-sm font-medium transition-colors rounded ${
+        className={`flex items-center gap-1 px-3 py-2 text-sm font-medium transition-colors rounded ${
           isActive || open ? "text-[#c9a227] bg-white/5" : "text-white/80 hover:text-white hover:bg-white/5"
         }`}
       >
@@ -114,7 +136,7 @@ function MegaDropdown({ label, children, isActive }: { label: string; children: 
             initial="hidden"
             animate="visible"
             exit="exit"
-            className="absolute top-full left-0 mt-1 bg-[#0d1b2e] border border-white/10 rounded-xl shadow-2xl z-50 w-[520px] py-3 overflow-hidden"
+            className={`absolute top-full left-0 mt-1 bg-[#0d1b2e] border border-white/10 rounded-xl shadow-2xl z-50 ${wide ? "w-[560px]" : "w-[520px]"} py-3 overflow-hidden`}
           >
             {children}
           </motion.div>
@@ -156,7 +178,7 @@ function LanguageSelector() {
             initial="hidden"
             animate="visible"
             exit="exit"
-            className="absolute top-full right-0 mt-1 bg-[#0d1b2e] border border-white/10 rounded-xl shadow-2xl z-50 min-w-[160px] py-2 overflow-hidden"
+            className="absolute top-full right-0 mt-1 bg-[#0d1b2e] border border-white/10 rounded-xl shadow-2xl z-50 min-w-[180px] py-2 overflow-hidden"
           >
             <div className="px-3 py-1.5 border-b border-white/10 mb-1">
               <div className="text-[#c9a227] text-[10px] tracking-widest uppercase font-medium">Select Language</div>
@@ -200,7 +222,7 @@ export default function Navbar() {
       scrolled ? "bg-[#0d1b2e]/98 shadow-xl backdrop-blur-md" : "bg-[#0d1b2e]/97 backdrop-blur-md"
     } border-b border-white/10`}>
       {/* Top utility bar */}
-      <div className="hidden lg:block bg-[#0a1628] border-b border-white/5">
+      <div className="hidden lg:block bg-[#070f1c] border-b border-white/5">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-8 text-xs text-white/40">
             <div className="flex items-center gap-6">
@@ -210,12 +232,16 @@ export default function Navbar() {
               <a href="mailto:info@sinoglobal.com" className="flex items-center gap-1.5 hover:text-[#c9a227] transition-colors">
                 <Mail className="w-3 h-3" /> info@sinoglobal.com
               </a>
+              <span className="text-white/20">|</span>
+              <span className="flex items-center gap-1"><CalendarDays className="w-3 h-3" /> Mon–Fri 09:00–18:00 CST</span>
             </div>
             <div className="flex items-center gap-4">
-              <span className="text-white/30">Fortune Global 500 · ISO 9001:2015 · MSCI ESG: AA</span>
+              <span className="text-white/25">Fortune Global 500 · ISO 9001:2015 · MSCI ESG: AA · UN Global Compact</span>
               <Link href="/investors" className="hover:text-[#c9a227] transition-colors">Investor Relations</Link>
               <span className="text-white/20">|</span>
               <Link href="/newsroom" className="hover:text-[#c9a227] transition-colors">Press Room</Link>
+              <span className="text-white/20">|</span>
+              <Link href="/portal" className="hover:text-[#c9a227] transition-colors">Worker Portal</Link>
             </div>
           </div>
         </div>
@@ -238,7 +264,7 @@ export default function Navbar() {
             </div>
           </Link>
 
-          <div className="hidden lg:flex items-center gap-0.5">
+          <div className="hidden xl:flex items-center gap-0">
             <Link
               href="/"
               className={`px-3 py-2 text-sm font-medium transition-colors rounded ${
@@ -254,7 +280,7 @@ export default function Navbar() {
               </div>
               {aboutLinks.map((link) => (
                 <Link
-                  key={link.href}
+                  key={link.label}
                   href={link.href}
                   className="flex items-start gap-3 px-4 py-2.5 hover:bg-white/5 transition-colors group"
                 >
@@ -269,7 +295,7 @@ export default function Navbar() {
               ))}
             </NavDropdown>
 
-            <MegaDropdown label="Business" isActive={isActive("/services")}>
+            <MegaDropdown label="Business" isActive={isActive("/services")} wide>
               <div className="px-4 py-2 border-b border-white/10 mb-1 flex items-center justify-between">
                 <div className="text-[#c9a227] text-[10px] tracking-widest uppercase font-medium">Our Business Divisions</div>
                 <Link href="/services" className="text-white/40 text-xs hover:text-[#c9a227] transition-colors">View all →</Link>
@@ -277,7 +303,7 @@ export default function Navbar() {
               <div className="grid grid-cols-2 gap-0.5 px-2 pb-2">
                 {businessLinks.map((link) => (
                   <Link
-                    key={link.href}
+                    key={link.label}
                     href={link.href}
                     className="flex items-start gap-3 px-3 py-2.5 hover:bg-white/5 rounded-lg transition-colors group"
                   >
@@ -297,13 +323,46 @@ export default function Navbar() {
               </div>
             </MegaDropdown>
 
-            <NavDropdown label="More" isActive={isActive("/sustainability") || isActive("/newsroom") || isActive("/investors")}>
+            <MegaDropdown label="Careers" isActive={isActive("/careers")} wide>
+              <div className="px-4 py-2 border-b border-white/10 mb-1 flex items-center justify-between">
+                <div className="text-[#c9a227] text-[10px] tracking-widest uppercase font-medium">Career Opportunities</div>
+                <Link href="/careers" className="text-white/40 text-xs hover:text-[#c9a227] transition-colors">All jobs →</Link>
+              </div>
+              <div className="grid grid-cols-2 gap-0.5 px-2 pb-2">
+                {careersLinks.map((link) => (
+                  <Link
+                    key={link.label}
+                    href={link.href}
+                    className="flex items-start gap-3 px-3 py-2.5 hover:bg-white/5 rounded-lg transition-colors group"
+                  >
+                    <div className="w-8 h-8 rounded-lg bg-[#c9a227]/10 flex items-center justify-center shrink-0 group-hover:bg-[#c9a227]/20 transition-colors mt-0.5">
+                      <link.icon className="w-4 h-4 text-[#c9a227]" />
+                    </div>
+                    <div>
+                      <div className="text-white/90 text-sm font-medium group-hover:text-[#c9a227] transition-colors leading-tight">{link.label}</div>
+                      <div className="text-white/35 text-xs mt-0.5">{link.sub}</div>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+              <div className="mx-4 mt-1 p-3 bg-[#c9a227]/8 border border-[#c9a227]/20 rounded-lg flex items-center justify-between">
+                <div>
+                  <div className="text-[#c9a227] text-xs font-semibold mb-0.5">Now Hiring — 200+ Open Roles</div>
+                  <div className="text-white/40 text-xs">Positions across Asia, Europe & the Americas</div>
+                </div>
+                <Link href="/careers" className="shrink-0 px-3 py-1.5 bg-[#c9a227] text-[#0a1628] text-xs font-bold rounded hover:bg-[#d4af37] transition-colors">
+                  Apply Now
+                </Link>
+              </div>
+            </MegaDropdown>
+
+            <NavDropdown label="Resources" isActive={isActive("/sustainability") || isActive("/newsroom") || isActive("/investors")}>
               <div className="px-3 py-1.5 border-b border-white/10 mb-1">
-                <div className="text-[#c9a227] text-[10px] tracking-widest uppercase font-medium">More from SinoGlobal</div>
+                <div className="text-[#c9a227] text-[10px] tracking-widest uppercase font-medium">Resources & Info</div>
               </div>
               {moreLinks.map((link) => (
                 <Link
-                  key={link.href}
+                  key={link.label}
                   href={link.href}
                   className="flex items-start gap-3 px-4 py-2.5 hover:bg-white/5 transition-colors group"
                 >
@@ -319,14 +378,6 @@ export default function Navbar() {
             </NavDropdown>
 
             <Link
-              href="/careers"
-              className={`px-3 py-2 text-sm font-medium transition-colors rounded ${
-                isActive("/careers") ? "text-[#c9a227] bg-white/5" : "text-white/80 hover:text-white hover:bg-white/5"
-              }`}
-            >
-              Careers
-            </Link>
-            <Link
               href="/contact"
               className={`px-3 py-2 text-sm font-medium transition-colors rounded ${
                 isActive("/contact") ? "text-[#c9a227] bg-white/5" : "text-white/80 hover:text-white hover:bg-white/5"
@@ -336,7 +387,7 @@ export default function Navbar() {
             </Link>
           </div>
 
-          <div className="hidden lg:flex items-center gap-2">
+          <div className="hidden xl:flex items-center gap-2">
             <LanguageSelector />
             <Link
               href="/portal"
@@ -347,7 +398,7 @@ export default function Navbar() {
           </div>
 
           <button
-            className="lg:hidden text-white/80 hover:text-white p-2"
+            className="xl:hidden text-white/80 hover:text-white p-2"
             onClick={() => { setOpen(!open); setMobileSection(null); }}
           >
             {open ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -361,73 +412,47 @@ export default function Navbar() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="lg:hidden bg-[#0a1628] border-t border-white/10 overflow-hidden"
+            className="xl:hidden bg-[#0a1628] border-t border-white/10 overflow-hidden"
           >
             <div className="px-4 py-3 space-y-1 max-h-[80vh] overflow-y-auto">
               <Link href="/" onClick={() => setOpen(false)} className="block px-3 py-2.5 text-sm text-white/80 hover:text-white hover:bg-white/5 rounded">Home</Link>
 
-              <button
-                onClick={() => setMobileSection(mobileSection === "about" ? null : "about")}
-                className="w-full flex items-center justify-between px-3 py-2.5 text-sm text-white/80 hover:text-white hover:bg-white/5 rounded"
-              >
-                About <ChevronDown className={`w-4 h-4 transition-transform ${mobileSection === "about" ? "rotate-180" : ""}`} />
-              </button>
-              <AnimatePresence>
-                {mobileSection === "about" && (
-                  <motion.div
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: "auto" }}
-                    exit={{ opacity: 0, height: 0 }}
-                    className="pl-4 space-y-1 border-l border-[#c9a227]/30 ml-3 overflow-hidden"
+              {[
+                { key: "about", label: "About", links: aboutLinks },
+                { key: "business", label: "Business", links: businessLinks },
+                { key: "careers", label: "Careers", links: careersLinks },
+                { key: "resources", label: "Resources", links: moreLinks },
+              ].map(({ key, label, links }) => (
+                <div key={key}>
+                  <button
+                    onClick={() => setMobileSection(mobileSection === key ? null : key)}
+                    className="w-full flex items-center justify-between px-3 py-2.5 text-sm text-white/80 hover:text-white hover:bg-white/5 rounded"
                   >
-                    {aboutLinks.map((l) => <Link key={l.href} href={l.href} onClick={() => setOpen(false)} className="flex items-center gap-2 px-3 py-2 text-sm text-white/60 hover:text-[#c9a227]"><l.icon className="w-3.5 h-3.5" />{l.label}</Link>)}
-                  </motion.div>
-                )}
-              </AnimatePresence>
+                    {label} <ChevronDown className={`w-4 h-4 transition-transform ${mobileSection === key ? "rotate-180" : ""}`} />
+                  </button>
+                  <AnimatePresence>
+                    {mobileSection === key && (
+                      <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: "auto" }}
+                        exit={{ opacity: 0, height: 0 }}
+                        className="pl-4 space-y-1 border-l border-[#c9a227]/30 ml-3 overflow-hidden"
+                      >
+                        {links.map((l) => (
+                          <Link key={l.label} href={l.href} onClick={() => setOpen(false)} className="flex items-center gap-2 px-3 py-2 text-sm text-white/60 hover:text-[#c9a227]">
+                            <l.icon className="w-3.5 h-3.5" />{l.label}
+                          </Link>
+                        ))}
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              ))}
 
-              <button
-                onClick={() => setMobileSection(mobileSection === "business" ? null : "business")}
-                className="w-full flex items-center justify-between px-3 py-2.5 text-sm text-white/80 hover:text-white hover:bg-white/5 rounded"
-              >
-                Business <ChevronDown className={`w-4 h-4 transition-transform ${mobileSection === "business" ? "rotate-180" : ""}`} />
-              </button>
-              <AnimatePresence>
-                {mobileSection === "business" && (
-                  <motion.div
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: "auto" }}
-                    exit={{ opacity: 0, height: 0 }}
-                    className="pl-4 space-y-1 border-l border-[#c9a227]/30 ml-3 overflow-hidden"
-                  >
-                    {businessLinks.map((l) => <Link key={l.href} href={l.href} onClick={() => setOpen(false)} className="flex items-center gap-2 px-3 py-2 text-sm text-white/60 hover:text-[#c9a227]"><l.icon className="w-3.5 h-3.5" />{l.label}</Link>)}
-                  </motion.div>
-                )}
-              </AnimatePresence>
-
-              <button
-                onClick={() => setMobileSection(mobileSection === "more" ? null : "more")}
-                className="w-full flex items-center justify-between px-3 py-2.5 text-sm text-white/80 hover:text-white hover:bg-white/5 rounded"
-              >
-                More <ChevronDown className={`w-4 h-4 transition-transform ${mobileSection === "more" ? "rotate-180" : ""}`} />
-              </button>
-              <AnimatePresence>
-                {mobileSection === "more" && (
-                  <motion.div
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: "auto" }}
-                    exit={{ opacity: 0, height: 0 }}
-                    className="pl-4 space-y-1 border-l border-[#c9a227]/30 ml-3 overflow-hidden"
-                  >
-                    {moreLinks.map((l) => <Link key={l.href} href={l.href} onClick={() => setOpen(false)} className="flex items-center gap-2 px-3 py-2 text-sm text-white/60 hover:text-[#c9a227]"><l.icon className="w-3.5 h-3.5" />{l.label}</Link>)}
-                  </motion.div>
-                )}
-              </AnimatePresence>
-
-              <Link href="/careers" onClick={() => setOpen(false)} className="block px-3 py-2.5 text-sm text-white/80 hover:text-white hover:bg-white/5 rounded">Careers</Link>
               <Link href="/contact" onClick={() => setOpen(false)} className="block px-3 py-2.5 text-sm text-white/80 hover:text-white hover:bg-white/5 rounded">Contact</Link>
               <div className="pt-2 border-t border-white/10 space-y-2">
                 <Link href="/portal" onClick={() => setOpen(false)} className="block px-3 py-2.5 text-sm text-[#c9a227] font-medium border border-[#c9a227]/30 rounded">Worker Portal</Link>
-                <div className="flex gap-2 px-3">
+                <div className="flex flex-wrap gap-2 px-3">
                   {languages.map((lang) => (
                     <button key={lang.code} className="px-2 py-1 text-xs text-white/50 hover:text-[#c9a227] border border-white/10 rounded transition-colors">
                       {lang.flag} {lang.code}

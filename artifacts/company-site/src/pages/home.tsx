@@ -6,7 +6,9 @@ import Footer from "@/components/layout/Footer";
 import {
   Globe, Users, TrendingUp, Award, Shield, ChevronRight, Building2,
   Target, Heart, Cpu, HeartPulse, Ship, FlaskConical, BarChart3,
-  Leaf, ArrowRight, Star, Quote, Zap, CheckCircle2, Play
+  Leaf, ArrowRight, Star, Quote, Zap, CheckCircle2, Play,
+  Truck, HardHat, Wrench, Anchor, Plane, Briefcase, MapPin,
+  Clock, DollarSign, ChevronDown, Phone, Mail, BadgeCheck
 } from "lucide-react";
 
 /* ─── Animation helpers ─── */
@@ -71,8 +73,77 @@ const stats = [
   { label: "Years Operating", value: "21+", sub: "since 2003", icon: Award },
 ];
 
+const movingJobs = [
+  {
+    title: "International Relocation Specialist",
+    location: "Singapore / Dubai",
+    type: "Full-time",
+    salary: "$4,500–$6,500/mo",
+    dept: "Operations",
+    img: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&h=320&fit=crop",
+    icon: Truck,
+    tags: ["Relocation", "International", "Logistics"],
+    urgent: true,
+  },
+  {
+    title: "Heavy Equipment Operator",
+    location: "Malaysia / Indonesia",
+    type: "Contract",
+    salary: "$3,800–$5,200/mo",
+    dept: "Engineering",
+    img: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=500&h=320&fit=crop",
+    icon: HardHat,
+    tags: ["Construction", "Field Work", "Equipment"],
+    urgent: false,
+  },
+  {
+    title: "Port & Freight Coordinator",
+    location: "Shanghai / Hong Kong",
+    type: "Full-time",
+    salary: "$3,200–$4,800/mo",
+    dept: "Logistics",
+    img: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=500&h=320&fit=crop",
+    icon: Anchor,
+    tags: ["Shipping", "Customs", "Freight"],
+    urgent: true,
+  },
+  {
+    title: "Civil & Structural Engineer",
+    location: "Tokyo / Seoul",
+    type: "Full-time",
+    salary: "$5,500–$7,800/mo",
+    dept: "Engineering",
+    img: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=500&h=320&fit=crop",
+    icon: Wrench,
+    tags: ["Engineering", "Infrastructure", "Design"],
+    urgent: false,
+  },
+  {
+    title: "International Flight Operations",
+    location: "Beijing / London",
+    type: "Full-time",
+    salary: "$6,000–$9,500/mo",
+    dept: "Aviation",
+    img: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=500&h=320&fit=crop",
+    icon: Plane,
+    tags: ["Aviation", "Travel", "International"],
+    urgent: false,
+  },
+  {
+    title: "Healthcare Project Manager",
+    location: "Mumbai / Bangkok",
+    type: "Full-time",
+    salary: "$4,800–$7,000/mo",
+    dept: "Healthcare",
+    img: "https://images.unsplash.com/photo-1579154204601-01588f351e67?w=500&h=320&fit=crop",
+    icon: HeartPulse,
+    tags: ["Healthcare", "Management", "Projects"],
+    urgent: true,
+  },
+];
+
 const divisions = [
-  { name: "Engineering & Technology", icon: Building2, desc: "Pioneering next-generation infrastructure and smart city solutions across Asia and Africa.", img: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=400&h=250&fit=crop", href: "/services#engineering" },
+  { name: "Engineering & Technology", icon: Building2, desc: "Pioneering next-generation infrastructure and smart city solutions across Asia and the Americas.", img: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=400&h=250&fit=crop", href: "/services#engineering" },
   { name: "Finance & Investment", icon: BarChart3, desc: "Managing strategic capital allocations, M&A advisory, and global investment portfolios.", img: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=400&h=250&fit=crop", href: "/services#finance" },
   { name: "Operations & Logistics", icon: Ship, desc: "End-to-end supply chain management connecting manufacturers to markets in 43 countries.", img: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=400&h=250&fit=crop", href: "/services#logistics" },
   { name: "Healthcare & Pharmaceuticals", icon: HeartPulse, desc: "Developing life-saving medicines and healthcare infrastructure in emerging markets.", img: "https://images.unsplash.com/photo-1579154204601-01588f351e67?w=400&h=250&fit=crop", href: "/services#healthcare" },
@@ -98,12 +169,21 @@ const team = [
 ];
 
 const news = [
-  { date: "June 2024", tag: "Expansion", title: "SinoGlobal Secures $2.1B Infrastructure Contract in East Africa", img: "https://images.unsplash.com/photo-1508861647785-f6424b5e2f12?w=400&h=220&fit=crop", excerpt: "A landmark contract with the Tanzanian government for a 450km rail corridor and two port upgrades." },
-  { date: "May 2024", tag: "Technology", title: "BioSino Medical Receives FDA Breakthrough Therapy Designation", img: "https://images.unsplash.com/photo-1576086213369-97a306d36557?w=400&h=220&fit=crop", excerpt: "Our pharmaceutical division's novel oncology compound SGE-2204 receives priority review." },
-  { date: "April 2024", tag: "Finance", title: "SinoGlobal Reports Record Q1 Revenue of $2.3B", img: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=400&h=220&fit=crop", excerpt: "First-quarter results exceed analyst expectations by 12%, driven by engineering and logistics." },
+  { date: "June 2024", tag: "Technology", title: "BioSino Medical Receives FDA Breakthrough Therapy Designation", img: "https://images.unsplash.com/photo-1576086213369-97a306d36557?w=400&h=220&fit=crop", excerpt: "Our pharmaceutical division's novel oncology compound SGE-2204 receives priority review from the US FDA." },
+  { date: "May 2024", tag: "Finance", title: "SinoGlobal Reports Record Q1 Revenue of $2.3B", img: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=400&h=220&fit=crop", excerpt: "First-quarter results exceed analyst expectations by 12%, driven by engineering and logistics divisions." },
+  { date: "April 2024", tag: "Expansion", title: "SinoGlobal Secures $1.8B Infrastructure Contract in Southeast Asia", img: "https://images.unsplash.com/photo-1486325212027-8081e485255e?w=400&h=220&fit=crop", excerpt: "A landmark infrastructure contract covering highway, rail, and port upgrades across the ASEAN region." },
 ];
 
-const offices = ["Beijing", "Shanghai", "Hong Kong", "Singapore", "Tokyo", "Seoul", "Dubai", "London", "New York", "Lagos", "Nairobi", "Sydney", "Mumbai", "Paris", "Toronto", "Frankfurt", "Johannesburg", "Riyadh"];
+const offices = [
+  "Beijing", "Shanghai", "Hong Kong", "Guangzhou", "Shenzhen",
+  "Singapore", "Kuala Lumpur", "Bangkok", "Jakarta",
+  "Tokyo", "Seoul", "Osaka",
+  "Dubai", "Abu Dhabi", "Riyadh", "Doha",
+  "London", "Paris", "Frankfurt", "Amsterdam", "Zurich",
+  "New York", "Los Angeles", "Toronto",
+  "Sydney", "Melbourne",
+  "Mumbai", "New Delhi",
+];
 
 const awards = [
   { label: "Fortune Global 500", sub: "Ranked #312 (2023)" },
@@ -112,6 +192,17 @@ const awards = [
   { label: "CDP Climate A–", sub: "Leadership Rating" },
   { label: "MSCI ESG: AA", sub: "Sustainability" },
   { label: "UN Global Compact", sub: "Signatory" },
+];
+
+const companyFacts = [
+  { label: "Headquarters", value: "Beijing, China", icon: MapPin },
+  { label: "Founded", value: "2003", icon: Clock },
+  { label: "Stock Exchange", value: "Shanghai (SSE)", icon: TrendingUp },
+  { label: "Fortune Rank", value: "#312 Global", icon: Award },
+  { label: "Annual Revenue", value: "$8.2 Billion", icon: DollarSign },
+  { label: "Total Employees", value: "47,000+", icon: Users },
+  { label: "Countries", value: "43 Nations", icon: Globe },
+  { label: "CAGR (10yr)", value: "18%", icon: BarChart3 },
 ];
 
 /* ─── Floating Particle ─── */
@@ -142,28 +233,30 @@ function PulsingIcon({ icon: Icon, delay = 0 }: { icon: React.ElementType; delay
 /* ─── Page ─── */
 export default function HomePage() {
   const [activeTab, setActiveTab] = useState(0);
+  const [jobFilter, setJobFilter] = useState("All");
+
+  const jobCategories = ["All", "Operations", "Engineering", "Logistics", "Healthcare", "Aviation"];
+  const filteredJobs = jobFilter === "All" ? movingJobs : movingJobs.filter(j => j.dept === jobFilter);
 
   return (
     <div className="min-h-screen bg-background overflow-x-hidden">
       <Navbar />
 
       {/* ── Hero ── */}
-      <section className="relative min-h-screen flex items-center bg-[#0a1628] overflow-hidden">
+      <section className="relative min-h-screen flex items-center bg-[#06101f] overflow-hidden">
         <div className="absolute inset-0">
           <img
             src="https://images.unsplash.com/photo-1486325212027-8081e485255e?w=1600&h=900&fit=crop"
             alt="SinoGlobal headquarters"
             className="w-full h-full object-cover opacity-15"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#0a1628] via-[#0a1628]/90 to-[#0a1628]/60" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#06101f] via-[#06101f]/92 to-[#06101f]/55" />
         </div>
 
-        {/* Animated orbs */}
         <FloatingOrb x="65%" y="15%" size={320} delay={0} duration={6} />
         <FloatingOrb x="75%" y="55%" size={200} delay={2} duration={8} />
         <FloatingOrb x="10%" y="70%" size={160} delay={1} duration={7} />
 
-        {/* Animated grid lines */}
         <div className="absolute inset-0 opacity-[0.03]" style={{
           backgroundImage: "linear-gradient(#c9a227 1px, transparent 1px), linear-gradient(90deg, #c9a227 1px, transparent 1px)",
           backgroundSize: "80px 80px"
@@ -220,25 +313,24 @@ export default function HomePage() {
               className="flex flex-wrap gap-4"
             >
               <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}>
-                <Link href="/about" className="inline-flex items-center gap-2 px-8 py-3.5 bg-[#c9a227] text-[#0a1628] font-bold rounded hover:bg-[#d4af37] transition-colors">
-                  Discover Our Story <ArrowRight className="w-4 h-4" />
-                </Link>
+                <a href="#moving-jobs" className="inline-flex items-center gap-2 px-8 py-3.5 bg-[#c9a227] text-[#0a1628] font-bold rounded hover:bg-[#d4af37] transition-colors">
+                  View Open Positions <ArrowRight className="w-4 h-4" />
+                </a>
               </motion.div>
               <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}>
-                <Link href="/careers" className="inline-flex items-center gap-2 px-8 py-3.5 border border-white/30 text-white rounded hover:border-[#c9a227] hover:text-[#c9a227] transition-colors font-medium">
-                  View Opportunities
+                <Link href="/about" className="inline-flex items-center gap-2 px-8 py-3.5 border border-white/30 text-white rounded hover:border-[#c9a227] hover:text-[#c9a227] transition-colors font-medium">
+                  Discover Our Story
                 </Link>
               </motion.div>
             </motion.div>
 
-            {/* Trust badges */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.8, delay: 0.9 }}
               className="flex flex-wrap gap-3 mt-10"
             >
-              {["ISO 9001:2015", "MSCI ESG: AA", "UN Global Compact", "CDP Climate A–"].map((badge) => (
+              {["ISO 9001:2015", "MSCI ESG: AA", "UN Global Compact", "CDP Climate A–", "Fortune 500"].map((badge) => (
                 <div key={badge} className="flex items-center gap-1.5 px-3 py-1.5 bg-white/5 border border-white/10 rounded-full">
                   <CheckCircle2 className="w-3 h-3 text-[#c9a227]" />
                   <span className="text-white/60 text-xs">{badge}</span>
@@ -247,7 +339,6 @@ export default function HomePage() {
             </motion.div>
           </div>
 
-          {/* Floating stat cards */}
           <motion.div
             initial={{ opacity: 0, x: 40 }}
             animate={{ opacity: 1, x: 0 }}
@@ -258,6 +349,7 @@ export default function HomePage() {
               { value: "47,000+", label: "Employees", icon: Users },
               { value: "$8.2B", label: "Revenue 2023", icon: TrendingUp },
               { value: "43", label: "Countries", icon: Globe },
+              { value: "200+", label: "Open Positions", icon: Briefcase },
             ].map((s, i) => (
               <motion.div
                 key={s.label}
@@ -279,7 +371,6 @@ export default function HomePage() {
           </motion.div>
         </div>
 
-        {/* Scroll indicator */}
         <motion.div
           className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
           animate={{ y: [0, 8, 0] }}
@@ -315,6 +406,187 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* ══════════════════════════════════════════
+          ── MOVING JOBS SECTION (Featured)
+      ══════════════════════════════════════════ */}
+      <section id="moving-jobs" className="py-28 bg-[#06101f] relative overflow-hidden">
+        <FloatingOrb x="85%" y="5%" size={350} delay={0} duration={9} />
+        <FloatingOrb x="0%" y="60%" size={220} delay={2} duration={7} />
+
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <FadeInSection>
+            <div className="text-center mb-5">
+              <div className="flex items-center justify-center gap-2 mb-4">
+                <div className="h-px w-8 bg-[#c9a227]" />
+                <span className="text-[#c9a227] text-xs tracking-widest uppercase font-semibold">Now Hiring</span>
+                <div className="h-px w-8 bg-[#c9a227]" />
+              </div>
+              <h2 className="text-4xl lg:text-5xl font-bold text-white mb-4">Moving & Operations Jobs</h2>
+              <p className="text-white/55 max-w-2xl mx-auto text-lg">
+                Join SinoGlobal's global workforce. We are actively recruiting for moving, relocation, field, and operations roles across Asia, Europe, and the Middle East.
+              </p>
+            </div>
+          </FadeInSection>
+
+          {/* Stats ribbon */}
+          <FadeInSection delay={0.1}>
+            <div className="flex flex-wrap justify-center gap-6 mb-10">
+              {[
+                { label: "Open Positions", value: "200+" },
+                { label: "Countries Hiring", value: "28" },
+                { label: "Avg. Salary Package", value: "$5,200/mo" },
+                { label: "Start Date", value: "Immediate" },
+              ].map((s) => (
+                <div key={s.label} className="flex items-center gap-3 px-5 py-3 bg-white/5 border border-white/10 rounded-xl">
+                  <div>
+                    <div className="text-[#c9a227] font-bold text-lg">{s.value}</div>
+                    <div className="text-white/45 text-xs">{s.label}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </FadeInSection>
+
+          {/* Filter tabs */}
+          <FadeInSection delay={0.15}>
+            <div className="flex flex-wrap justify-center gap-2 mb-10">
+              {jobCategories.map((cat) => (
+                <button
+                  key={cat}
+                  onClick={() => setJobFilter(cat)}
+                  className={`px-5 py-2 rounded-full text-sm font-medium transition-all ${
+                    jobFilter === cat
+                      ? "bg-[#c9a227] text-[#0a1628]"
+                      : "bg-white/5 border border-white/15 text-white/60 hover:text-white hover:border-[#c9a227]/40"
+                  }`}
+                >
+                  {cat}
+                </button>
+              ))}
+            </div>
+          </FadeInSection>
+
+          {/* Job cards */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+            {filteredJobs.map((job, i) => (
+              <motion.div
+                key={job.title}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: i * 0.08 }}
+              >
+                <Link
+                  href="/careers"
+                  className="group bg-white/4 border border-white/10 rounded-2xl overflow-hidden hover:border-[#c9a227]/50 hover:shadow-2xl hover:shadow-[#c9a227]/5 transition-all duration-300 block h-full"
+                >
+                  <div className="relative h-44 overflow-hidden">
+                    <motion.img
+                      src={job.img}
+                      alt={job.title}
+                      className="w-full h-full object-cover brightness-75 group-hover:brightness-90 transition-all duration-500"
+                      whileHover={{ scale: 1.07 }}
+                      transition={{ duration: 0.5 }}
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#06101f]/90 via-[#06101f]/30 to-transparent" />
+                    {job.urgent && (
+                      <div className="absolute top-3 left-3">
+                        <span className="px-2.5 py-1 bg-red-500 text-white text-xs font-bold rounded-full animate-pulse">URGENT</span>
+                      </div>
+                    )}
+                    <div className="absolute top-3 right-3">
+                      <span className="px-2.5 py-1 bg-[#c9a227] text-[#0a1628] text-xs font-bold rounded-full">{job.dept}</span>
+                    </div>
+                    <div className="absolute bottom-3 left-3">
+                      <div className="w-9 h-9 rounded-xl bg-[#c9a227] flex items-center justify-center shadow-lg">
+                        <job.icon className="w-4.5 h-4.5 text-[#0a1628] w-5 h-5" />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="p-5">
+                    <h3 className="font-bold text-white text-base mb-3 group-hover:text-[#c9a227] transition-colors leading-tight">
+                      {job.title}
+                    </h3>
+
+                    <div className="space-y-2 mb-4">
+                      <div className="flex items-center gap-2 text-white/50 text-sm">
+                        <MapPin className="w-3.5 h-3.5 text-[#c9a227] shrink-0" />
+                        {job.location}
+                      </div>
+                      <div className="flex items-center gap-2 text-white/50 text-sm">
+                        <Clock className="w-3.5 h-3.5 text-[#c9a227] shrink-0" />
+                        {job.type}
+                      </div>
+                      <div className="flex items-center gap-2 text-white/50 text-sm">
+                        <DollarSign className="w-3.5 h-3.5 text-[#c9a227] shrink-0" />
+                        {job.salary}
+                      </div>
+                    </div>
+
+                    <div className="flex flex-wrap gap-1.5 mb-4">
+                      {job.tags.map((tag) => (
+                        <span key={tag} className="px-2 py-0.5 bg-white/5 border border-white/10 text-white/50 text-xs rounded-full">
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+
+                    <div className="flex items-center justify-between pt-3 border-t border-white/10">
+                      <span className="text-[#c9a227] text-xs font-semibold">SinoGlobal Enterprise</span>
+                      <span className="inline-flex items-center gap-1 text-white/40 text-xs group-hover:text-[#c9a227] transition-colors">
+                        Apply <ArrowRight className="w-3 h-3" />
+                      </span>
+                    </div>
+                  </div>
+                </Link>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Benefits strip */}
+          <FadeInSection delay={0.2}>
+            <div className="bg-white/4 border border-white/10 rounded-2xl p-8 mb-8">
+              <h3 className="text-white font-bold text-lg text-center mb-6">Why Work With SinoGlobal?</h3>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+                {[
+                  { icon: Plane, title: "Paid Relocation", desc: "Full travel & accommodation" },
+                  { icon: DollarSign, title: "Competitive Pay", desc: "Above-market packages" },
+                  { icon: Globe, title: "Global Exposure", desc: "Work across 43 countries" },
+                  { icon: BadgeCheck, title: "Visa Sponsorship", desc: "Full legal support" },
+                ].map((b, i) => (
+                  <motion.div
+                    key={b.title}
+                    className="text-center"
+                    initial={{ opacity: 0, y: 15 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: i * 0.1 }}
+                  >
+                    <div className="w-12 h-12 rounded-xl bg-[#c9a227]/15 border border-[#c9a227]/25 flex items-center justify-center mx-auto mb-3">
+                      <b.icon className="w-5 h-5 text-[#c9a227]" />
+                    </div>
+                    <div className="text-white font-semibold text-sm">{b.title}</div>
+                    <div className="text-white/40 text-xs mt-1">{b.desc}</div>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          </FadeInSection>
+
+          <FadeInSection delay={0.25}>
+            <div className="text-center">
+              <Link
+                href="/careers"
+                className="inline-flex items-center gap-2 px-10 py-4 bg-[#c9a227] text-[#0a1628] font-bold rounded-lg hover:bg-[#d4af37] transition-colors text-lg shadow-lg shadow-[#c9a227]/20"
+              >
+                Browse All 200+ Positions <ArrowRight className="w-5 h-5" />
+              </Link>
+            </div>
+          </FadeInSection>
+        </div>
+      </section>
+
       {/* ── About excerpt ── */}
       <section className="py-28 bg-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -330,21 +602,28 @@ export default function HomePage() {
                   Founded in 2003 at Zhongguancun Science Park — China's Silicon Valley — SinoGlobal has grown from a regional engineering firm into one of China's most internationally recognized conglomerates. Today, we operate across 43 countries with 47,000 employees driving measurable impact in critical industries.
                 </p>
                 <p className="text-muted-foreground leading-relaxed mb-8">
-                  Under Chairman Li Hongbin and CEO Zhang Wei, SinoGlobal has maintained an <strong className="text-foreground">18% compound annual growth rate</strong> over the past decade, while earning ISO 9001, ISO 14001, and OHSAS 18001 certifications.
+                  Under Chairman Li Hongbin and CEO Zhang Wei, SinoGlobal has maintained an <strong className="text-foreground">18% compound annual growth rate</strong> over the past decade, while earning ISO 9001, ISO 14001, and OHSAS 18001 certifications across all major divisions.
                 </p>
-                <div className="grid grid-cols-2 gap-4 mb-8">
-                  {[
-                    { label: "HQ Location", value: "Beijing, China" },
-                    { label: "Founded", value: "2003" },
-                    { label: "Exchange", value: "Shanghai Stock Exchange" },
-                    { label: "Fortune Rank", value: "#312 Global (2023)" },
-                  ].map((item) => (
-                    <motion.div key={item.label} whileHover={{ x: 4 }} className="border-l-2 border-[#c9a227] pl-4">
-                      <div className="text-xs text-muted-foreground uppercase tracking-wide">{item.label}</div>
-                      <div className="font-bold text-foreground text-sm mt-0.5">{item.value}</div>
+
+                {/* Company fact grid */}
+                <div className="grid grid-cols-2 gap-3 mb-8">
+                  {companyFacts.map((fact) => (
+                    <motion.div
+                      key={fact.label}
+                      whileHover={{ x: 4 }}
+                      className="flex items-center gap-3 border border-border rounded-xl px-4 py-3 bg-card hover:border-[#c9a227]/40 transition-colors"
+                    >
+                      <div className="w-8 h-8 rounded-lg bg-[#c9a227]/10 flex items-center justify-center shrink-0">
+                        <fact.icon className="w-4 h-4 text-[#c9a227]" />
+                      </div>
+                      <div>
+                        <div className="text-[10px] text-muted-foreground uppercase tracking-wide">{fact.label}</div>
+                        <div className="font-bold text-foreground text-sm">{fact.value}</div>
+                      </div>
                     </motion.div>
                   ))}
                 </div>
+
                 <Link href="/about" className="inline-flex items-center gap-2 text-[#c9a227] font-semibold hover:gap-4 transition-all group">
                   Read Our Full Story <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </Link>
@@ -401,7 +680,7 @@ export default function HomePage() {
               </div>
               <h2 className="text-4xl lg:text-5xl font-bold text-foreground mb-4">Diversified Portfolio</h2>
               <p className="text-muted-foreground max-w-2xl mx-auto text-lg">
-                Twelve strategic business units working in concert to deliver integrated solutions for the world's most complex challenges.
+                Eight strategic business units working in concert to deliver integrated solutions for the world's most complex challenges.
               </p>
             </div>
           </FadeInSection>
@@ -434,10 +713,7 @@ export default function HomePage() {
                   </div>
                   <div className="p-5">
                     <h3 className="font-bold text-foreground text-sm mb-2 group-hover:text-[#c9a227] transition-colors">{div.name}</h3>
-                    <p className="text-xs text-muted-foreground leading-relaxed">{div.desc}</p>
-                    <div className="flex items-center gap-1 mt-4 text-[#c9a227] text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity">
-                      Learn more <ChevronRight className="w-3.5 h-3.5" />
-                    </div>
+                    <p className="text-muted-foreground text-xs leading-relaxed">{div.desc}</p>
                   </div>
                 </Link>
               </motion.div>
@@ -455,7 +731,7 @@ export default function HomePage() {
       </section>
 
       {/* ── Our People ── */}
-      <section className="py-28 bg-[#0a1628] relative overflow-hidden">
+      <section className="py-28 bg-[#06101f] relative overflow-hidden">
         <FloatingOrb x="80%" y="10%" size={300} delay={0.5} duration={7} />
         <FloatingOrb x="5%" y="60%" size={200} delay={1.5} duration={9} />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -535,7 +811,7 @@ export default function HomePage() {
                 <div className="h-px w-8 bg-[#c9a227]" />
               </div>
               <h2 className="text-4xl font-bold text-foreground mb-3">Executive Team</h2>
-              <p className="text-muted-foreground max-w-xl mx-auto">Guided by world-class leaders with decades of international experience.</p>
+              <p className="text-muted-foreground max-w-xl mx-auto">Guided by world-class leaders with decades of international experience across engineering, finance, technology, and operations.</p>
             </div>
           </FadeInSection>
 
@@ -675,7 +951,7 @@ export default function HomePage() {
       </section>
 
       {/* ── Sustainability teaser ── */}
-      <section className="py-28 bg-[#0a1628] relative overflow-hidden">
+      <section className="py-28 bg-[#06101f] relative overflow-hidden">
         <div className="absolute inset-0">
           <img src="https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=1400&h=600&fit=crop" alt="Sustainability" className="w-full h-full object-cover opacity-10" />
         </div>
@@ -760,7 +1036,7 @@ export default function HomePage() {
                 initial={{ opacity: 0, scale: 0.8 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
-                transition={{ delay: i * 0.04 }}
+                transition={{ delay: i * 0.03 }}
                 whileHover={{ scale: 1.1, borderColor: "#c9a227", color: "#c9a227" }}
                 className="px-4 py-2 border border-border rounded-full text-sm text-muted-foreground cursor-default transition-colors"
               >
@@ -771,15 +1047,14 @@ export default function HomePage() {
               whileHover={{ scale: 1.1 }}
               className="px-4 py-2 border border-[#c9a227]/40 rounded-full text-sm text-[#c9a227] font-medium cursor-default"
             >
-              +25 more cities
+              +14 more cities
             </motion.span>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-6 gap-4 text-center">
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-4 text-center">
             {[
               { region: "Asia Pacific", offices: "18 offices", icon: "🌏" },
               { region: "Middle East", offices: "6 offices", icon: "🌍" },
-              { region: "Africa", offices: "9 offices", icon: "🌍" },
               { region: "Europe", offices: "7 offices", icon: "🌍" },
               { region: "Americas", offices: "5 offices", icon: "🌎" },
               { region: "Oceania", offices: "2 offices", icon: "🌏" },
@@ -852,19 +1127,19 @@ export default function HomePage() {
             >
               <Zap className="w-8 h-8 text-[#0a1628]" />
             </motion.div>
-            <h2 className="text-4xl font-bold text-[#0a1628] mb-4">Ready to Partner With SinoGlobal?</h2>
+            <h2 className="text-4xl font-bold text-[#0a1628] mb-4">Ready to Join or Partner With SinoGlobal?</h2>
             <p className="text-[#0a1628]/70 text-lg mb-8 max-w-xl mx-auto">
-              Join the hundreds of enterprises and governments that trust SinoGlobal to deliver transformative results.
+              Whether you're looking for a global career opportunity or a strategic business partnership, we're ready to connect.
             </p>
             <div className="flex flex-wrap justify-center gap-4">
               <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.97 }}>
-                <Link href="/contact" className="inline-flex items-center gap-2 px-8 py-4 bg-[#0a1628] text-white font-bold rounded-lg hover:bg-[#0d1b2e] transition-colors">
-                  Contact Our Team <ArrowRight className="w-5 h-5" />
+                <Link href="/careers" className="inline-flex items-center gap-2 px-8 py-4 bg-[#0a1628] text-white font-bold rounded-lg hover:bg-[#0d1b2e] transition-colors">
+                  View Open Jobs <ArrowRight className="w-5 h-5" />
                 </Link>
               </motion.div>
               <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.97 }}>
-                <Link href="/investors" className="inline-flex items-center gap-2 px-8 py-4 border-2 border-[#0a1628] text-[#0a1628] font-bold rounded-lg hover:bg-[#0a1628]/10 transition-colors">
-                  Investor Relations
+                <Link href="/contact" className="inline-flex items-center gap-2 px-8 py-4 border-2 border-[#0a1628] text-[#0a1628] font-bold rounded-lg hover:bg-[#0a1628]/10 transition-colors">
+                  Contact Our Team
                 </Link>
               </motion.div>
             </div>
