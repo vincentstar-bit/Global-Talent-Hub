@@ -199,6 +199,90 @@ const companyFacts = [
   { label: "CAGR (10yr)", value: "18%", icon: BarChart3 },
 ];
 
+/* ─── Hero Video Slides ─── */
+const heroSlides = [
+  {
+    img: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=1800&h=1000&fit=crop",
+    label: "Engineering",
+    tagline: "Building infrastructure across 43 nations",
+  },
+  {
+    img: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=1800&h=1000&fit=crop",
+    label: "Aviation",
+    tagline: "International pilots connecting the world",
+  },
+  {
+    img: "https://images.unsplash.com/photo-1579154204601-01588f351e67?w=1800&h=1000&fit=crop",
+    label: "Healthcare",
+    tagline: "Doctors delivering care where it matters most",
+  },
+  {
+    img: "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=1800&h=1000&fit=crop",
+    label: "Electrical",
+    tagline: "Electricians powering communities worldwide",
+  },
+  {
+    img: "https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?w=1800&h=1000&fit=crop",
+    label: "Logistics",
+    tagline: "Heavy transport keeping global supply chains moving",
+  },
+];
+
+const kenBurnsVariants = [
+  { initial: { scale: 1.18, x: "4%", y: "3%" }, animate: { scale: 1, x: "0%", y: "0%" } },
+  { initial: { scale: 1, x: "0%", y: "0%" }, animate: { scale: 1.18, x: "-4%", y: "-3%" } },
+  { initial: { scale: 1.15, x: "-3%", y: "2%" }, animate: { scale: 1, x: "3%", y: "-2%" } },
+  { initial: { scale: 1, x: "3%", y: "-2%" }, animate: { scale: 1.15, x: "-3%", y: "2%" } },
+  { initial: { scale: 1.12, x: "0%", y: "-4%" }, animate: { scale: 1, x: "0%", y: "4%" } },
+];
+
+function HeroBackground({ current, prev }: { current: number; prev: number | null }) {
+  return (
+    <div className="absolute inset-0 overflow-hidden">
+      {heroSlides.map((slide, i) => {
+        const kb = kenBurnsVariants[i % kenBurnsVariants.length];
+        const isActive = i === current;
+        const isPrev = i === prev;
+        if (!isActive && !isPrev) return null;
+        return (
+          <motion.div
+            key={i}
+            className="absolute inset-0"
+            initial={{ opacity: isPrev ? 1 : 0 }}
+            animate={{ opacity: isActive ? 1 : 0 }}
+            transition={{ duration: 1.4, ease: "easeInOut" }}
+          >
+            <motion.img
+              src={slide.img}
+              alt={slide.label}
+              className="w-full h-full object-cover"
+              initial={kb.initial}
+              animate={isActive ? kb.animate : kb.initial}
+              transition={{ duration: 6, ease: "easeInOut" }}
+            />
+          </motion.div>
+        );
+      })}
+      <div className="absolute inset-0 bg-gradient-to-r from-[#06101f]/90 via-[#06101f]/75 to-[#06101f]/40" />
+      <div className="absolute inset-0 bg-gradient-to-t from-[#06101f]/60 via-transparent to-[#06101f]/20" />
+    </div>
+  );
+}
+
+function HeroSlideDots({ current, total, onChange }: { current: number; total: number; onChange: (i: number) => void }) {
+  return (
+    <div className="flex items-center gap-2">
+      {Array.from({ length: total }).map((_, i) => (
+        <button
+          key={i}
+          onClick={() => onChange(i)}
+          className={`transition-all duration-300 rounded-full ${i === current ? "w-8 h-2 bg-[#c9a227]" : "w-2 h-2 bg-white/30 hover:bg-white/60"}`}
+        />
+      ))}
+    </div>
+  );
+}
+
 /* ─── Floating Particle ─── */
 function FloatingOrb({ x, y, size, delay, duration }: { x: string; y: string; size: number; delay: number; duration: number }) {
   return (
@@ -228,6 +312,18 @@ function PulsingIcon({ icon: Icon, delay = 0 }: { icon: React.ElementType; delay
 export default function HomePage() {
   const [activeTab, setActiveTab] = useState(0);
   const [jobFilter, setJobFilter] = useState("All");
+  const [heroSlide, setHeroSlide] = useState(0);
+  const [heroPrev, setHeroPrev] = useState<number | null>(null);
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      setHeroSlide((c) => {
+        setHeroPrev(c);
+        return (c + 1) % heroSlides.length;
+      });
+    }, 5500);
+    return () => clearInterval(id);
+  }, []);
 
   const jobCategories = ["All", "Operations", "Engineering", "Logistics", "Healthcare", "Aviation"];
   const filteredJobs = jobFilter === "All" ? movingJobs : movingJobs.filter(j => j.dept === jobFilter);
@@ -238,20 +334,9 @@ export default function HomePage() {
 
       {/* ── Hero ── */}
       <section className="relative min-h-screen flex items-center bg-[#06101f] overflow-hidden">
-        <div className="absolute inset-0">
-          <img
-            src="https://images.unsplash.com/photo-1486325212027-8081e485255e?w=1600&h=900&fit=crop"
-            alt="SinoGlobal headquarters"
-            className="w-full h-full object-cover opacity-15"
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#06101f] via-[#06101f]/92 to-[#06101f]/55" />
-        </div>
+        <HeroBackground current={heroSlide} prev={heroPrev} />
 
-        <FloatingOrb x="65%" y="15%" size={320} delay={0} duration={6} />
-        <FloatingOrb x="75%" y="55%" size={200} delay={2} duration={8} />
-        <FloatingOrb x="10%" y="70%" size={160} delay={1} duration={7} />
-
-        <div className="absolute inset-0 opacity-[0.03]" style={{
+        <div className="absolute inset-0 opacity-[0.025]" style={{
           backgroundImage: "linear-gradient(#c9a227 1px, transparent 1px), linear-gradient(90deg, #c9a227 1px, transparent 1px)",
           backgroundSize: "80px 80px"
         }} />
@@ -272,6 +357,23 @@ export default function HomePage() {
               </motion.div>
               <span className="text-[#c9a227] text-xs tracking-widest uppercase font-semibold">Fortune Global 500 — Ranked #312</span>
             </motion.div>
+
+            {/* Live industry label */}
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={heroSlide}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.5 }}
+                className="flex items-center gap-2 mb-3"
+              >
+                <span className="w-6 h-0.5 bg-[#c9a227] rounded-full" />
+                <span className="text-[#c9a227]/80 text-sm font-semibold tracking-widest uppercase">
+                  {heroSlides[heroSlide].label}
+                </span>
+              </motion.div>
+            </AnimatePresence>
 
             <motion.h1
               initial={{ opacity: 0, y: 30 }}
@@ -330,6 +432,28 @@ export default function HomePage() {
                   <span className="text-white/60 text-xs">{badge}</span>
                 </div>
               ))}
+            </motion.div>
+
+            {/* Slide tagline + dots */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.8, delay: 1.1 }}
+              className="mt-8 flex items-center gap-4"
+            >
+              <HeroSlideDots current={heroSlide} total={heroSlides.length} onChange={(i) => { setHeroPrev(heroSlide); setHeroSlide(i); }} />
+              <AnimatePresence mode="wait">
+                <motion.span
+                  key={heroSlide}
+                  initial={{ opacity: 0, x: 10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -10 }}
+                  transition={{ duration: 0.4 }}
+                  className="text-white/40 text-xs italic"
+                >
+                  {heroSlides[heroSlide].tagline}
+                </motion.span>
+              </AnimatePresence>
             </motion.div>
           </div>
 
