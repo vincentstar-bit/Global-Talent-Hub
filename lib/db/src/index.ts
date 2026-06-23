@@ -30,15 +30,8 @@ function sanitizeConnectionUrl(url: string): string {
 }
 
 const connectionString = sanitizeConnectionUrl(process.env.DATABASE_URL);
-const isSupabasePooler = connectionString.includes("pooler.supabase.com");
 
-export const pool = new Pool({
-  connectionString,
-  ...(isSupabasePooler && {
-    ssl: { rejectUnauthorized: false },
-    max: 10,
-  }),
-});
+export const pool = new Pool({ connectionString });
 
 export const db = drizzle(pool, { schema });
 
