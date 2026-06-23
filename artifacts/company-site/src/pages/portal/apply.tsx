@@ -94,7 +94,7 @@ export default function PortalApplyPage() {
     setError("");
     if (!workerId || !selectedType || !startDate || !endDate || !email) return;
     createRequest.mutate({
-      data: { workerId, leaveTypeId: selectedType, startDate, endDate, reason },
+      data: { workerId, leaveTypeId: selectedType, startDate, endDate, reason, contactEmail: email.trim().toLowerCase() },
     });
   };
 

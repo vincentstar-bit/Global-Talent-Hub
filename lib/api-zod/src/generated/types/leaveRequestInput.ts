@@ -12,4 +12,5 @@ export interface LeaveRequestInput {
   startDate: string;
   endDate: string;
   reason?: string;
+  contactEmail?: string;
 }

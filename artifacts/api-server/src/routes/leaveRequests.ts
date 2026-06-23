@@ -22,14 +22,9 @@ async function enrichRequest(r: any) {
 router.get("/leave-requests/by-email/:email", async (req, res) => {
   try {
     const email = decodeURIComponent(req.params.email).toLowerCase().trim();
-    const workers = await db.select().from(workersTable).where(eq(workersTable.email, email));
-    if (!workers.length) return res.status(404).json({ error: "No records found for this email address" });
-    const allRequests: any[] = [];
-    for (const w of workers) {
-      const requests = await db.select().from(leaveRequestsTable).where(eq(leaveRequestsTable.workerId, w.id));
-      allRequests.push(...requests);
-    }
-    const enriched = await Promise.all(allRequests.map(enrichRequest));
+    const requests = await db.select().from(leaveRequestsTable).where(eq(leaveRequestsTable.contactEmail, email));
+    if (!requests.length) return res.status(404).json({ error: "No records found for this email address" });
+    const enriched = await Promise.all(requests.map(enrichRequest));
     return res.json(enriched.sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()));
   } catch (err) {
     req.log.error(err);

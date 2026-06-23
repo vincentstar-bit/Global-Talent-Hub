@@ -416,7 +416,8 @@ export const CreateLeaveRequestBody = zod.object({
   "leaveTypeId": zod.number(),
   "startDate": zod.string(),
   "endDate": zod.string(),
-  "reason": zod.string().optional()
+  "reason": zod.string().optional(),
+  "contactEmail": zod.string().optional()
 })
 
 
