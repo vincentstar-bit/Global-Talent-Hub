@@ -1,6 +1,6 @@
+import React, { useState, useEffect } from "react";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
-import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
 import { useCreateLeaveRequest } from "@workspace/api-client-react";
 import {
@@ -13,27 +13,27 @@ const inputCls = "w-full border border-border rounded-xl px-4 py-3 text-sm bg-ba
 function StepIndicator({ step }: { step: number }) {
   const steps = ["Select Leave", "Your Details", "Write Letter"];
   return (
-    <div className="flex items-center gap-0 mb-8">
+    <div className="flex items-center mb-8">
       {steps.map((label, i) => {
         const num = i + 1;
         const done = step > num;
         const active = step === num;
         return (
-          <div key={label} className="flex items-center gap-0 flex-1 last:flex-none">
-            <div className={`flex items-center gap-2 shrink-0 ${active ? "" : "opacity-60"}`}>
-              <div className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold border-2 transition-all ${
+          <React.Fragment key={label}>
+            <div className={`flex flex-col items-center shrink-0 ${active ? "" : "opacity-60"}`}>
+              <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold border-2 transition-all ${
                 done ? "bg-[#c9a227] border-[#c9a227] text-[#0a1628]" :
                 active ? "border-[#c9a227] text-[#c9a227] bg-[#c9a227]/10" :
                 "border-border text-muted-foreground"
               }`}>
                 {done ? <CheckCircle2 className="w-4 h-4" /> : num}
               </div>
-              <span className={`text-xs font-semibold hidden sm:block ${active ? "text-foreground" : "text-muted-foreground"}`}>{label}</span>
+              <span className={`text-xs font-semibold hidden sm:block mt-1 text-center ${active ? "text-foreground" : "text-muted-foreground"}`}>{label}</span>
             </div>
             {i < steps.length - 1 && (
-              <div className={`flex-1 h-px mx-3 ${step > num ? "bg-[#c9a227]" : "bg-border"} transition-all`} />
+              <div className={`flex-1 h-px mx-3 mb-3 sm:mb-0 ${step > num ? "bg-[#c9a227]" : "bg-border"} transition-all`} />
             )}
-          </div>
+          </React.Fragment>
         );
       })}
     </div>
