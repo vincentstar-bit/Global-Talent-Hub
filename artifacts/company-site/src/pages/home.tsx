@@ -8,7 +8,7 @@ import {
   Target, Heart, Cpu, HeartPulse, Ship, FlaskConical, BarChart3,
   Leaf, ArrowRight, Star, Quote, Zap, CheckCircle2, Play,
   Truck, HardHat, Wrench, Anchor, Plane, Briefcase, MapPin,
-  Clock, ChevronDown, Phone, Mail, BadgeCheck
+  Clock, ChevronDown, Phone, Mail, BadgeCheck, DollarSign
 } from "lucide-react";
 
 /* ─── Animation helpers ─── */

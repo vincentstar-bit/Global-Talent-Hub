@@ -2,8 +2,8 @@ import { Router } from "express";
 
 const router = Router();
 
-const ADMIN_USERNAME = process.env.ADMIN_USERNAME || "admin";
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "SinoGlobal@2024";
+let ADMIN_USERNAME = process.env.ADMIN_USERNAME || "admin";
+let ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "SinoGlobal@2024";
 
 declare module "express-serve-static-core" {
   interface Request {
@@ -45,6 +45,26 @@ router.get("/auth/admin/me", (req, res) => {
   const session = sessionId ? sessions.get(sessionId) : null;
   if (!session) return res.status(401).json({ error: "Not authenticated" });
   return res.json(session);
+});
+
+router.post("/auth/admin/reset-password", (req: any, res: any) => {
+  const sessionId = req.cookies?.admin_session;
+  const session = sessionId ? sessions.get(sessionId) : null;
+  if (!session) return res.status(401).json({ error: "Not authenticated" });
+
+  const { currentPassword, newPassword } = req.body;
+  if (!currentPassword || !newPassword) {
+    return res.status(400).json({ error: "Both currentPassword and newPassword are required" });
+  }
+  if (currentPassword !== ADMIN_PASSWORD) {
+    return res.status(401).json({ error: "Current password is incorrect" });
+  }
+  if (newPassword.length < 8) {
+    return res.status(400).json({ error: "New password must be at least 8 characters" });
+  }
+
+  ADMIN_PASSWORD = newPassword;
+  return res.json({ ok: true, message: "Password updated successfully" });
 });
 
 export function requireAdmin(req: any, res: any, next: any) {
