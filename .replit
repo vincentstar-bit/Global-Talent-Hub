@@ -1,4 +1,4 @@
-modules = ["nodejs-24"]
+modules = ["nodejs-20", "web", "bash"]
 
 [deployment]
 router = "application"
@@ -49,8 +49,9 @@ args = "PORT=23831 BASE_PATH=/ pnpm --filter @workspace/company-site run dev"
 waitForPort = 23831
 
 [agent]
-stack = "PNPM_WORKSPACE"
+stack = "BEST_EFFORT_FALLBACK"
 expertMode = true
+integrations = ["javascript_database:1.0.0"]
 
 [postMerge]
 path = "scripts/post-merge.sh"
@@ -71,5 +72,6 @@ externalPort = 3000
 [userenv]
 
 [userenv.shared]
-ADMIN_USERNAME = "thompsonbaro@gmail.com"
-ADMIN_PASSWORD = "King5555!"
+
+[nix]
+channel = "stable-25_05"
