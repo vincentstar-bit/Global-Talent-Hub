@@ -1,6 +1,7 @@
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
-import { MapPin, Phone, Mail, Clock } from "lucide-react";
+import { useState } from "react";
+import { MapPin, Phone, Mail, Clock, CheckCircle2, AlertCircle, Loader2 } from "lucide-react";
 
 const offices = [
   { city: "Beijing (HQ)", country: "China", address: "Zhongguancun Science Park, Haidian District, Beijing 100190", phone: "+86 10 8888 6666", email: "hq@sinoglobal.com" },
@@ -13,7 +14,45 @@ const offices = [
   { city: "Lagos", country: "Nigeria", address: "Victoria Island, Adeola Odeku Street, Lagos, Nigeria", phone: "+234 1 888 5500", email: "lagos@sinoglobal.com" },
 ];
 
+type Status = "idle" | "loading" | "success" | "error";
+
 export default function ContactPage() {
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    company: "",
+    subject: "Business Partnership",
+    message: "",
+  });
+  const [status, setStatus] = useState<Status>("idle");
+  const [errorMsg, setErrorMsg] = useState("");
+
+  const set = (field: string) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) =>
+    setForm((f) => ({ ...f, [field]: e.target.value }));
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!form.name || !form.email || !form.message) return;
+    setStatus("loading");
+    setErrorMsg("");
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Failed to send");
+      setStatus("success");
+      setForm({ name: "", email: "", company: "", subject: "Business Partnership", message: "" });
+    } catch (err: unknown) {
+      setStatus("error");
+      setErrorMsg(err instanceof Error ? err.message : "Something went wrong. Please try again.");
+    }
+  };
+
+  const inputClass = "w-full border border-border rounded px-4 py-2.5 text-sm bg-card focus:outline-none focus:ring-2 focus:ring-[#c9a227]";
+
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
@@ -35,37 +74,59 @@ export default function ContactPage() {
             {/* Contact form */}
             <div className="lg:col-span-1">
               <h2 className="text-2xl font-bold text-foreground mb-6">Send a Message</h2>
-              <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
-                <div>
-                  <label className="text-sm font-medium text-foreground block mb-1.5">Full Name</label>
-                  <input type="text" className="w-full border border-border rounded px-4 py-2.5 text-sm bg-card focus:outline-none focus:ring-2 focus:ring-[#c9a227]" placeholder="Your full name" />
+
+              {status === "success" ? (
+                <div className="flex flex-col items-center gap-4 py-12 text-center">
+                  <CheckCircle2 className="w-14 h-14 text-green-500" />
+                  <h3 className="text-lg font-bold text-foreground">Message Sent!</h3>
+                  <p className="text-muted-foreground text-sm max-w-xs">Thank you for reaching out. Our team will respond within 1–2 business days.</p>
+                  <button onClick={() => setStatus("idle")} className="mt-2 text-sm text-[#c9a227] underline underline-offset-2">Send another message</button>
                 </div>
-                <div>
-                  <label className="text-sm font-medium text-foreground block mb-1.5">Email Address</label>
-                  <input type="email" className="w-full border border-border rounded px-4 py-2.5 text-sm bg-card focus:outline-none focus:ring-2 focus:ring-[#c9a227]" placeholder="your@email.com" />
-                </div>
-                <div>
-                  <label className="text-sm font-medium text-foreground block mb-1.5">Company</label>
-                  <input type="text" className="w-full border border-border rounded px-4 py-2.5 text-sm bg-card focus:outline-none focus:ring-2 focus:ring-[#c9a227]" placeholder="Your company name" />
-                </div>
-                <div>
-                  <label className="text-sm font-medium text-foreground block mb-1.5">Subject</label>
-                  <select className="w-full border border-border rounded px-4 py-2.5 text-sm bg-card focus:outline-none focus:ring-2 focus:ring-[#c9a227]">
-                    <option>Business Partnership</option>
-                    <option>Career Inquiry</option>
-                    <option>Media & Press</option>
-                    <option>Investment Relations</option>
-                    <option>General Inquiry</option>
-                  </select>
-                </div>
-                <div>
-                  <label className="text-sm font-medium text-foreground block mb-1.5">Message</label>
-                  <textarea rows={5} className="w-full border border-border rounded px-4 py-2.5 text-sm bg-card focus:outline-none focus:ring-2 focus:ring-[#c9a227] resize-none" placeholder="Your message..." />
-                </div>
-                <button type="submit" className="w-full bg-[#c9a227] text-[#0a1628] font-semibold py-3 rounded hover:bg-[#d4af37] transition-colors">
-                  Send Message
-                </button>
-              </form>
+              ) : (
+                <form className="space-y-4" onSubmit={handleSubmit}>
+                  <div>
+                    <label className="text-sm font-medium text-foreground block mb-1.5">Full Name <span className="text-red-500">*</span></label>
+                    <input type="text" value={form.name} onChange={set("name")} required className={inputClass} placeholder="Your full name" />
+                  </div>
+                  <div>
+                    <label className="text-sm font-medium text-foreground block mb-1.5">Email Address <span className="text-red-500">*</span></label>
+                    <input type="email" value={form.email} onChange={set("email")} required className={inputClass} placeholder="your@email.com" />
+                  </div>
+                  <div>
+                    <label className="text-sm font-medium text-foreground block mb-1.5">Company</label>
+                    <input type="text" value={form.company} onChange={set("company")} className={inputClass} placeholder="Your company name" />
+                  </div>
+                  <div>
+                    <label className="text-sm font-medium text-foreground block mb-1.5">Subject</label>
+                    <select value={form.subject} onChange={set("subject")} className={inputClass}>
+                      <option>Business Partnership</option>
+                      <option>Career Inquiry</option>
+                      <option>Media & Press</option>
+                      <option>Investment Relations</option>
+                      <option>General Inquiry</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="text-sm font-medium text-foreground block mb-1.5">Message <span className="text-red-500">*</span></label>
+                    <textarea rows={5} value={form.message} onChange={set("message")} required minLength={10} className={`${inputClass} resize-none`} placeholder="Your message..." />
+                  </div>
+
+                  {status === "error" && (
+                    <div className="flex items-start gap-2 p-3 rounded bg-red-50 border border-red-200 text-red-700 text-sm">
+                      <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
+                      {errorMsg}
+                    </div>
+                  )}
+
+                  <button
+                    type="submit"
+                    disabled={status === "loading"}
+                    className="w-full bg-[#c9a227] text-[#0a1628] font-semibold py-3 rounded hover:bg-[#d4af37] transition-colors disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                  >
+                    {status === "loading" ? <><Loader2 className="w-4 h-4 animate-spin" /> Sending…</> : "Send Message"}
+                  </button>
+                </form>
+              )}
 
               <div className="mt-8 space-y-4 pt-8 border-t border-border">
                 <div className="flex gap-3">

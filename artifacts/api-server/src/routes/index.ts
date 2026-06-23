@@ -7,6 +7,7 @@ import leaveTypesRouter from "./leaveTypes";
 import leaveRequestsRouter from "./leaveRequests";
 import leaveLettersRouter from "./leaveLetters";
 import dashboardRouter from "./dashboard";
+import contactRouter from "./contact";
 
 const router: IRouter = Router();
 
@@ -18,5 +19,6 @@ router.use(leaveTypesRouter);
 router.use(leaveRequestsRouter);
 router.use(leaveLettersRouter);
 router.use(dashboardRouter);
+router.use(contactRouter);
 
 export default router;
