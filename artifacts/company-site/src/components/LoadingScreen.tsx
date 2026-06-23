@@ -7,10 +7,11 @@ export default function LoadingScreen({ onComplete }: { onComplete: () => void }
 
   useEffect(() => {
     const steps = [
-      { target: 30, delay: 0, duration: 400 },
-      { target: 60, delay: 420, duration: 350 },
-      { target: 85, delay: 800, duration: 300 },
-      { target: 100, delay: 1120, duration: 280 },
+      { target: 20, delay: 0, duration: 600 },
+      { target: 50, delay: 700, duration: 700 },
+      { target: 75, delay: 1500, duration: 600 },
+      { target: 90, delay: 2300, duration: 500 },
+      { target: 100, delay: 3000, duration: 400 },
     ];
 
     const timers: ReturnType<typeof setTimeout>[] = [];
@@ -33,8 +34,8 @@ export default function LoadingScreen({ onComplete }: { onComplete: () => void }
 
     const done = setTimeout(() => {
       setPhase("done");
-      setTimeout(onComplete, 600);
-    }, 1700);
+      setTimeout(onComplete, 700);
+    }, 3600);
 
     timers.push(done);
     return () => timers.forEach(clearTimeout);
