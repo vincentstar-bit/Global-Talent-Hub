@@ -25,7 +25,7 @@ router.get("/healthz/db", async (_req, res) => {
       status: "ok",
       database: result.rows[0].db,
       serverTime: result.rows[0].time,
-      usingSupabase: rawUrl.includes("supabase"),
+      usingReplit: true,
       connectionUrl: maskedUrl,
     });
   } catch (err: unknown) {
