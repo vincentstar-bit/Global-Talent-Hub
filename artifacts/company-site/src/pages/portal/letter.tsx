@@ -5,7 +5,7 @@ import { useLocation } from "wouter";
 import { useCreateLeaveLetter } from "@workspace/api-client-react";
 import {
   CheckCircle2, ChevronRight, ChevronLeft, Clock,
-  XCircle, AlertCircle, Mail, Calendar, RefreshCw, Home
+  XCircle, AlertCircle, Mail, RefreshCw, Home
 } from "lucide-react";
 import { format, parseISO } from "date-fns";
 
@@ -83,30 +83,6 @@ function StatusSpinner({ status, requestId }: { status: string; requestId: numbe
   );
 }
 
-function PastRequest({ req }: { req: any }) {
-  const statusCls = {
-    pending: "bg-amber-100 text-amber-800 border-amber-200",
-    approved: "bg-emerald-100 text-emerald-800 border-emerald-200",
-    rejected: "bg-red-100 text-red-800 border-red-200",
-  }[req.status as string] ?? "bg-muted text-muted-foreground border-border";
-
-  return (
-    <div className="flex items-center gap-4 p-4 border border-border rounded-xl bg-card hover:bg-muted/20 transition-colors">
-      <div className={`w-2.5 h-2.5 rounded-full shrink-0 ${
-        req.status === "approved" ? "bg-emerald-500" :
-        req.status === "pending" ? "bg-amber-500" : "bg-red-500"
-      }`} />
-      <div className="flex-1 min-w-0">
-        <div className="font-semibold text-foreground text-sm truncate">{req.leaveTypeName ?? "Leave Request"}</div>
-        <div className="text-xs text-muted-foreground flex items-center gap-2 mt-0.5">
-          <Calendar className="w-3 h-3" />
-          {req.startDate && req.endDate && `${req.startDate} → ${req.endDate}`}
-        </div>
-      </div>
-      <span className={`px-2.5 py-1 rounded-full text-xs font-semibold border capitalize shrink-0 ${statusCls}`}>{req.status}</span>
-    </div>
-  );
-}
 
 export default function PortalLetterPage() {
   const [, navigate] = useLocation();
@@ -127,7 +103,6 @@ export default function PortalLetterPage() {
   const [submitted, setSubmitted] = useState(false);
   const [requestId, setRequestId] = useState<number | null>(null);
   const [requestStatus, setRequestStatus] = useState("pending");
-  const [pastRequests, setPastRequests] = useState<any[]>([]);
 
   useEffect(() => {
     const id = sessionStorage.getItem("portal_worker_id");
@@ -166,25 +141,14 @@ export default function PortalLetterPage() {
     } catch (_) {}
   }, []);
 
-  // Load past requests by token
-  const loadPastRequests = useCallback(async (token: string) => {
-    if (!token) return;
-    try {
-      const res = await fetch(`${BASE}/api/leave-requests/worker/${token}`);
-      if (res.ok) setPastRequests(await res.json());
-    } catch (_) {}
-  }, []);
-
   useEffect(() => {
     if (!submitted || !requestId) return;
     pollStatus(requestId);
-    loadPastRequests(workerToken);
     const interval = setInterval(() => {
       pollStatus(requestId);
-      loadPastRequests(workerToken);
     }, 10000);
     return () => clearInterval(interval);
-  }, [submitted, requestId, workerToken]);
+  }, [submitted, requestId]);
 
   const createLetter = useCreateLeaveLetter({
     mutation: {
@@ -255,16 +219,6 @@ export default function PortalLetterPage() {
                 </div>
               ))}
             </div>
-
-            {/* Past requests */}
-            {pastRequests.length > 0 && (
-              <div>
-                <h3 className="font-bold text-foreground text-sm mb-3">Your Leave Request History</h3>
-                <div className="space-y-2">
-                  {pastRequests.map((req) => <PastRequest key={req.id} req={req} />)}
-                </div>
-              </div>
-            )}
 
             <div className="flex gap-3 pt-2">
               <button
