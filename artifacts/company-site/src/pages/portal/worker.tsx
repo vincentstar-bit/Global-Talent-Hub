@@ -382,13 +382,22 @@ export default function WorkerProfilePage() {
                   <p className="text-sm font-semibold text-foreground mb-0.5">Ready to apply for leave?</p>
                   <p className="text-xs text-muted-foreground">Select a leave type and submit a formal letter for approval.</p>
                 </div>
-                <button
-                  onClick={handleApplyLeave}
-                  className="flex items-center gap-2 px-6 py-3 bg-[#c9a227] text-[#0a1628] font-bold rounded-xl hover:bg-[#d4af37] transition-colors text-sm shrink-0 shadow-lg shadow-[#c9a227]/20"
-                >
-                  <FileText className="w-4 h-4" />
-                  Apply for Leave
-                </button>
+                <div className="flex items-center gap-2 shrink-0">
+                  <button
+                    onClick={() => navigate("/portal/review")}
+                    className="flex items-center gap-2 px-5 py-3 border border-border rounded-xl text-sm font-semibold text-foreground hover:bg-muted transition-colors"
+                  >
+                    <FileText className="w-4 h-4 text-[#c9a227]" />
+                    Check Review
+                  </button>
+                  <button
+                    onClick={handleApplyLeave}
+                    className="flex items-center gap-2 px-6 py-3 bg-[#c9a227] text-[#0a1628] font-bold rounded-xl hover:bg-[#d4af37] transition-colors text-sm shadow-lg shadow-[#c9a227]/20"
+                  >
+                    <FileText className="w-4 h-4" />
+                    Apply for Leave
+                  </button>
+                </div>
               </div>
             </div>
           </div>

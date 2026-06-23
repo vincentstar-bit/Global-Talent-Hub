@@ -18,6 +18,7 @@ import PortalPage from "@/pages/portal/index";
 import PortalWorkerPage from "@/pages/portal/worker";
 import PortalApplyPage from "@/pages/portal/apply";
 import PortalLetterPage from "@/pages/portal/letter";
+import PortalReviewPage from "@/pages/portal/review";
 import AdminLoginPage from "@/pages/admin/login";
 import AdminDashboardPage from "@/pages/admin/dashboard";
 import AdminWorkersPage from "@/pages/admin/workers";
@@ -60,6 +61,7 @@ function Router() {
       <Route path="/portal/worker/:token" component={PortalWorkerPage} />
       <Route path="/portal/apply" component={PortalApplyPage} />
       <Route path="/portal/letter" component={PortalLetterPage} />
+      <Route path="/portal/review" component={PortalReviewPage} />
       <Route path="/admin">
         {() => <Redirect to="/admin/login" />}
       </Route>
