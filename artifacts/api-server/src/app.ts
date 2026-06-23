@@ -33,12 +33,7 @@ app.use(
 
 app.use(
   cors({
-    origin: allowedOrigins
-      ? (origin, cb) => {
-          if (!origin || allowedOrigins.includes(origin)) cb(null, true);
-          else cb(new Error(`CORS: origin ${origin} not allowed`));
-        }
-      : true,
+    origin: (origin, cb) => cb(null, true),
     credentials: true,
   }),
 );
