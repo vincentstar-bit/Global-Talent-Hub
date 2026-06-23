@@ -45,6 +45,7 @@ export default function PortalApplyPage() {
   const [step, setStep] = useState(1);
   const [workerId, setWorkerId] = useState<number | null>(null);
   const [workerName, setWorkerName] = useState("");
+  const [workerToken, setWorkerToken] = useState("");
   const [leaveTypes, setLeaveTypes] = useState<any[]>([]);
   const [selectedType, setSelectedType] = useState<number | null>(null);
   const [email, setEmail] = useState("");
@@ -60,6 +61,7 @@ export default function PortalApplyPage() {
     if (!id) { navigate("/portal"); return; }
     setWorkerId(parseInt(id));
     setWorkerName(name || "");
+    setWorkerToken(sessionStorage.getItem("portal_worker_token") || "");
     setLeaveTypes(types ? JSON.parse(types) : []);
   }, []);
 
@@ -102,7 +104,7 @@ export default function PortalApplyPage() {
 
       <section className="bg-[#0a1628] pt-28 pb-10">
         <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
-          <button onClick={() => navigate(-1 as any)} className="flex items-center gap-1.5 text-white/50 hover:text-white text-sm mb-5 transition-colors">
+          <button onClick={() => navigate(workerToken ? `/portal/worker/${workerToken}` : "/portal")} className="flex items-center gap-1.5 text-white/50 hover:text-white text-sm mb-5 transition-colors">
             <ChevronLeft className="w-4 h-4" /> Back
           </button>
           <div className="flex items-center gap-2 mb-3">

@@ -142,11 +142,11 @@ export default function PortalLetterPage() {
     setWorkerName(name);
     setContactEmail(email);
     setSubject(`Formal Leave Application — ${name}`);
-    setBody(`Dear ${recipient},\n\nI am writing to formally request leave from my duties at SinoGlobal Enterprise Co., Ltd.\n\nI have submitted a leave request through the Worker Portal and I am attaching this formal letter to notify you as my ${recipient.toLowerCase()}.\n\nI respectfully request your kind approval and will ensure that all pending responsibilities are properly handed over or completed prior to my leave commencement.\n\nThank you for your consideration and understanding.\n\nYours sincerely,\n${name}`);
+    setBody("");
   }, []);
 
   useEffect(() => {
-    if (workerName && body) {
+    if (body) {
       setBody((prev) => {
         const lines = prev.split("\n");
         lines[0] = `Dear ${recipient},`;
@@ -298,7 +298,7 @@ export default function PortalLetterPage() {
       <Navbar />
       <section className="bg-[#0a1628] pt-28 pb-10">
         <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
-          <button onClick={() => navigate(-1 as any)} className="flex items-center gap-1.5 text-white/50 hover:text-white text-sm mb-5 transition-colors">
+          <button onClick={() => navigate("/portal/apply")} className="flex items-center gap-1.5 text-white/50 hover:text-white text-sm mb-5 transition-colors">
             <ChevronLeft className="w-4 h-4" /> Back
           </button>
           <div className="flex items-center gap-2 mb-3">
@@ -355,7 +355,6 @@ export default function PortalLetterPage() {
                   className="w-full px-4 py-4 text-sm bg-background text-foreground font-mono resize-none leading-relaxed focus:outline-none"
                 />
               </div>
-              <p className="text-xs text-muted-foreground mt-1.5">Template pre-filled — edit to fit your situation.</p>
             </div>
 
             <button
