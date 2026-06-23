@@ -84,7 +84,7 @@ export default function PortalApplyPage() {
   const handleStep1Next = () => {
     if (!selectedType) return;
     setStep(2);
-    window.scrollTo(0, 0);
+    window.scrollTo({ top: 0, left: 0, behavior: "instant" });
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -191,7 +191,7 @@ export default function PortalApplyPage() {
                     <p className="font-bold text-foreground">{selectedLeaveType.name}</p>
                     <p className="text-xs text-muted-foreground">Up to {selectedLeaveType.maxDays} days</p>
                   </div>
-                  <button type="button" onClick={() => { setStep(1); window.scrollTo(0, 0); }} className="text-xs text-[#c9a227] hover:underline">Change</button>
+                  <button type="button" onClick={() => { setStep(1); window.scrollTo({ top: 0, left: 0, behavior: "instant" }); }} className="text-xs text-[#c9a227] hover:underline">Change</button>
                 </div>
               )}
 
@@ -263,7 +263,7 @@ export default function PortalApplyPage() {
               <div className="flex gap-3">
                 <button
                   type="button"
-                  onClick={() => { setStep(1); window.scrollTo(0, 0); }}
+                  onClick={() => { setStep(1); window.scrollTo({ top: 0, left: 0, behavior: "instant" }); }}
                   className="flex items-center gap-2 px-4 py-3 border border-border rounded-xl text-sm font-medium text-foreground hover:bg-muted transition-colors"
                 >
                   <ChevronLeft className="w-4 h-4" /> Back

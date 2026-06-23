@@ -70,7 +70,7 @@ export default function WorkerProfilePage() {
     sessionStorage.setItem("portal_worker_name", `${worker.firstName} ${worker.lastName}`);
     sessionStorage.setItem("portal_worker_token", token);
     sessionStorage.setItem("portal_leave_types", JSON.stringify(worker.leaveTypes));
-    window.scrollTo(0, 0);
+    window.scrollTo({ top: 0, left: 0, behavior: "instant" });
     navigate("/portal/apply");
   };
 

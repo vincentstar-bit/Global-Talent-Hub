@@ -192,7 +192,7 @@ export default function PortalLetterPage() {
         const reqId = parseInt(sessionStorage.getItem("portal_leave_request_id") ?? "0");
         setRequestId(reqId);
         setSubmitted(true);
-        window.scrollTo(0, 0);
+        window.scrollTo({ top: 0, left: 0, behavior: "instant" });
       },
     },
   });
