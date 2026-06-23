@@ -388,7 +388,6 @@ export default function Navbar() {
           </div>
 
           <div className="hidden xl:flex items-center gap-2">
-            <LanguageSelector />
             <Link
               href="/portal"
               className="px-4 py-2 text-sm font-medium border border-[#c9a227] text-[#c9a227] rounded hover:bg-[#c9a227] hover:text-[#0a1628] transition-colors"
@@ -452,13 +451,6 @@ export default function Navbar() {
               <Link href="/contact" onClick={() => setOpen(false)} className="block px-3 py-2.5 text-sm text-white/80 hover:text-white hover:bg-white/5 rounded">Contact</Link>
               <div className="pt-2 border-t border-white/10 space-y-2">
                 <Link href="/portal" onClick={() => setOpen(false)} className="block px-3 py-2.5 text-sm text-[#c9a227] font-medium border border-[#c9a227]/30 rounded">Worker Portal</Link>
-                <div className="flex flex-wrap gap-2 px-3">
-                  {languages.map((lang) => (
-                    <button key={lang.code} className="px-2 py-1 text-xs text-white/50 hover:text-[#c9a227] border border-white/10 rounded transition-colors">
-                      {lang.flag} {lang.code}
-                    </button>
-                  ))}
-                </div>
               </div>
             </div>
           </motion.div>

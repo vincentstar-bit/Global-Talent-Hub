@@ -1,8 +1,78 @@
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { useListJobs } from "@workspace/api-client-react";
 import { Briefcase, MapPin, DollarSign, ChevronDown, ChevronUp, Users, Clock, CheckCircle, Star, ArrowRight, Globe, Award, Zap } from "lucide-react";
+
+const careerSlides = [
+  {
+    img: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=1800&h=900&fit=crop",
+    label: "Engineering",
+    tagline: "Structural & civil engineers shaping tomorrow's skylines",
+  },
+  {
+    img: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=1800&h=900&fit=crop",
+    label: "Aviation",
+    tagline: "Pilots flying international routes across 43 countries",
+  },
+  {
+    img: "https://images.unsplash.com/photo-1579154204601-01588f351e67?w=1800&h=900&fit=crop",
+    label: "Healthcare",
+    tagline: "Doctors and medical staff delivering care across continents",
+  },
+  {
+    img: "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=1800&h=900&fit=crop",
+    label: "Electrical",
+    tagline: "Electricians powering infrastructure projects worldwide",
+  },
+  {
+    img: "https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?w=1800&h=900&fit=crop",
+    label: "Heavy Transport",
+    tagline: "Truck drivers keeping global supply chains moving",
+  },
+];
+
+const kbVariants = [
+  { initial: { scale: 1.18, x: "4%", y: "2%" }, animate: { scale: 1, x: "0%", y: "0%" } },
+  { initial: { scale: 1, x: "0%", y: "0%" }, animate: { scale: 1.18, x: "-4%", y: "-2%" } },
+  { initial: { scale: 1.14, x: "-3%", y: "3%" }, animate: { scale: 1, x: "3%", y: "-2%" } },
+  { initial: { scale: 1, x: "3%", y: "-2%" }, animate: { scale: 1.14, x: "-3%", y: "2%" } },
+  { initial: { scale: 1.12, x: "0%", y: "-3%" }, animate: { scale: 1, x: "0%", y: "3%" } },
+];
+
+function CareersHeroBg({ current, prev }: { current: number; prev: number | null }) {
+  return (
+    <div className="absolute inset-0 overflow-hidden">
+      {careerSlides.map((slide, i) => {
+        const kb = kbVariants[i % kbVariants.length];
+        const isActive = i === current;
+        const isPrev = i === prev;
+        if (!isActive && !isPrev) return null;
+        return (
+          <motion.div
+            key={i}
+            className="absolute inset-0"
+            initial={{ opacity: isPrev ? 1 : 0 }}
+            animate={{ opacity: isActive ? 1 : 0 }}
+            transition={{ duration: 1.4, ease: "easeInOut" }}
+          >
+            <motion.img
+              src={slide.img}
+              alt={slide.label}
+              className="w-full h-full object-cover"
+              initial={kb.initial}
+              animate={isActive ? kb.animate : kb.initial}
+              transition={{ duration: 6, ease: "easeInOut" }}
+            />
+          </motion.div>
+        );
+      })}
+      <div className="absolute inset-0 bg-gradient-to-r from-[#0a1628]/95 via-[#0a1628]/80 to-[#0a1628]/50" />
+      <div className="absolute inset-0 bg-gradient-to-t from-[#0a1628]/70 via-transparent to-[#0a1628]/30" />
+    </div>
+  );
+}
 
 const benefits = [
   { icon: DollarSign, title: "Competitive Compensation", desc: "Market-leading salaries, annual performance bonuses, and long-term incentive plans." },
@@ -23,6 +93,15 @@ export default function CareersPage() {
   const { data: jobs, isLoading } = useListJobs();
   const [expanded, setExpanded] = useState<number | null>(null);
   const [filter, setFilter] = useState("");
+  const [slide, setSlide] = useState(0);
+  const [prev, setPrev] = useState<number | null>(null);
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      setSlide((c) => { setPrev(c); return (c + 1) % careerSlides.length; });
+    }, 5500);
+    return () => clearInterval(id);
+  }, []);
 
   const filtered = jobs?.filter((j) =>
     filter ? j.department === filter : true
@@ -35,25 +114,38 @@ export default function CareersPage() {
       <Navbar />
 
       {/* Hero */}
-      <section className="relative bg-[#0a1628] pt-32 pb-24 overflow-hidden">
-        <div className="absolute inset-0">
-          <img
-            src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1400&h=700&fit=crop"
-            alt="Team at work"
-            className="w-full h-full object-cover opacity-15"
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#0a1628] via-[#0a1628]/85 to-transparent" />
-        </div>
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center gap-2 mb-4">
-            <div className="h-px w-8 bg-[#c9a227]" />
-            <span className="text-[#c9a227] text-xs tracking-widest uppercase font-semibold">Careers</span>
-          </div>
-          <h1 className="text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">Join SinoGlobal</h1>
-          <p className="text-white/70 text-xl max-w-2xl leading-relaxed mb-10">
-            Build a global career with one of China's most prestigious multinationals. We hire exceptional talent across 12 divisions in 43 countries — all candidates personally verified by our MD and senior leadership.
-          </p>
-          <div className="flex flex-wrap gap-8">
+      <section className="relative bg-[#0a1628] min-h-[70vh] flex items-center overflow-hidden">
+        <CareersHeroBg current={slide} prev={prev} />
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-40 w-full">
+          {/* Live industry label */}
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={slide}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.5 }}
+              className="flex items-center gap-2 mb-4"
+            >
+              <span className="w-6 h-0.5 bg-[#c9a227] rounded-full" />
+              <span className="text-[#c9a227]/80 text-sm font-semibold tracking-widest uppercase">
+                {careerSlides[slide].label}
+              </span>
+            </motion.div>
+          </AnimatePresence>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7 }}
+          >
+            <h1 className="text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">Join SinoGlobal</h1>
+            <p className="text-white/70 text-xl max-w-2xl leading-relaxed mb-8">
+              Build a global career with one of China's most prestigious multinationals. We hire exceptional talent across 12 divisions in 43 countries — all candidates personally verified by our MD and senior leadership.
+            </p>
+          </motion.div>
+
+          <div className="flex flex-wrap gap-8 mb-10">
             {[
               { value: "47,000+", label: "Team Members" },
               { value: "43", label: "Countries" },
@@ -65,6 +157,31 @@ export default function CareersPage() {
                 <div className="text-white/50 text-sm">{s.label}</div>
               </div>
             ))}
+          </div>
+
+          {/* Slide dots + tagline */}
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2">
+              {careerSlides.map((_, i) => (
+                <button
+                  key={i}
+                  onClick={() => { setPrev(slide); setSlide(i); }}
+                  className={`transition-all duration-300 rounded-full ${i === slide ? "w-8 h-2 bg-[#c9a227]" : "w-2 h-2 bg-white/30 hover:bg-white/60"}`}
+                />
+              ))}
+            </div>
+            <AnimatePresence mode="wait">
+              <motion.span
+                key={slide}
+                initial={{ opacity: 0, x: 10 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -10 }}
+                transition={{ duration: 0.4 }}
+                className="text-white/40 text-xs italic"
+              >
+                {careerSlides[slide].tagline}
+              </motion.span>
+            </AnimatePresence>
           </div>
         </div>
       </section>

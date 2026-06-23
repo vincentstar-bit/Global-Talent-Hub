@@ -156,7 +156,7 @@ const values = [
 ];
 
 const team = [
-  { name: "Li Hongbin", title: "Chairman", img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop&face" },
+  { name: "Li Hongbin", title: "Chairman", img: "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=200&h=200&fit=crop" },
   { name: "Zhang Wei", title: "Chief Executive Officer", img: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&h=200&fit=crop" },
   { name: "Sarah Mitchell", title: "Chief Operating Officer", img: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&h=200&fit=crop" },
   { name: "Dr. Wang Fang", title: "Chief Technology Officer", img: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=200&h=200&fit=crop" },
