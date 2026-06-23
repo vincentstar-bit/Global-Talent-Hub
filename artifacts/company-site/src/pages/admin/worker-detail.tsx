@@ -2,12 +2,50 @@ import AdminLayout from "@/components/layout/AdminLayout";
 import { useGetWorker, useUpdateWorker, useListLeaveRequests, getGetWorkerQueryKey, getListWorkersQueryKey, getListLeaveRequestsQueryKey } from "@workspace/api-client-react";
 import { useParams, useLocation } from "wouter";
 import { useQueryClient } from "@tanstack/react-query";
-import { useState, useEffect } from "react";
-import { ArrowLeft, Save, User, Copy, CheckCheck, Calendar } from "lucide-react";
+import { useState, useEffect, useRef } from "react";
+import { ArrowLeft, Save, User, Copy, CheckCheck, Calendar, Upload, X } from "lucide-react";
 import { differenceInDays, parseISO, addYears } from "date-fns";
 
 const DEPARTMENTS = ["Engineering & Technology", "Finance & Investment", "Legal & Compliance", "Human Resources", "Operations & Logistics", "Sales & Business Development", "Research & Development", "Information Technology", "Healthcare & Pharmaceuticals", "Construction & Real Estate", "Manufacturing & Production", "International Trade & Customs"];
 const inputCls = "w-full border border-border rounded px-3 py-2.5 text-sm bg-background focus:outline-none focus:ring-2 focus:ring-[#c9a227]";
+
+function PhotoUpload({ value, onChange }: { value: string; onChange: (url: string) => void }) {
+  const ref = useRef<HTMLInputElement>(null);
+  const handleFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => onChange(reader.result as string);
+    reader.readAsDataURL(file);
+  };
+  return (
+    <div className="flex items-center gap-4">
+      <div className="w-20 h-20 rounded-lg border-2 border-dashed border-border bg-muted/30 flex items-center justify-center overflow-hidden shrink-0">
+        {value ? (
+          <img src={value} alt="Preview" className="w-full h-full object-cover" />
+        ) : (
+          <User className="w-7 h-7 text-muted-foreground/40" />
+        )}
+      </div>
+      <div className="flex-1">
+        <input ref={ref} type="file" accept="image/*" className="hidden" onChange={handleFile} />
+        <button
+          type="button"
+          onClick={() => ref.current?.click()}
+          className="flex items-center gap-2 px-4 py-2 border border-border rounded text-sm hover:bg-muted transition-colors"
+        >
+          <Upload className="w-3.5 h-3.5" /> {value ? "Change Photo" : "Upload Photo"}
+        </button>
+        {value && (
+          <button type="button" onClick={() => onChange("")} className="flex items-center gap-1.5 mt-1.5 text-xs text-muted-foreground hover:text-destructive transition-colors">
+            <X className="w-3 h-3" /> Remove photo
+          </button>
+        )}
+        <p className="text-xs text-muted-foreground mt-1">JPG, PNG, WEBP — max 5MB</p>
+      </div>
+    </div>
+  );
+}
 
 export default function AdminWorkerDetailPage() {
   const params = useParams<{ id: string }>();
@@ -109,7 +147,10 @@ export default function AdminWorkerDetailPage() {
               <div><label className="text-xs font-medium text-muted-foreground block mb-1">Phone</label><input className={inputCls} value={form.phone || ""} onChange={e => set("phone", e.target.value)} /></div>
               <div><label className="text-xs font-medium text-muted-foreground block mb-1">Nationality</label><input className={inputCls} value={form.nationality || ""} onChange={e => set("nationality", e.target.value)} /></div>
               <div><label className="text-xs font-medium text-muted-foreground block mb-1">Passport Number</label><input className={inputCls} value={form.passportNumber || ""} onChange={e => set("passportNumber", e.target.value)} /></div>
-              <div className="md:col-span-2"><label className="text-xs font-medium text-muted-foreground block mb-1">Photo URL</label><input className={inputCls} value={form.photoUrl || ""} onChange={e => set("photoUrl", e.target.value)} /></div>
+              <div className="md:col-span-2">
+                <label className="text-xs font-medium text-muted-foreground block mb-2">Worker Photo</label>
+                <PhotoUpload value={form.photoUrl || ""} onChange={(url) => set("photoUrl", url)} />
+              </div>
             </div>
           </div>
 

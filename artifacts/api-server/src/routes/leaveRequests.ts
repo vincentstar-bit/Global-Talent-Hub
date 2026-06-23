@@ -19,6 +19,20 @@ async function enrichRequest(r: any) {
   };
 }
 
+router.get("/leave-requests/worker/:token", async (req, res) => {
+  try {
+    const { token } = req.params;
+    const [worker] = await db.select().from(workersTable).where(eq(workersTable.accessToken, token));
+    if (!worker) return res.status(404).json({ error: "Worker not found" });
+    const requests = await db.select().from(leaveRequestsTable).where(eq(leaveRequestsTable.workerId, worker.id));
+    const enriched = await Promise.all(requests.map(enrichRequest));
+    return res.json(enriched.sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()));
+  } catch (err) {
+    req.log.error(err);
+    return res.status(500).json({ error: "Internal server error" });
+  }
+});
+
 router.get("/leave-requests", requireAdmin, async (req, res) => {
   try {
     const { workerId, status } = req.query as Record<string, string>;
