@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link, useLocation } from "wouter";
 import {
   LayoutDashboard, Users, Briefcase, CalendarDays,
-  FileText, LogOut, Globe, ChevronRight, Menu, X
+  FileText, LogOut, Globe, ChevronRight, Menu, X, ShieldCheck
 } from "lucide-react";
 import { useAdminLogout, useGetAdminMe } from "@workspace/api-client-react";
 import { useQueryClient } from "@tanstack/react-query";
@@ -27,6 +27,8 @@ function SidebarContent({
   onLogout: () => void;
   onNavClick?: () => void;
 }) {
+  const isSuperAdmin = (session as any)?.isSuperAdmin === true;
+
   return (
     <>
       <div className="p-5 border-b border-sidebar-border shrink-0">
@@ -60,6 +62,26 @@ function SidebarContent({
             </Link>
           );
         })}
+
+        {isSuperAdmin && (
+          <>
+            <div className="pt-3 pb-1 px-3">
+              <div className="text-[9px] uppercase tracking-widest text-sidebar-foreground/30">System</div>
+            </div>
+            <Link
+              href="/admin/admins"
+              onClick={onNavClick}
+              className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
+                location.startsWith("/admin/admins")
+                  ? "bg-[#c9a227]/15 text-[#c9a227]"
+                  : "text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-foreground"
+              }`}
+            >
+              <ShieldCheck className="w-4 h-4 shrink-0" />
+              Admins
+            </Link>
+          </>
+        )}
       </nav>
 
       <div className="p-4 border-t border-sidebar-border shrink-0">

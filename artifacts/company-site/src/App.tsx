@@ -26,6 +26,7 @@ import AdminJobsPage from "@/pages/admin/jobs";
 import AdminLeaveTypesPage from "@/pages/admin/leave-types";
 import AdminLeaveRequestsPage from "@/pages/admin/leave-requests";
 import AdminLeaveLettersPage from "@/pages/admin/leave-letters";
+import AdminManagementPage from "@/pages/admin/admins";
 
 const queryClient = new QueryClient({
   defaultOptions: { queries: { retry: 1, staleTime: 30_000 } },
@@ -58,6 +59,7 @@ function Router() {
       <Route path="/admin/leave-types" component={AdminLeaveTypesPage} />
       <Route path="/admin/leave-requests" component={AdminLeaveRequestsPage} />
       <Route path="/admin/leave-letters" component={AdminLeaveLettersPage} />
+      <Route path="/admin/admins" component={AdminManagementPage} />
       <Route component={NotFound} />
     </Switch>
   );

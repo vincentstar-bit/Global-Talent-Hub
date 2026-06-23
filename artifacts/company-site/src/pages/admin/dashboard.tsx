@@ -258,7 +258,7 @@ export default function AdminDashboardPage() {
             <h3 className="font-bold text-foreground text-sm mb-4 flex items-center gap-2">
               <TrendingUp className="w-4 h-4 text-[#c9a227]" /> Workers by Department
             </h3>
-            {stats && stats.workersByDepartment.length > 0 ? (
+            {stats && stats.workersByDepartment?.length > 0 ? (
               <div className="space-y-3">
                 {stats.workersByDepartment.sort((a, b) => b.count - a.count).map((dept) => (
                   <div key={dept.department}>
@@ -286,7 +286,7 @@ export default function AdminDashboardPage() {
             <h3 className="font-bold text-foreground text-sm mb-4 flex items-center gap-2">
               <FileText className="w-4 h-4 text-[#c9a227]" /> Leave Requests by Status
             </h3>
-            {stats && stats.leaveRequestsByStatus.length > 0 ? (
+            {stats && stats.leaveRequestsByStatus?.length > 0 ? (
               <div className="space-y-3">
                 {stats.leaveRequestsByStatus.map((s) => (
                   <div key={s.status} className="flex items-center justify-between p-3 rounded-lg bg-muted/30">
@@ -320,7 +320,7 @@ export default function AdminDashboardPage() {
               View all <ArrowRight className="w-3 h-3" />
             </Link>
           </div>
-          {stats && stats.recentWorkers.length > 0 ? (
+          {stats && stats.recentWorkers?.length > 0 ? (
             <div className="divide-y divide-border">
               {stats.recentWorkers.map((worker) => (
                 <Link
