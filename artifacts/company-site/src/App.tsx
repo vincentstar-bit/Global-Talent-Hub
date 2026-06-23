@@ -1,7 +1,9 @@
+import { useState } from "react";
 import { Switch, Route, Router as WouterRouter, Redirect } from "wouter";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import LoadingScreen from "@/components/LoadingScreen";
 import NotFound from "@/pages/not-found";
 import HomePage from "@/pages/home";
 import AboutPage from "@/pages/about";
@@ -60,12 +62,17 @@ function Router() {
 }
 
 function App() {
+  const [loaded, setLoaded] = useState(false);
+
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
-        <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
-          <Router />
-        </WouterRouter>
+        {!loaded && <LoadingScreen onComplete={() => setLoaded(true)} />}
+        <div style={{ visibility: loaded ? "visible" : "hidden" }}>
+          <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
+            <Router />
+          </WouterRouter>
+        </div>
         <Toaster />
       </TooltipProvider>
     </QueryClientProvider>

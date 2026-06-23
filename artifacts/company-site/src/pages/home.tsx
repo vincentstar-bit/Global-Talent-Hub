@@ -8,7 +8,7 @@ import {
   Target, Heart, Cpu, HeartPulse, Ship, FlaskConical, BarChart3,
   Leaf, ArrowRight, Star, Quote, Zap, CheckCircle2, Play,
   Truck, HardHat, Wrench, Anchor, Plane, Briefcase, MapPin,
-  Clock, DollarSign, ChevronDown, Phone, Mail, BadgeCheck
+  Clock, ChevronDown, Phone, Mail, BadgeCheck
 } from "lucide-react";
 
 /* ─── Animation helpers ─── */
@@ -78,7 +78,6 @@ const movingJobs = [
     title: "International Relocation Specialist",
     location: "Singapore / Dubai",
     type: "Full-time",
-    salary: "$4,500–$6,500/mo",
     dept: "Operations",
     img: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&h=320&fit=crop",
     icon: Truck,
@@ -89,7 +88,6 @@ const movingJobs = [
     title: "Heavy Equipment Operator",
     location: "Malaysia / Indonesia",
     type: "Contract",
-    salary: "$3,800–$5,200/mo",
     dept: "Engineering",
     img: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=500&h=320&fit=crop",
     icon: HardHat,
@@ -100,7 +98,6 @@ const movingJobs = [
     title: "Port & Freight Coordinator",
     location: "Shanghai / Hong Kong",
     type: "Full-time",
-    salary: "$3,200–$4,800/mo",
     dept: "Logistics",
     img: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=500&h=320&fit=crop",
     icon: Anchor,
@@ -111,7 +108,6 @@ const movingJobs = [
     title: "Civil & Structural Engineer",
     location: "Tokyo / Seoul",
     type: "Full-time",
-    salary: "$5,500–$7,800/mo",
     dept: "Engineering",
     img: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=500&h=320&fit=crop",
     icon: Wrench,
@@ -122,7 +118,6 @@ const movingJobs = [
     title: "International Flight Operations",
     location: "Beijing / London",
     type: "Full-time",
-    salary: "$6,000–$9,500/mo",
     dept: "Aviation",
     img: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=500&h=320&fit=crop",
     icon: Plane,
@@ -133,7 +128,6 @@ const movingJobs = [
     title: "Healthcare Project Manager",
     location: "Mumbai / Bangkok",
     type: "Full-time",
-    salary: "$4,800–$7,000/mo",
     dept: "Healthcare",
     img: "https://images.unsplash.com/photo-1579154204601-01588f351e67?w=500&h=320&fit=crop",
     icon: HeartPulse,
@@ -199,7 +193,7 @@ const companyFacts = [
   { label: "Founded", value: "2003", icon: Clock },
   { label: "Stock Exchange", value: "Shanghai (SSE)", icon: TrendingUp },
   { label: "Fortune Rank", value: "#312 Global", icon: Award },
-  { label: "Annual Revenue", value: "$8.2 Billion", icon: DollarSign },
+  { label: "Annual Revenue", value: "$8.2 Billion", icon: BarChart3 },
   { label: "Total Employees", value: "47,000+", icon: Users },
   { label: "Countries", value: "43 Nations", icon: Globe },
   { label: "CAGR (10yr)", value: "18%", icon: BarChart3 },
@@ -518,10 +512,6 @@ export default function HomePage() {
                         <Clock className="w-3.5 h-3.5 text-[#c9a227] shrink-0" />
                         {job.type}
                       </div>
-                      <div className="flex items-center gap-2 text-white/50 text-sm">
-                        <DollarSign className="w-3.5 h-3.5 text-[#c9a227] shrink-0" />
-                        {job.salary}
-                      </div>
                     </div>
 
                     <div className="flex flex-wrap gap-1.5 mb-4">
@@ -551,7 +541,7 @@ export default function HomePage() {
               <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
                 {[
                   { icon: Plane, title: "Paid Relocation", desc: "Full travel & accommodation" },
-                  { icon: DollarSign, title: "Competitive Pay", desc: "Above-market packages" },
+                  { icon: Award, title: "Competitive Pay", desc: "Above-market packages" },
                   { icon: Globe, title: "Global Exposure", desc: "Work across 43 countries" },
                   { icon: BadgeCheck, title: "Visa Sponsorship", desc: "Full legal support" },
                 ].map((b, i) => (
