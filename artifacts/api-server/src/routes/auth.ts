@@ -46,8 +46,8 @@ router.post("/auth/admin/login", async (req, res) => {
     const sessionId = generateSessionId();
     const session = { username, role: "admin", isSuperAdmin: true };
     sessions.set(sessionId, session);
-    res.cookie("admin_session", sessionId, { httpOnly: true, sameSite: "lax", maxAge: 24 * 60 * 60 * 1000 });
-    return res.json(session);
+    res.cookie("admin_session", sessionId, { httpOnly: true, sameSite: "none", secure: true, maxAge: 24 * 60 * 60 * 1000 });
+    return res.json({ token: sessionId, ...session });
   }
 
   try {
@@ -56,8 +56,8 @@ router.post("/auth/admin/login", async (req, res) => {
       const sessionId = generateSessionId();
       const session = { username, role: "admin", isSuperAdmin: false };
       sessions.set(sessionId, session);
-      res.cookie("admin_session", sessionId, { httpOnly: true, sameSite: "lax", maxAge: 24 * 60 * 60 * 1000 });
-      return res.json(session);
+      res.cookie("admin_session", sessionId, { httpOnly: true, sameSite: "none", secure: true, maxAge: 24 * 60 * 60 * 1000 });
+      return res.json({ token: sessionId, ...session });
     }
   } catch (err) {
     console.error("[auth] DB lookup failed:", err);
@@ -74,7 +74,10 @@ router.post("/auth/admin/logout", (req, res) => {
 });
 
 router.get("/auth/admin/me", (req, res) => {
-  const sessionId = req.cookies?.admin_session;
+  const authHeader = req.headers?.authorization;
+  const bearerToken = authHeader?.startsWith("Bearer ") ? authHeader.slice(7) : null;
+  const cookieToken = req.cookies?.admin_session;
+  const sessionId = bearerToken || cookieToken;
   const session = sessionId ? sessions.get(sessionId) : null;
   if (!session) return res.status(401).json({ error: "Not authenticated" });
   return res.json(session);
@@ -164,7 +167,10 @@ router.delete("/auth/admins/:id", requireAdmin, requireSuperAdmin, async (req: a
 });
 
 export function requireAdmin(req: any, res: any, next: any) {
-  const sessionId = req.cookies?.admin_session;
+  const authHeader = req.headers?.authorization;
+  const bearerToken = authHeader?.startsWith("Bearer ") ? authHeader.slice(7) : null;
+  const cookieToken = req.cookies?.admin_session;
+  const sessionId = bearerToken || cookieToken;
   const session = sessionId ? sessions.get(sessionId) : null;
   if (!session) return res.status(401).json({ error: "Unauthorized" });
   req.adminSession = session;

@@ -25,8 +25,10 @@ export const AdminLoginBody = zod.object({
 })
 
 export const AdminLoginResponse = zod.object({
+  "token": zod.string().optional(),
   "username": zod.string(),
-  "role": zod.string()
+  "role": zod.string(),
+  "isSuperAdmin": zod.boolean().optional()
 })
 
 
@@ -34,8 +36,10 @@ export const AdminLoginResponse = zod.object({
  * @summary Get current admin session
  */
 export const GetAdminMeResponse = zod.object({
+  "token": zod.string().optional(),
   "username": zod.string(),
-  "role": zod.string()
+  "role": zod.string(),
+  "isSuperAdmin": zod.boolean().optional()
 })
 
 

@@ -7,6 +7,8 @@
  */
 
 export interface AdminSession {
+  token?: string;
   username: string;
   role: string;
+  isSuperAdmin?: boolean;
 }

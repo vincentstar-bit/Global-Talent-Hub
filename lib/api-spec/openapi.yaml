@@ -501,10 +501,14 @@ components:
       type: object
       required: [username, role]
       properties:
+        token:
+          type: string
         username:
           type: string
         role:
           type: string
+        isSuperAdmin:
+          type: boolean
 
     Worker:
       type: object

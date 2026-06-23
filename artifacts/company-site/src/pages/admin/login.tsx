@@ -15,6 +15,9 @@ export default function AdminLoginPage() {
   const login = useAdminLogin({
     mutation: {
       onSuccess: (session) => {
+        if ((session as any).token) {
+          localStorage.setItem("admin_token", (session as any).token);
+        }
         queryClient.setQueryData(getGetAdminMeQueryKey(), session);
         navigate("/admin/dashboard");
       },

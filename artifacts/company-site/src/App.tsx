@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import LoadingScreen from "@/components/LoadingScreen";
 import NotFound from "@/pages/not-found";
+import { setAuthTokenGetter } from "@workspace/api-client-react";
 import HomePage from "@/pages/home";
 import AboutPage from "@/pages/about";
 import CareersPage from "@/pages/careers";
@@ -27,6 +28,8 @@ import AdminLeaveTypesPage from "@/pages/admin/leave-types";
 import AdminLeaveRequestsPage from "@/pages/admin/leave-requests";
 import AdminLeaveLettersPage from "@/pages/admin/leave-letters";
 import AdminManagementPage from "@/pages/admin/admins";
+
+setAuthTokenGetter(() => localStorage.getItem("admin_token"));
 
 const queryClient = new QueryClient({
   defaultOptions: { queries: { retry: 1, staleTime: 30_000 } },

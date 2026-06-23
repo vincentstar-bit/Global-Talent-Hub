@@ -119,6 +119,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
   const handleLogout = () => {
     setMobileOpen(false);
+    localStorage.removeItem("admin_token");
     logout.mutate({});
   };
 
