@@ -20,15 +20,14 @@ function sanitizeConnectionUrl(url: string): string {
   }
 }
 
-const connectionString = process.env.SUPABASE_DATABASE_URL || process.env.DATABASE_URL;
+const connectionString = process.env.DATABASE_URL;
 
 if (!connectionString) {
-  throw new Error("SUPABASE_DATABASE_URL must be set.");
+  throw new Error("DATABASE_URL must be set.");
 }
 
 export const pool = new Pool({
   connectionString: sanitizeConnectionUrl(connectionString),
-  ssl: { rejectUnauthorized: false },
 });
 
 export const db = drizzle(pool, { schema });
