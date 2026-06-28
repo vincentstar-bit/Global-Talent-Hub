@@ -14,6 +14,7 @@ import ServicesPage from "@/pages/services";
 import SustainabilityPage from "@/pages/sustainability";
 import NewsroomPage from "@/pages/newsroom";
 import InvestorsPage from "@/pages/investors";
+import OilRigsPage from "@/pages/oil-rigs";
 import PortalPage from "@/pages/portal/index";
 import PortalWorkerPage from "@/pages/portal/worker";
 import PortalApplyPage from "@/pages/portal/apply";
@@ -57,6 +58,7 @@ function Router() {
       <Route path="/sustainability" component={SustainabilityPage} />
       <Route path="/newsroom" component={NewsroomPage} />
       <Route path="/investors" component={InvestorsPage} />
+      <Route path="/oil-rigs" component={OilRigsPage} />
       <Route path="/portal" component={PortalPage} />
       <Route path="/portal/worker/:token" component={PortalWorkerPage} />
       <Route path="/portal/apply" component={PortalApplyPage} />

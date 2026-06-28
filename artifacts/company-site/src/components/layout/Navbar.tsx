@@ -6,7 +6,7 @@ import {
   Users, Award, Clock, Briefcase, Cpu, HeartPulse, Ship, FlaskConical,
   Home as HomeIcon, BarChart3, Phone, Mail, Search, Languages,
   Truck, Wrench, HardHat, Plane, Anchor, FileText, Scale, BookOpen,
-  ShieldCheck, LineChart, Handshake, MapPin, CalendarDays, Info
+  ShieldCheck, LineChart, Handshake, MapPin, CalendarDays, Info, Flame
 } from "lucide-react";
 
 const aboutLinks = [
@@ -27,6 +27,7 @@ const businessLinks = [
   { href: "/services#research", label: "Research & Development", sub: "Biotech & clean energy", icon: FlaskConical },
   { href: "/services", label: "Construction & Real Estate", sub: "Landmark developments", icon: HardHat },
   { href: "/services", label: "International Trade", sub: "Cross-border compliance", icon: Handshake },
+  { href: "/oil-rigs", label: "Oil Rig Operations", sub: "Offshore drilling & energy", icon: Flame },
 ];
 
 const careersLinks = [
