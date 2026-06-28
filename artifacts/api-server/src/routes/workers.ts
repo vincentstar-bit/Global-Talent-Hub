@@ -3,6 +3,7 @@ import { db } from "@workspace/db";
 import { workersTable, leaveTypesTable } from "@workspace/db";
 import { eq, ilike, and, or } from "drizzle-orm";
 import { requireAdmin } from "./auth";
+import { sendAdminMessageToWorker } from "../lib/email";
 
 const router = Router();
 
@@ -116,6 +117,41 @@ router.delete("/workers/:id", requireAdmin, async (req, res) => {
   } catch (err) {
     req.log.error(err);
     return res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+router.post("/workers/:id/email", requireAdmin, async (req: any, res: any) => {
+  try {
+    const id = parseInt(req.params.id);
+    const { subject, message } = req.body ?? {};
+
+    if (!subject || typeof subject !== "string" || !subject.trim()) {
+      return res.status(400).json({ error: "Subject is required." });
+    }
+    if (!message || typeof message !== "string" || message.trim().length < 5) {
+      return res.status(400).json({ error: "Message must be at least 5 characters." });
+    }
+
+    const [worker] = await db.select().from(workersTable).where(eq(workersTable.id, id));
+    if (!worker) return res.status(404).json({ error: "Worker not found" });
+    if (!worker.email) return res.status(400).json({ error: "This worker has no email address on file." });
+
+    const senderName = req.adminSession?.username
+      ? `${req.adminSession.username} (HR Admin)`
+      : "HR Administration";
+
+    await sendAdminMessageToWorker({
+      workerName: `${worker.firstName} ${worker.lastName}`,
+      toEmail: worker.email,
+      subject: subject.trim(),
+      message: message.trim(),
+      senderName,
+    });
+
+    return res.json({ ok: true, sentTo: worker.email });
+  } catch (err) {
+    req.log.error(err);
+    return res.status(500).json({ error: "Failed to send email." });
   }
 });
 

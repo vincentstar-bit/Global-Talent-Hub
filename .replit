@@ -75,6 +75,7 @@ externalPort = 3000
 ADMIN_USERNAME = "admin"
 ADMIN_PASSWORD = "SinoGlobal@2024"
 FROM_EMAIL = "support@dynamicoffshoredrilling.com"
+ADMIN_EMAIL = "support@dynamicoffshoredrilling.com"
 
 [nix]
 channel = "stable-25_05"

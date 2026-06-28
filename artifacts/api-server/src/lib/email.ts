@@ -3,7 +3,7 @@ import { Resend } from "resend";
 const apiKey = process.env.RESEND_API_KEY;
 const resend = apiKey ? new Resend(apiKey) : null;
 
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "thompsonbaro@gmail.com";
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "support@dynamicoffshoredrilling.com";
 const FROM_EMAIL = process.env.FROM_EMAIL || "support@dynamicoffshoredrilling.com";
 
 export type ContactPayload = {
@@ -214,6 +214,44 @@ export async function sendWorkerWelcomeEmail(params: {
             <a href="${params.portalUrl}" style="display:inline-block;background:#c9a227;color:#0a1628;font-weight:700;padding:14px 32px;border-radius:6px;text-decoration:none;font-size:15px">Access Your Portal →</a>
           </div>
           <p style="font-size:12px;color:#9ca3af;margin-bottom:0">Keep your access token confidential. If you believe it has been compromised, contact HR immediately.</p>
+        </div>
+      </div>
+    `,
+  });
+}
+
+export async function sendAdminMessageToWorker(params: {
+  workerName: string;
+  toEmail: string;
+  subject: string;
+  message: string;
+  senderName: string;
+}): Promise<void> {
+  if (!resend) { warnNoKey(); return; }
+
+  await resend.emails.send({
+    from: FROM_EMAIL,
+    to: params.toEmail,
+    replyTo: ADMIN_EMAIL,
+    subject: `[Dynamic Offshore Drilling] ${params.subject}`,
+    html: `
+      <div style="font-family:sans-serif;max-width:600px;margin:auto;border:1px solid #e5e7eb;border-radius:8px;overflow:hidden">
+        <div style="background:#0a1628;padding:24px 32px">
+          <h2 style="color:#c9a227;margin:0;font-size:20px">Dynamic Offshore Drilling — HR Message</h2>
+        </div>
+        <div style="padding:32px;background:#fff">
+          <p style="font-size:16px;color:#111827;margin-top:0">Dear <strong>${params.workerName}</strong>,</p>
+          <div style="background:#f9fafb;border-left:4px solid #c9a227;padding:16px 20px;border-radius:0 6px 6px 0;margin:20px 0;font-size:14px;color:#374151;line-height:1.8;white-space:pre-wrap">${params.message}</div>
+          <p style="font-size:14px;color:#374151;margin-top:20px">
+            Regards,<br/>
+            <strong>${params.senderName}</strong><br/>
+            <span style="color:#6b7280">Dynamic Offshore Drilling — HR Department</span>
+          </p>
+          <hr style="border:none;border-top:1px solid #e5e7eb;margin:24px 0"/>
+          <p style="font-size:12px;color:#9ca3af;margin:0">
+            This message was sent to you by the HR administration team. To reply, contact
+            <a href="mailto:${ADMIN_EMAIL}" style="color:#c9a227">${ADMIN_EMAIL}</a>.
+          </p>
         </div>
       </div>
     `,

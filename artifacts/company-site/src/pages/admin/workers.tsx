@@ -3,7 +3,164 @@ import { useListWorkers, useDeleteWorker, getListWorkersQueryKey } from "@worksp
 import { Link } from "wouter";
 import { useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
-import { Plus, Search, Trash2, Edit, Copy, CheckCheck, Users } from "lucide-react";
+import { Plus, Search, Trash2, Edit, Copy, CheckCheck, Users, Mail, X, Send, CheckCircle2, AlertCircle } from "lucide-react";
+
+const BASE = import.meta.env.BASE_URL?.replace(/\/$/, "") ?? "";
+
+type ComposeModal = {
+  workerId: number;
+  workerName: string;
+  email: string;
+};
+
+function ComposeEmailModal({
+  modal,
+  onClose,
+}: {
+  modal: ComposeModal;
+  onClose: () => void;
+}) {
+  const [subject, setSubject] = useState("");
+  const [message, setMessage] = useState("");
+  const [sending, setSending] = useState(false);
+  const [sent, setSent] = useState(false);
+  const [error, setError] = useState("");
+
+  const handleSend = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!subject.trim() || !message.trim()) return;
+    setSending(true);
+    setError("");
+    try {
+      const res = await fetch(`${BASE}/api/workers/${modal.workerId}/email`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ subject: subject.trim(), message: message.trim() }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Failed to send email.");
+      setSent(true);
+      setTimeout(onClose, 2000);
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setSending(false);
+    }
+  };
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+      <div className="absolute inset-0 bg-black/50" onClick={onClose} />
+      <div className="relative bg-card border border-border rounded-xl shadow-2xl w-full max-w-lg">
+
+        {/* Header */}
+        <div className="flex items-center justify-between p-5 border-b border-border bg-[#0a1628] rounded-t-xl">
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 rounded-full bg-[#c9a227]/20 flex items-center justify-center">
+              <Mail className="w-4 h-4 text-[#c9a227]" />
+            </div>
+            <div>
+              <h2 className="font-bold text-white text-sm">Message Worker</h2>
+              <p className="text-xs text-white/50">{modal.workerName} · {modal.email}</p>
+            </div>
+          </div>
+          <button onClick={onClose} className="p-1 rounded hover:bg-white/10 transition-colors">
+            <X className="w-4 h-4 text-white/60" />
+          </button>
+        </div>
+
+        {/* Body */}
+        <div className="p-5">
+          {sent ? (
+            <div className="flex flex-col items-center py-8 gap-3">
+              <div className="w-14 h-14 rounded-full bg-green-100 flex items-center justify-center">
+                <CheckCircle2 className="w-7 h-7 text-green-600" />
+              </div>
+              <p className="font-bold text-foreground">Email sent!</p>
+              <p className="text-sm text-muted-foreground text-center">
+                Your message was delivered to <strong>{modal.email}</strong>.
+              </p>
+            </div>
+          ) : (
+            <form onSubmit={handleSend} className="space-y-4">
+              {/* To field (read-only) */}
+              <div>
+                <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider block mb-1.5">To</label>
+                <div className="flex items-center gap-2 bg-muted/50 border border-border rounded-lg px-3 py-2.5">
+                  <Mail className="w-3.5 h-3.5 text-muted-foreground shrink-0" />
+                  <span className="text-sm text-foreground">{modal.workerName}</span>
+                  <span className="text-sm text-muted-foreground">〈{modal.email}〉</span>
+                </div>
+              </div>
+
+              {/* Subject */}
+              <div>
+                <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider block mb-1.5">
+                  Subject <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  value={subject}
+                  onChange={(e) => setSubject(e.target.value)}
+                  required
+                  placeholder="e.g. Regarding your upcoming assignment"
+                  className="w-full border border-border rounded-lg px-3 py-2.5 text-sm bg-background focus:outline-none focus:ring-2 focus:ring-[#c9a227]/50 focus:border-[#c9a227] placeholder-muted-foreground/50"
+                />
+              </div>
+
+              {/* Message */}
+              <div>
+                <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider block mb-1.5">
+                  Message <span className="text-red-500">*</span>
+                </label>
+                <textarea
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
+                  required
+                  rows={6}
+                  placeholder="Type your message here…"
+                  className="w-full border border-border rounded-lg px-3 py-2.5 text-sm bg-background focus:outline-none focus:ring-2 focus:ring-[#c9a227]/50 focus:border-[#c9a227] resize-none placeholder-muted-foreground/50"
+                />
+                <p className="text-xs text-muted-foreground mt-1">
+                  Sent from <span className="font-medium">support@dynamicoffshoredrilling.com</span>. Worker can reply to that address.
+                </p>
+              </div>
+
+              {error && (
+                <div className="flex items-start gap-2.5 bg-red-50 border border-red-200 rounded-lg px-4 py-3 text-sm text-red-700">
+                  <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
+                  {error}
+                </div>
+              )}
+
+              <div className="flex gap-3 pt-1">
+                <button
+                  type="button"
+                  onClick={onClose}
+                  className="flex-1 px-4 py-2.5 border border-border rounded-lg text-sm font-medium text-foreground hover:bg-muted transition-colors"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={sending || !subject.trim() || !message.trim()}
+                  className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 bg-[#c9a227] text-[#0a1628] font-bold rounded-lg text-sm hover:bg-[#d4af37] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {sending ? (
+                    <div className="w-4 h-4 border-2 border-[#0a1628] border-t-transparent rounded-full animate-spin" />
+                  ) : (
+                    <><Send className="w-4 h-4" /> Send Email</>
+                  )}
+                </button>
+              </div>
+            </form>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export default function AdminWorkersPage() {
   const queryClient = useQueryClient();
@@ -11,6 +168,7 @@ export default function AdminWorkersPage() {
   const [department, setDepartment] = useState("");
   const [status, setStatus] = useState("");
   const [copiedId, setCopiedId] = useState<number | null>(null);
+  const [composeModal, setComposeModal] = useState<ComposeModal | null>(null);
 
   const { data: workers, isLoading } = useListWorkers(
     { search: search || undefined, department: department || undefined, status: status || undefined },
@@ -37,8 +195,23 @@ export default function AdminWorkersPage() {
     }
   };
 
+  const openCompose = (worker: any) => {
+    setComposeModal({
+      workerId: worker.id,
+      workerName: `${worker.firstName} ${worker.lastName}`,
+      email: worker.email,
+    });
+  };
+
   return (
     <AdminLayout>
+      {composeModal && (
+        <ComposeEmailModal
+          modal={composeModal}
+          onClose={() => setComposeModal(null)}
+        />
+      )}
+
       <div className="space-y-6">
         <div className="flex items-center justify-between">
           <div>
@@ -117,6 +290,9 @@ export default function AdminWorkersPage() {
                           <div>
                             <div className="font-medium text-foreground">{worker.firstName} {worker.lastName}</div>
                             <div className="text-xs text-muted-foreground">{worker.jobTitle}</div>
+                            {worker.email && (
+                              <div className="text-xs text-muted-foreground/70">{worker.email}</div>
+                            )}
                           </div>
                         </div>
                       </td>
@@ -146,7 +322,16 @@ export default function AdminWorkersPage() {
                         }`}>{worker.status}</span>
                       </td>
                       <td className="px-4 py-3">
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-1.5">
+                          {worker.email && (
+                            <button
+                              onClick={() => openCompose(worker)}
+                              title={`Email ${worker.firstName}`}
+                              className="p-1.5 text-muted-foreground hover:text-[#c9a227] transition-colors"
+                            >
+                              <Mail className="w-4 h-4" />
+                            </button>
+                          )}
                           <Link href={`/admin/workers/${worker.id}`} className="p-1.5 text-muted-foreground hover:text-[#c9a227] transition-colors">
                             <Edit className="w-4 h-4" />
                           </Link>
