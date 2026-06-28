@@ -125,13 +125,13 @@ export default function LoadingScreen({ onComplete }: { onComplete: () => void }
                 transition={{ duration: 0.7, delay: 0.3, ease: "easeOut" }}
               >
                 <div className="text-4xl font-bold tracking-[0.25em] text-white mb-1.5 uppercase">
-                  SINOGLOBAL
+                  Dynamic Offshore
                 </div>
                 <div
                   className="text-xs tracking-[0.4em] uppercase font-semibold"
                   style={{ color: "#c9a227" }}
                 >
-                  Enterprise Co., Ltd.
+                  Drilling Inc
                 </div>
               </motion.div>
 

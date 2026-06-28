@@ -54,8 +54,8 @@ export default function AdminLoginPage() {
             <Globe className="w-5 h-5 text-[#0a1628]" />
           </div>
           <div>
-            <div className="text-white font-bold tracking-widest text-sm">SINOGLOBAL</div>
-            <div className="text-[#c9a227] text-[9px] tracking-widest uppercase">Enterprise Co., Ltd.</div>
+            <div className="text-white font-bold tracking-widest text-sm">DYNAMIC OFFSHORE DRILLING</div>
+            <div className="text-[#c9a227] text-[9px] tracking-widest uppercase">Drilling Inc</div>
           </div>
         </div>
 
@@ -69,7 +69,7 @@ export default function AdminLoginPage() {
             <span className="text-[#c9a227]">Portal</span>
           </h2>
           <p className="text-white/40 text-sm leading-relaxed max-w-sm">
-            Restricted access for authorized SinoGlobal administrators. Manage workforce contracts, leave entitlements, and worker profiles across all 43 countries.
+            Restricted access for authorized Dynamic Offshore Drilling administrators. Manage workforce contracts, leave entitlements, and worker profiles across all 43 countries.
           </p>
         </div>
 
@@ -98,7 +98,7 @@ export default function AdminLoginPage() {
             <div className="w-8 h-8 rounded-lg bg-[#c9a227] flex items-center justify-center">
               <Globe className="w-4 h-4 text-[#0a1628]" />
             </div>
-            <div className="text-white font-bold tracking-wide text-sm">SINOGLOBAL Admin</div>
+            <div className="text-white font-bold tracking-wide text-sm">DYNAMIC OFFSHORE DRILLING Admin</div>
           </div>
 
           <div className="mb-8">
@@ -118,7 +118,7 @@ export default function AdminLoginPage() {
                   required
                   autoComplete="username"
                   className="w-full bg-white/4 border border-white/12 rounded-xl pl-10 pr-4 py-3.5 text-white text-sm focus:outline-none focus:ring-2 focus:ring-[#c9a227]/60 focus:border-[#c9a227]/60 placeholder-white/20 transition-all"
-                  placeholder="admin@sinoglobal.com"
+                  placeholder="admin@dynamicoffshore.com"
                 />
               </div>
             </div>

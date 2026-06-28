@@ -4,17 +4,17 @@ import { Link } from "wouter";
 import { Calendar, Tag, ArrowRight, ChevronRight, Newspaper, TrendingUp, Globe, HeartPulse, Cpu, Leaf } from "lucide-react";
 
 const featured = {
-  title: "SinoGlobal Secures Landmark $2.1B Infrastructure Contract in East Africa",
+  title: "Dynamic Offshore Drilling Secures Landmark $2.1B Infrastructure Contract in East Africa",
   date: "June 14, 2024",
   tag: "Business",
   img: "https://images.unsplash.com/photo-1508861647785-f6424b5e2f12?w=900&h=500&fit=crop",
-  excerpt: "SinoGlobal Enterprise Co., Ltd. has signed a landmark infrastructure development agreement with the Government of Tanzania for the design, construction, and operation of a 450-kilometre rail corridor connecting Dar es Salaam to Dodoma, alongside comprehensive upgrades to two major Indian Ocean ports. The contract, valued at USD 2.1 billion, represents the largest single infrastructure award in East African history.",
-  body: "CEO Zhang Wei said: 'This contract reflects the trust that African governments have placed in SinoGlobal over more than a decade of responsible project delivery. We are proud to be part of Tanzania's economic transformation story.' Construction is expected to begin in Q4 2024, with completion targeted by 2029. The project will create approximately 28,000 local jobs during the construction phase.",
+  excerpt: "Dynamic Offshore Drilling Inc has signed a landmark infrastructure development agreement with the Government of Tanzania for the design, construction, and operation of a 450-kilometre rail corridor connecting Dar es Salaam to Dodoma, alongside comprehensive upgrades to two major Indian Ocean ports. The contract, valued at USD 2.1 billion, represents the largest single infrastructure award in East African history.",
+  body: "CEO Zhang Wei said: 'This contract reflects the trust that African governments have placed in Dynamic Offshore Drilling over more than a decade of responsible project delivery. We are proud to be part of Tanzania's economic transformation story.' Construction is expected to begin in Q4 2024, with completion targeted by 2029. The project will create approximately 28,000 local jobs during the construction phase.",
 };
 
 const articles = [
   {
-    title: "BioSino Medical Receives FDA Breakthrough Therapy Designation for SGE-2204",
+    title: "Dynamic Offshore Medical Receives FDA Breakthrough Therapy Designation for SGE-2204",
     date: "May 22, 2024",
     tag: "Healthcare",
     img: "https://images.unsplash.com/photo-1576086213369-97a306d36557?w=500&h=280&fit=crop",
@@ -22,7 +22,7 @@ const articles = [
     icon: HeartPulse,
   },
   {
-    title: "SinoGlobal Reports Record Q1 2024 Revenue of $2.3B, Up 21% Year-on-Year",
+    title: "Dynamic Offshore Drilling Reports Record Q1 2024 Revenue of $2.3B, Up 21% Year-on-Year",
     date: "April 30, 2024",
     tag: "Financial",
     img: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=500&h=280&fit=crop",
@@ -38,7 +38,7 @@ const articles = [
     icon: Cpu,
   },
   {
-    title: "SinoGlobal and UN Environment Programme Launch $200M Green Hydrogen Initiative",
+    title: "Dynamic Offshore Drilling and UN Environment Programme Launch $200M Green Hydrogen Initiative",
     date: "March 28, 2024",
     tag: "Sustainability",
     img: "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=500&h=280&fit=crop",
@@ -46,7 +46,7 @@ const articles = [
     icon: Leaf,
   },
   {
-    title: "SinoGlobal Expands to Mumbai and Johannesburg With New Regional Offices",
+    title: "Dynamic Offshore Drilling Expands to Mumbai and Johannesburg With New Regional Offices",
     date: "March 5, 2024",
     tag: "Expansion",
     img: "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=500&h=280&fit=crop",
@@ -54,21 +54,21 @@ const articles = [
     icon: Globe,
   },
   {
-    title: "SinoGlobal Awarded 'China's Most Admired Company' by Fortune China for 5th Year",
+    title: "Dynamic Offshore Drilling Awarded 'China's Most Admired Company' by Fortune China for 5th Year",
     date: "February 18, 2024",
     tag: "Recognition",
     img: "https://images.unsplash.com/photo-1505373877841-8d25f7d46678?w=500&h=280&fit=crop",
-    excerpt: "For the fifth consecutive year, SinoGlobal has been named China's Most Admired Company in the diversified industrials category by Fortune China magazine.",
+    excerpt: "For the fifth consecutive year, Dynamic Offshore Drilling has been named China's Most Admired Company in the diversified industrials category by Fortune China magazine.",
     icon: TrendingUp,
   },
 ];
 
 const pressReleases = [
-  { title: "SinoGlobal Q1 2024 Financial Results", date: "April 30, 2024" },
+  { title: "Dynamic Offshore Drilling Q1 2024 Financial Results", date: "April 30, 2024" },
   { title: "Annual General Meeting — Board Resolution Outcomes", date: "April 18, 2024" },
-  { title: "SinoGlobal and Siemens AG Sign MoU for Smart Infrastructure Collaboration", date: "March 20, 2024" },
+  { title: "Dynamic Offshore Drilling and Siemens AG Sign MoU for Smart Infrastructure Collaboration", date: "March 20, 2024" },
   { title: "Appointment of New Chief Sustainability Officer", date: "March 8, 2024" },
-  { title: "SinoGlobal 2023 Annual ESG Report Published", date: "February 29, 2024" },
+  { title: "Dynamic Offshore Drilling 2023 Annual ESG Report Published", date: "February 29, 2024" },
   { title: "FY 2023 Full-Year Financial Results", date: "February 22, 2024" },
 ];
 
@@ -95,7 +95,7 @@ export default function NewsroomPage() {
             <span className="text-[#c9a227] text-xs tracking-widest uppercase font-semibold">Media Centre</span>
           </div>
           <h1 className="text-5xl font-bold text-white mb-4">Newsroom</h1>
-          <p className="text-white/70 text-xl max-w-2xl">Latest news, press releases, and media resources from SinoGlobal Enterprise.</p>
+          <p className="text-white/70 text-xl max-w-2xl">Latest news, press releases, and media resources from Dynamic Offshore Drilling Enterprise.</p>
         </div>
       </section>
 
@@ -173,9 +173,9 @@ export default function NewsroomPage() {
               <h2 className="text-2xl font-bold text-foreground mb-6">Media Contacts</h2>
               <div className="space-y-4">
                 {[
-                  { name: "Global Media Relations", email: "press@sinoglobal.com", phone: "+86 10 8888 6666 ext. 800" },
-                  { name: "Investor Relations", email: "ir@sinoglobal.com", phone: "+86 10 8888 6666 ext. 810" },
-                  { name: "ESG & Sustainability", email: "esg@sinoglobal.com", phone: "+86 10 8888 6666 ext. 820" },
+                  { name: "Global Media Relations", email: "press@dynamicoffshore.com", phone: "+86 10 8888 6666 ext. 800" },
+                  { name: "Investor Relations", email: "ir@dynamicoffshore.com", phone: "+86 10 8888 6666 ext. 810" },
+                  { name: "ESG & Sustainability", email: "esg@dynamicoffshore.com", phone: "+86 10 8888 6666 ext. 820" },
                 ].map((c) => (
                   <div key={c.name} className="bg-card border border-border rounded-xl p-5">
                     <div className="font-semibold text-foreground text-sm mb-2">{c.name}</div>

@@ -37,7 +37,7 @@ function SidebarContent({
             <Globe className="w-4 h-4 text-[#0d1b2e]" />
           </div>
           <div>
-            <div className="text-sidebar-foreground font-bold text-xs tracking-wide">SINOGLOBAL</div>
+            <div className="text-sidebar-foreground font-bold text-xs tracking-wide">DYNAMIC OFFSHORE DRILLING</div>
             <div className="text-[#c9a227] text-[9px] tracking-widest uppercase">Admin Panel</div>
           </div>
         </Link>
@@ -173,7 +173,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
           {/* Breadcrumb */}
           <div className="flex items-center gap-1.5 text-sm text-muted-foreground min-w-0">
-            <Link href="/" className="hover:text-foreground transition-colors shrink-0">SinoGlobal</Link>
+            <Link href="/" className="hover:text-foreground transition-colors shrink-0">Dynamic Offshore Drilling</Link>
             <ChevronRight className="w-3.5 h-3.5 shrink-0" />
             <span className="text-foreground capitalize truncate">{pageLabel}</span>
           </div>

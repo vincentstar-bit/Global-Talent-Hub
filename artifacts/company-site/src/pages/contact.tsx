@@ -4,14 +4,14 @@ import { useState } from "react";
 import { MapPin, Phone, Mail, Clock, CheckCircle2, AlertCircle, Loader2 } from "lucide-react";
 
 const offices = [
-  { city: "Beijing (HQ)", country: "China", address: "Zhongguancun Science Park, Haidian District, Beijing 100190", phone: "+86 10 8888 6666", email: "hq@sinoglobal.com" },
-  { city: "Shanghai", country: "China", address: "Lujiazui Finance & Trade Zone, Pudong New Area, Shanghai 200120", phone: "+86 21 5888 3333", email: "shanghai@sinoglobal.com" },
-  { city: "Hong Kong", country: "SAR, China", address: "Two International Finance Centre, 8 Finance Street, Central, Hong Kong", phone: "+852 2888 5500", email: "hk@sinoglobal.com" },
-  { city: "Singapore", country: "Singapore", address: "One Raffles Place, #45-01, Singapore 048616", phone: "+65 6888 9900", email: "sg@sinoglobal.com" },
-  { city: "London", country: "United Kingdom", address: "30 St Mary Axe (The Gherkin), London EC3A 8EP", phone: "+44 20 7888 4400", email: "london@sinoglobal.com" },
-  { city: "New York", country: "United States", address: "1 World Trade Center, Suite 8500, New York, NY 10007", phone: "+1 212 888 7700", email: "ny@sinoglobal.com" },
-  { city: "Dubai", country: "UAE", address: "Dubai International Financial Centre, Gate District, Dubai", phone: "+971 4 888 3300", email: "dubai@sinoglobal.com" },
-  { city: "Lagos", country: "Nigeria", address: "Victoria Island, Adeola Odeku Street, Lagos, Nigeria", phone: "+234 1 888 5500", email: "lagos@sinoglobal.com" },
+  { city: "Beijing (HQ)", country: "China", address: "Zhongguancun Science Park, Haidian District, Beijing 100190", phone: "+86 10 8888 6666", email: "hq@dynamicoffshore.com" },
+  { city: "Shanghai", country: "China", address: "Lujiazui Finance & Trade Zone, Pudong New Area, Shanghai 200120", phone: "+86 21 5888 3333", email: "shanghai@dynamicoffshore.com" },
+  { city: "Hong Kong", country: "SAR, China", address: "Two International Finance Centre, 8 Finance Street, Central, Hong Kong", phone: "+852 2888 5500", email: "hk@dynamicoffshore.com" },
+  { city: "Singapore", country: "Singapore", address: "One Raffles Place, #45-01, Singapore 048616", phone: "+65 6888 9900", email: "sg@dynamicoffshore.com" },
+  { city: "London", country: "United Kingdom", address: "30 St Mary Axe (The Gherkin), London EC3A 8EP", phone: "+44 20 7888 4400", email: "london@dynamicoffshore.com" },
+  { city: "New York", country: "United States", address: "1 World Trade Center, Suite 8500, New York, NY 10007", phone: "+1 212 888 7700", email: "ny@dynamicoffshore.com" },
+  { city: "Dubai", country: "UAE", address: "Dubai International Financial Centre, Gate District, Dubai", phone: "+971 4 888 3300", email: "dubai@dynamicoffshore.com" },
+  { city: "Lagos", country: "Nigeria", address: "Victoria Island, Adeola Odeku Street, Lagos, Nigeria", phone: "+234 1 888 5500", email: "lagos@dynamicoffshore.com" },
 ];
 
 type Status = "idle" | "loading" | "success" | "error";
@@ -140,7 +140,7 @@ export default function ContactPage() {
                   <Mail className="w-5 h-5 text-[#c9a227] shrink-0 mt-0.5" />
                   <div>
                     <div className="text-sm font-medium text-foreground">General Inquiries</div>
-                    <div className="text-sm text-muted-foreground">info@sinoglobal.com</div>
+                    <div className="text-sm text-muted-foreground">info@dynamicoffshore.com</div>
                   </div>
                 </div>
                 <div className="flex gap-3">

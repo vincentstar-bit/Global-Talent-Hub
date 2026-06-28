@@ -163,9 +163,9 @@ const team = [
 ];
 
 const news = [
-  { date: "June 2024", tag: "Technology", title: "BioSino Medical Receives FDA Breakthrough Therapy Designation", img: "https://images.unsplash.com/photo-1576086213369-97a306d36557?w=400&h=220&fit=crop", excerpt: "Our pharmaceutical division's novel oncology compound SGE-2204 receives priority review from the US FDA." },
-  { date: "May 2024", tag: "Finance", title: "SinoGlobal Reports Record Q1 Revenue of $2.3B", img: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=400&h=220&fit=crop", excerpt: "First-quarter results exceed analyst expectations by 12%, driven by engineering and logistics divisions." },
-  { date: "April 2024", tag: "Expansion", title: "SinoGlobal Secures $1.8B Infrastructure Contract in Southeast Asia", img: "https://images.unsplash.com/photo-1486325212027-8081e485255e?w=400&h=220&fit=crop", excerpt: "A landmark infrastructure contract covering highway, rail, and port upgrades across the ASEAN region." },
+  { date: "June 2024", tag: "Technology", title: "Dynamic Offshore Medical Receives FDA Breakthrough Therapy Designation", img: "https://images.unsplash.com/photo-1576086213369-97a306d36557?w=400&h=220&fit=crop", excerpt: "Our pharmaceutical division's novel oncology compound SGE-2204 receives priority review from the US FDA." },
+  { date: "May 2024", tag: "Finance", title: "Dynamic Offshore Drilling Reports Record Q1 Revenue of $2.3B", img: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=400&h=220&fit=crop", excerpt: "First-quarter results exceed analyst expectations by 12%, driven by engineering and logistics divisions." },
+  { date: "April 2024", tag: "Expansion", title: "Dynamic Offshore Drilling Secures $1.8B Infrastructure Contract in Southeast Asia", img: "https://images.unsplash.com/photo-1486325212027-8081e485255e?w=400&h=220&fit=crop", excerpt: "A landmark infrastructure contract covering highway, rail, and port upgrades across the ASEAN region." },
 ];
 
 const offices = [
@@ -398,7 +398,7 @@ export default function HomePage() {
               transition={{ duration: 0.6, delay: 0.5 }}
               className="text-white/65 text-lg sm:text-xl leading-relaxed max-w-2xl mb-10"
             >
-              SinoGlobal Enterprise Co., Ltd. is a leading Chinese multinational headquartered in Beijing, delivering excellence across engineering, finance, healthcare, logistics, and technology in{" "}
+              Dynamic Offshore Drilling Inc is a leading Chinese multinational headquartered in Beijing, delivering excellence across engineering, finance, healthcare, logistics, and technology in{" "}
               <strong className="text-white/90">43 countries</strong> worldwide.
             </motion.p>
 
@@ -541,7 +541,7 @@ export default function HomePage() {
               </div>
               <h2 className="text-4xl lg:text-5xl font-bold text-white mb-4">Moving & Operations Jobs</h2>
               <p className="text-white/55 max-w-2xl mx-auto text-lg">
-                Join SinoGlobal's global workforce. We are actively recruiting for moving, relocation, field, and operations roles across Asia, Europe, and the Middle East.
+                Join Dynamic Offshore Drilling's global workforce. We are actively recruiting for moving, relocation, field, and operations roles across Asia, Europe, and the Middle East.
               </p>
             </div>
           </FadeInSection>
@@ -647,7 +647,7 @@ export default function HomePage() {
                     </div>
 
                     <div className="flex items-center justify-between pt-3 border-t border-white/10">
-                      <span className="text-[#c9a227] text-xs font-semibold">SinoGlobal Enterprise</span>
+                      <span className="text-[#c9a227] text-xs font-semibold">Dynamic Offshore Drilling Enterprise</span>
                       <span className="inline-flex items-center gap-1 text-white/40 text-xs group-hover:text-[#c9a227] transition-colors">
                         Apply <ArrowRight className="w-3 h-3" />
                       </span>
@@ -661,7 +661,7 @@ export default function HomePage() {
           {/* Benefits strip */}
           <FadeInSection delay={0.2}>
             <div className="bg-white/4 border border-white/10 rounded-2xl p-8 mb-8">
-              <h3 className="text-white font-bold text-lg text-center mb-6">Why Work With SinoGlobal?</h3>
+              <h3 className="text-white font-bold text-lg text-center mb-6">Why Work With Dynamic Offshore Drilling?</h3>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
                 {[
                   { icon: Plane, title: "Paid Relocation", desc: "Full travel & accommodation" },
@@ -709,14 +709,14 @@ export default function HomePage() {
               <div>
                 <div className="flex items-center gap-2 mb-4">
                   <div className="h-px w-8 bg-[#c9a227]" />
-                  <span className="text-[#c9a227] text-xs tracking-widest uppercase font-semibold">About SinoGlobal</span>
+                  <span className="text-[#c9a227] text-xs tracking-widest uppercase font-semibold">About Dynamic Offshore Drilling</span>
                 </div>
                 <h2 className="text-4xl lg:text-5xl font-bold text-foreground mb-6 leading-tight">Two Decades of Global Leadership</h2>
                 <p className="text-muted-foreground leading-relaxed mb-5 text-lg">
-                  Founded in 2003 at Zhongguancun Science Park — China's Silicon Valley — SinoGlobal has grown from a regional engineering firm into one of China's most internationally recognized conglomerates. Today, we operate across 43 countries with 47,000 employees driving measurable impact in critical industries.
+                  Founded in 2003 at Zhongguancun Science Park — China's Silicon Valley — Dynamic Offshore Drilling has grown from a regional engineering firm into one of China's most internationally recognized conglomerates. Today, we operate across 43 countries with 47,000 employees driving measurable impact in critical industries.
                 </p>
                 <p className="text-muted-foreground leading-relaxed mb-8">
-                  Under Chairman Li Hongbin and CEO Zhang Wei, SinoGlobal has maintained an <strong className="text-foreground">18% compound annual growth rate</strong> over the past decade, while earning ISO 9001, ISO 14001, and OHSAS 18001 certifications across all major divisions.
+                  Under Chairman Li Hongbin and CEO Zhang Wei, Dynamic Offshore Drilling has maintained an <strong className="text-foreground">18% compound annual growth rate</strong> over the past decade, while earning ISO 9001, ISO 14001, and OHSAS 18001 certifications across all major divisions.
                 </p>
 
                 {/* Company fact grid */}
@@ -748,7 +748,7 @@ export default function HomePage() {
               <div className="relative">
                 <motion.img
                   src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=700&h=500&fit=crop"
-                  alt="SinoGlobal headquarters"
+                  alt="Dynamic Offshore Drilling headquarters"
                   className="rounded-2xl w-full h-80 lg:h-96 object-cover shadow-2xl"
                   whileHover={{ scale: 1.02 }}
                   transition={{ duration: 0.4 }}
@@ -1080,7 +1080,7 @@ export default function HomePage() {
                 </div>
                 <h2 className="text-4xl font-bold text-white mb-6">Our Commitment to a Better World</h2>
                 <p className="text-white/65 leading-relaxed mb-8 text-lg">
-                  SinoGlobal is committed to achieving carbon neutrality by 2045. We have reduced emissions by 34% since 2015 and invested $1.2B in renewable energy projects across our operational footprint.
+                  Dynamic Offshore Drilling is committed to achieving carbon neutrality by 2045. We have reduced emissions by 34% since 2015 and invested $1.2B in renewable energy projects across our operational footprint.
                 </p>
                 <div className="grid grid-cols-3 gap-6 mb-8">
                   {[
@@ -1241,7 +1241,7 @@ export default function HomePage() {
             >
               <Zap className="w-8 h-8 text-[#0a1628]" />
             </motion.div>
-            <h2 className="text-4xl font-bold text-[#0a1628] mb-4">Ready to Join or Partner With SinoGlobal?</h2>
+            <h2 className="text-4xl font-bold text-[#0a1628] mb-4">Ready to Join or Partner With Dynamic Offshore Drilling?</h2>
             <p className="text-[#0a1628]/70 text-lg mb-8 max-w-xl mx-auto">
               Whether you're looking for a global career opportunity or a strategic business partnership, we're ready to connect.
             </p>

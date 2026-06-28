@@ -28,7 +28,7 @@ const rigs = [
     crew: 150,
     year: 2017,
     img: "https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=800&h=500&fit=crop",
-    desc: "SGE Dragon is a premium independent leg jack-up rig deployed in the South China Sea. Purpose-built for shallow-water fields, it supports SinoGlobal's upstream operations in partnership with national energy companies across Southeast Asia.",
+    desc: "SGE Dragon is a premium independent leg jack-up rig deployed in the South China Sea. Purpose-built for shallow-water fields, it supports Dynamic Offshore Drilling's upstream operations in partnership with national energy companies across Southeast Asia.",
   },
   {
     id: "sge-atlas",
@@ -41,7 +41,7 @@ const rigs = [
     crew: 200,
     year: 2021,
     img: "https://images.unsplash.com/photo-1573167507387-6b4b98cb7c13?w=800&h=500&fit=crop",
-    desc: "The most advanced vessel in the SinoGlobal fleet, SGE Atlas is a sixth-generation ultra-deep-water drillship capable of operating in 3,000 metres of water. Deployed in Angola's prolific Block 32, it leverages dynamic positioning and AI-assisted drilling systems.",
+    desc: "The most advanced vessel in the Dynamic Offshore Drilling fleet, SGE Atlas is a sixth-generation ultra-deep-water drillship capable of operating in 3,000 metres of water. Deployed in Angola's prolific Block 32, it leverages dynamic positioning and AI-assisted drilling systems.",
   },
   {
     id: "sge-horizon",
@@ -138,7 +138,7 @@ export default function OilRigsPage() {
             Oil Rig<br />Operations
           </h1>
           <p className="text-white/70 text-xl max-w-2xl leading-relaxed mb-8">
-            SinoGlobal Energy operates a world-class fleet of offshore drilling rigs across four continents — combining Chinese engineering excellence with global operational standards to unlock the world's deepest and most complex hydrocarbon reserves.
+            Dynamic Offshore Energy operates a world-class fleet of offshore drilling rigs across four continents — combining Chinese engineering excellence with global operational standards to unlock the world's deepest and most complex hydrocarbon reserves.
           </p>
           <div className="flex flex-wrap gap-4">
             <Link href="/contact" className="px-8 py-4 bg-[#c9a227] text-[#0a1628] font-bold rounded hover:bg-[#d4af37] transition-colors inline-flex items-center gap-2">
@@ -176,7 +176,7 @@ export default function OilRigsPage() {
               </div>
               <h2 className="text-4xl font-bold text-foreground mb-6">Powering the World's Energy Security</h2>
               <p className="text-muted-foreground leading-relaxed mb-4">
-                SinoGlobal's Upstream Energy Division was established in 2012 to extend the group's engineering capabilities into offshore hydrocarbon extraction. Today, our fleet of semi-submersible rigs, jack-ups, drillships, and fixed platforms produces over 185,000 barrels of oil equivalent per day across assets in West Africa, Southeast Asia, and the Middle East.
+                Dynamic Offshore Drilling's Upstream Energy Division was established in 2012 to extend the group's engineering capabilities into offshore hydrocarbon extraction. Today, our fleet of semi-submersible rigs, jack-ups, drillships, and fixed platforms produces over 185,000 barrels of oil equivalent per day across assets in West Africa, Southeast Asia, and the Middle East.
               </p>
               <p className="text-muted-foreground leading-relaxed mb-6">
                 We operate in partnership with national oil companies and international majors, bringing Chinese capital efficiency alongside globally certified HSE and operational management systems. Every rig in our fleet meets IMCA, IADC, and flag-state requirements, and our zero-routine-flaring policy is enforced across all assets.
@@ -313,7 +313,7 @@ export default function OilRigsPage() {
               </div>
               <h2 className="text-4xl font-bold text-white mb-6">Safety is Non-Negotiable</h2>
               <p className="text-white/60 leading-relaxed mb-6">
-                Every SinoGlobal rig operates under a comprehensive HSE Management System certified to ISO 45001 and OSHAS 18001 standards. Our safety performance consistently outperforms the IADC industry benchmark, driven by a culture that empowers every crew member to stop unsafe work.
+                Every Dynamic Offshore Drilling rig operates under a comprehensive HSE Management System certified to ISO 45001 and OSHAS 18001 standards. Our safety performance consistently outperforms the IADC industry benchmark, driven by a culture that empowers every crew member to stop unsafe work.
               </p>
               <div className="flex items-start gap-3 p-4 bg-[#c9a227]/8 border border-[#c9a227]/20 rounded-xl mb-6">
                 <AlertTriangle className="w-5 h-5 text-[#c9a227] shrink-0 mt-0.5" />

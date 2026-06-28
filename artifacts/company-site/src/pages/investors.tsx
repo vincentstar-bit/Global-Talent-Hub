@@ -52,7 +52,7 @@ export default function InvestorsPage() {
           </div>
           <h1 className="text-5xl lg:text-6xl font-bold text-white mb-6">Investors</h1>
           <p className="text-white/70 text-xl max-w-3xl leading-relaxed">
-            SinoGlobal Enterprise is listed on the Shanghai Stock Exchange (ticker: 601888.SS). We are committed to transparent, timely communication with our shareholders and the investment community.
+            Dynamic Offshore Drilling Enterprise is listed on the Shanghai Stock Exchange (ticker: 601888.SS). We are committed to transparent, timely communication with our shareholders and the investment community.
           </p>
           <div className="flex flex-wrap gap-8 mt-10">
             {[
@@ -222,9 +222,9 @@ export default function InvestorsPage() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
             {[
-              { name: "Director of IR", person: "Monica Chen", email: "ir@sinoglobal.com", phone: "+86 10 8888 6666 ext. 810", region: "Global" },
-              { name: "IR Manager — Europe", person: "James Worthington", email: "ir.europe@sinoglobal.com", phone: "+44 20 7888 4410", region: "Europe / Americas" },
-              { name: "IR Manager — Asia", person: "Alicia Tan", email: "ir.asia@sinoglobal.com", phone: "+65 6888 9910", region: "Asia Pacific" },
+              { name: "Director of IR", person: "Monica Chen", email: "ir@dynamicoffshore.com", phone: "+86 10 8888 6666 ext. 810", region: "Global" },
+              { name: "IR Manager — Europe", person: "James Worthington", email: "ir.europe@dynamicoffshore.com", phone: "+44 20 7888 4410", region: "Europe / Americas" },
+              { name: "IR Manager — Asia", person: "Alicia Tan", email: "ir.asia@dynamicoffshore.com", phone: "+65 6888 9910", region: "Asia Pacific" },
             ].map((c) => (
               <div key={c.name} className="bg-card border border-border rounded-xl p-6 hover:border-[#c9a227]/40 transition-colors">
                 <div className="text-xs font-semibold text-[#c9a227] uppercase tracking-wide mb-2">{c.region}</div>

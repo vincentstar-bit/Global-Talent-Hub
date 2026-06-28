@@ -84,9 +84,9 @@ const benefits = [
 ];
 
 const testimonials = [
-  { name: "Amara Okonkwo", title: "Operations Manager, Lagos", img: "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=100&h=100&fit=crop", quote: "SinoGlobal gave me the opportunity to work across three continents before I turned 35. The exposure is unmatched anywhere else." },
+  { name: "Amara Okonkwo", title: "Operations Manager, Lagos", img: "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=100&h=100&fit=crop", quote: "Dynamic Offshore Drilling gave me the opportunity to work across three continents before I turned 35. The exposure is unmatched anywhere else." },
   { name: "James Chukwuemeka", title: "Senior Engineer, Nairobi", img: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop", quote: "I joined as a junior engineer and within four years led a $200M infrastructure project. The pace of growth here is extraordinary." },
-  { name: "Lin Mei", title: "Finance Director, Singapore", img: "https://images.unsplash.com/photo-1489424731084-a5d8b219a5bb?w=100&h=100&fit=crop", quote: "The international exposure and high-calibre colleagues at SinoGlobal are the best I've encountered in my 15-year career in finance." },
+  { name: "Lin Mei", title: "Finance Director, Singapore", img: "https://images.unsplash.com/photo-1489424731084-a5d8b219a5bb?w=100&h=100&fit=crop", quote: "The international exposure and high-calibre colleagues at Dynamic Offshore Drilling are the best I've encountered in my 15-year career in finance." },
 ];
 
 export default function CareersPage() {
@@ -139,7 +139,7 @@ export default function CareersPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7 }}
           >
-            <h1 className="text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">Join SinoGlobal</h1>
+            <h1 className="text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">Join Dynamic Offshore Drilling</h1>
             <p className="text-white/70 text-xl max-w-2xl leading-relaxed mb-8">
               Build a global career with one of China's most prestigious multinationals. We hire exceptional talent across 12 divisions in 43 countries — all candidates personally verified by our MD and senior leadership.
             </p>
@@ -192,10 +192,10 @@ export default function CareersPage() {
           <div className="text-center mb-14">
             <div className="flex items-center justify-center gap-2 mb-4">
               <div className="h-px w-8 bg-[#c9a227]" />
-              <span className="text-[#c9a227] text-xs tracking-widest uppercase font-semibold">Why SinoGlobal</span>
+              <span className="text-[#c9a227] text-xs tracking-widest uppercase font-semibold">Why Dynamic Offshore Drilling</span>
               <div className="h-px w-8 bg-[#c9a227]" />
             </div>
-            <h2 className="text-4xl font-bold text-foreground mb-4">Life at SinoGlobal</h2>
+            <h2 className="text-4xl font-bold text-foreground mb-4">Life at Dynamic Offshore Drilling</h2>
             <p className="text-muted-foreground max-w-xl mx-auto">We invest in our people because they are the foundation of everything we achieve globally.</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -409,11 +409,11 @@ export default function CareersPage() {
           <h2 className="text-3xl font-bold text-[#0a1628] mb-4">Don't See Your Role?</h2>
           <p className="text-[#0a1628]/70 mb-8">We are always looking for exceptional talent. Send us your CV and we'll keep you in mind for future opportunities across our 12 divisions.</p>
           <div className="flex flex-wrap justify-center gap-4">
-            <a href="mailto:careers@sinoglobal.com" className="px-8 py-3.5 bg-[#0a1628] text-white font-bold rounded hover:bg-[#0d1f38] transition-colors inline-flex items-center gap-2">
+            <a href="mailto:careers@dynamicoffshore.com" className="px-8 py-3.5 bg-[#0a1628] text-white font-bold rounded hover:bg-[#0d1f38] transition-colors inline-flex items-center gap-2">
               Send Your CV <ArrowRight className="w-4 h-4" />
             </a>
-            <a href="mailto:careers@sinoglobal.com" className="px-8 py-3.5 border-2 border-[#0a1628] text-[#0a1628] font-bold rounded hover:bg-[#0a1628]/10 transition-colors">
-              careers@sinoglobal.com
+            <a href="mailto:careers@dynamicoffshore.com" className="px-8 py-3.5 border-2 border-[#0a1628] text-[#0a1628] font-bold rounded hover:bg-[#0a1628]/10 transition-colors">
+              careers@dynamicoffshore.com
             </a>
           </div>
         </div>

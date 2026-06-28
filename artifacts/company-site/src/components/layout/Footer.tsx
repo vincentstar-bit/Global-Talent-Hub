@@ -13,8 +13,8 @@ export default function Footer() {
                 <Globe className="w-5 h-5 text-[#0d1b2e]" />
               </div>
               <div>
-                <div className="text-white font-bold text-base">SINOGLOBAL</div>
-                <div className="text-[#c9a227] text-[10px] tracking-widest uppercase">Enterprise Co., Ltd.</div>
+                <div className="text-white font-bold text-base">DYNAMIC OFFSHORE</div>
+                <div className="text-[#c9a227] text-[10px] tracking-widest uppercase">Drilling Inc</div>
               </div>
             </div>
             <p className="text-sm leading-relaxed mb-6 max-w-xs">
@@ -31,7 +31,7 @@ export default function Footer() {
               </div>
               <div className="flex gap-2.5 items-center">
                 <Mail className="w-4 h-4 text-[#c9a227] shrink-0" />
-                <a href="mailto:info@sinoglobal.com" className="hover:text-[#c9a227] transition-colors">info@sinoglobal.com</a>
+                <a href="mailto:info@dynamicoffshore.com" className="hover:text-[#c9a227] transition-colors">info@dynamicoffshore.com</a>
               </div>
             </div>
             <div className="flex gap-3">
@@ -47,7 +47,7 @@ export default function Footer() {
           <div>
             <h4 className="text-white font-bold text-xs mb-5 tracking-widest uppercase">Company</h4>
             <ul className="space-y-2.5 text-sm">
-              <li><Link href="/about" className="hover:text-[#c9a227] transition-colors">About SinoGlobal</Link></li>
+              <li><Link href="/about" className="hover:text-[#c9a227] transition-colors">About Dynamic Offshore Drilling</Link></li>
               <li><Link href="/about#team" className="hover:text-[#c9a227] transition-colors">Executive Team</Link></li>
               <li><Link href="/about#milestones" className="hover:text-[#c9a227] transition-colors">Our History</Link></li>
               <li><Link href="/sustainability" className="hover:text-[#c9a227] transition-colors">Sustainability</Link></li>
@@ -88,7 +88,7 @@ export default function Footer() {
         </div>
 
         <div className="border-t border-white/10 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs">
-          <p>&copy; {new Date().getFullYear()} SinoGlobal Enterprise Co., Ltd. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} Dynamic Offshore Drilling Inc All rights reserved.</p>
           <div className="flex gap-6">
             <span className="hover:text-[#c9a227] cursor-pointer transition-colors">Privacy Policy</span>
             <span className="hover:text-[#c9a227] cursor-pointer transition-colors">Terms of Use</span>

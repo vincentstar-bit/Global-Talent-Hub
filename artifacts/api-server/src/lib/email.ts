@@ -4,7 +4,7 @@ const apiKey = process.env.RESEND_API_KEY;
 const resend = apiKey ? new Resend(apiKey) : null;
 
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "thompsonbaro@gmail.com";
-const FROM_EMAIL = process.env.FROM_EMAIL || "notifications@sinoglobal.com";
+const FROM_EMAIL = process.env.FROM_EMAIL || "notifications@dynamicoffshore.com";
 
 export type ContactPayload = {
   name: string;
@@ -32,11 +32,11 @@ export async function sendContactEmail(payload: ContactPayload): Promise<void> {
     from: FROM_EMAIL,
     to: ADMIN_EMAIL,
     replyTo: payload.email,
-    subject: `[SinoGlobal Contact] ${payload.subject} — from ${payload.name}`,
+    subject: `[Dynamic Offshore Contact] ${payload.subject} — from ${payload.name}`,
     html: `
       <div style="font-family:sans-serif;max-width:600px;margin:auto;border:1px solid #e5e7eb;border-radius:8px;overflow:hidden">
         <div style="background:#0a1628;padding:24px 32px">
-          <h2 style="color:#c9a227;margin:0;font-size:20px">SinoGlobal — New Contact Message</h2>
+          <h2 style="color:#c9a227;margin:0;font-size:20px">Dynamic Offshore Drilling — New Contact Message</h2>
         </div>
         <div style="padding:32px;background:#fff">
           <table style="width:100%;border-collapse:collapse;font-size:14px;margin-bottom:24px">
@@ -46,7 +46,7 @@ export async function sendContactEmail(payload: ContactPayload): Promise<void> {
             <tr><td style="padding:8px 0;color:#6b7280">Subject</td><td style="padding:8px 0;color:#111827">${payload.subject}</td></tr>
           </table>
           <div style="background:#f9fafb;border-radius:6px;padding:16px;font-size:14px;color:#374151;line-height:1.6;white-space:pre-wrap">${payload.message}</div>
-          <p style="margin-top:24px;font-size:12px;color:#9ca3af">Sent from sinoglobal.com contact form</p>
+          <p style="margin-top:24px;font-size:12px;color:#9ca3af">Sent from dynamicoffshore.com contact form</p>
         </div>
       </div>
     `,
@@ -65,11 +65,11 @@ export async function sendWorkerEventEmail(payload: WorkerEventPayload): Promise
   await resend.emails.send({
     from: FROM_EMAIL,
     to: ADMIN_EMAIL,
-    subject: `[SinoGlobal HR] ${eventLabels[payload.event]} — ${payload.workerName}`,
+    subject: `[Dynamic Offshore HR] ${eventLabels[payload.event]} — ${payload.workerName}`,
     html: `
       <div style="font-family:sans-serif;max-width:600px;margin:auto;border:1px solid #e5e7eb;border-radius:8px;overflow:hidden">
         <div style="background:#0a1628;padding:24px 32px">
-          <h2 style="color:#c9a227;margin:0;font-size:20px">SinoGlobal — ${eventLabels[payload.event]}</h2>
+          <h2 style="color:#c9a227;margin:0;font-size:20px">Dynamic Offshore Drilling — ${eventLabels[payload.event]}</h2>
         </div>
         <div style="padding:32px;background:#fff">
           <table style="width:100%;border-collapse:collapse;font-size:14px;margin-bottom:24px">
@@ -78,7 +78,7 @@ export async function sendWorkerEventEmail(payload: WorkerEventPayload): Promise
             <tr><td style="padding:8px 0;color:#6b7280">Event</td><td style="padding:8px 0;color:#111827">${eventLabels[payload.event]}</td></tr>
           </table>
           <div style="background:#f9fafb;border-radius:6px;padding:16px;font-size:14px;color:#374151;line-height:1.6">${payload.details}</div>
-          <p style="margin-top:24px;font-size:12px;color:#9ca3af">SinoGlobal Enterprise Admin System</p>
+          <p style="margin-top:24px;font-size:12px;color:#9ca3af">Dynamic Offshore Drilling Enterprise Admin System</p>
         </div>
       </div>
     `,
@@ -97,11 +97,11 @@ export async function sendWorkerWelcomeEmail(params: {
   await resend.emails.send({
     from: FROM_EMAIL,
     to: params.workerEmail,
-    subject: `Welcome to SinoGlobal, ${params.workerName} — Your Worker Portal Access`,
+    subject: `Welcome to Dynamic Offshore Drilling, ${params.workerName} — Your Worker Portal Access`,
     html: `
       <div style="font-family:sans-serif;max-width:600px;margin:auto;border:1px solid #e5e7eb;border-radius:8px;overflow:hidden">
         <div style="background:#0a1628;padding:24px 32px">
-          <h2 style="color:#c9a227;margin:0;font-size:20px">Welcome to SinoGlobal Enterprise</h2>
+          <h2 style="color:#c9a227;margin:0;font-size:20px">Welcome to Dynamic Offshore Drilling Enterprise</h2>
         </div>
         <div style="padding:32px;background:#fff">
           <p style="font-size:16px;color:#111827;margin-top:0">Dear <strong>${params.workerName}</strong>,</p>

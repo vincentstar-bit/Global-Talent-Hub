@@ -230,8 +230,8 @@ export default function Navbar() {
               <a href="tel:+861088886666" className="flex items-center gap-1.5 hover:text-[#c9a227] transition-colors">
                 <Phone className="w-3 h-3" /> +86 10 8888 6666
               </a>
-              <a href="mailto:info@sinoglobal.com" className="flex items-center gap-1.5 hover:text-[#c9a227] transition-colors">
-                <Mail className="w-3 h-3" /> info@sinoglobal.com
+              <a href="mailto:info@dynamicoffshore.com" className="flex items-center gap-1.5 hover:text-[#c9a227] transition-colors">
+                <Mail className="w-3 h-3" /> info@dynamicoffshore.com
               </a>
               <span className="text-white/20">|</span>
               <span className="flex items-center gap-1"><CalendarDays className="w-3 h-3" /> Mon–Fri 09:00–18:00 CST</span>
@@ -260,8 +260,8 @@ export default function Navbar() {
               <Globe className="w-5 h-5 text-[#0d1b2e]" />
             </motion.div>
             <div>
-              <div className="text-white font-bold text-sm leading-tight tracking-wide">SINOGLOBAL</div>
-              <div className="text-[#c9a227] text-[9px] tracking-widest uppercase font-medium">Enterprise Co., Ltd.</div>
+              <div className="text-white font-bold text-sm leading-tight tracking-wide">DYNAMIC OFFSHORE</div>
+              <div className="text-[#c9a227] text-[9px] tracking-widest uppercase font-medium">Drilling Inc</div>
             </div>
           </Link>
 
@@ -277,7 +277,7 @@ export default function Navbar() {
 
             <NavDropdown label="About" isActive={isActive("/about")}>
               <div className="px-3 py-1.5 border-b border-white/10 mb-1">
-                <div className="text-[#c9a227] text-[10px] tracking-widest uppercase font-medium">About SinoGlobal</div>
+                <div className="text-[#c9a227] text-[10px] tracking-widest uppercase font-medium">About Dynamic Offshore Drilling</div>
               </div>
               {aboutLinks.map((link) => (
                 <Link

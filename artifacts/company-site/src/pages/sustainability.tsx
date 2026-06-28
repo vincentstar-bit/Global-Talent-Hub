@@ -44,7 +44,7 @@ const initiatives = [
   { icon: TreePine, title: "Carbon Forest Initiative", desc: "Partnering with national governments to plant 50 million trees across degraded land in Nigeria, Kenya, and Indonesia by 2027.", tag: "Climate", status: "Active" },
   { icon: Droplets, title: "Clean Water Access Project", desc: "Building water treatment and sanitation infrastructure for 2 million people across rural communities in sub-Saharan Africa.", tag: "Social", status: "Active" },
   { icon: Factory, title: "Green Manufacturing Transition", desc: "Converting all 12 major manufacturing facilities to zero-carbon energy by 2030, supported by a $400M internal green bond.", tag: "Operations", status: "2025–2030" },
-  { icon: Users, title: "Women in STEM Scholarship", desc: "Annual scholarships for 500 women in STEM fields across developing markets, with guaranteed internship pathways at SinoGlobal.", tag: "Social", status: "Since 2018" },
+  { icon: Users, title: "Women in STEM Scholarship", desc: "Annual scholarships for 500 women in STEM fields across developing markets, with guaranteed internship pathways at Dynamic Offshore Drilling.", tag: "Social", status: "Since 2018" },
   { icon: Zap, title: "EV Fleet Transition", desc: "Converting all 8,500 company vehicles globally to electric or hydrogen fuel cell by 2028, reducing scope 2 fleet emissions by 91%.", tag: "Transport", status: "2024–2028" },
 ];
 
@@ -52,7 +52,7 @@ const timeline = [
   { year: "2015", event: "Signed UN Global Compact", detail: "Committed to human rights, labour standards, environmental protection, and anti-corruption principles." },
   { year: "2018", event: "First ESG Report Published", detail: "Launched annual ESG reporting framework aligned with GRI Standards and TCFD recommendations." },
   { year: "2020", event: "Net Zero Pledge Announced", detail: "Committed to achieving net-zero greenhouse gas emissions across all operations by 2045." },
-  { year: "2021", event: "CDP Climate Leadership", detail: "Achieved A– rating — placing SinoGlobal in the top 10% of global companies for climate disclosure." },
+  { year: "2021", event: "CDP Climate Leadership", detail: "Achieved A– rating — placing Dynamic Offshore Drilling in the top 10% of global companies for climate disclosure." },
   { year: "2022", event: "$1.2B Green Investment", detail: "Committed $1.2 billion to renewable energy, clean water, and sustainable infrastructure over five years." },
   { year: "2023", event: "MSCI ESG Rating: AA", detail: "Upgraded to AA — recognising strong performance across environmental, social, and governance metrics." },
   { year: "2024", event: "Scope 3 Emissions Inventory", detail: "Completed full Scope 3 emissions mapping across all 43 country operations and 2,400 suppliers." },
@@ -76,7 +76,7 @@ export default function SustainabilityPage() {
           </div>
           <h1 className="text-5xl lg:text-6xl font-bold text-white mb-6">Building a Better World</h1>
           <p className="text-white/70 text-xl max-w-3xl leading-relaxed">
-            Sustainability is not a side project at SinoGlobal — it is embedded in every investment decision, every contract, and every community we serve across 43 countries.
+            Sustainability is not a side project at Dynamic Offshore Drilling — it is embedded in every investment decision, every contract, and every community we serve across 43 countries.
           </p>
           <div className="flex flex-wrap gap-8 mt-10">
             {[

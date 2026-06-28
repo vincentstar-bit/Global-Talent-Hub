@@ -215,7 +215,7 @@ export default function AdminDashboardPage() {
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
           <div>
             <h1 className="text-xl lg:text-2xl font-bold text-foreground">Dashboard</h1>
-            <p className="text-muted-foreground text-xs lg:text-sm mt-0.5">SinoGlobal Enterprise — Administration Overview</p>
+            <p className="text-muted-foreground text-xs lg:text-sm mt-0.5">Dynamic Offshore Drilling Enterprise — Administration Overview</p>
           </div>
           <div className="flex items-center gap-2 shrink-0">
             <button

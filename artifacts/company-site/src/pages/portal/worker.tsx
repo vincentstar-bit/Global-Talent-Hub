@@ -334,7 +334,7 @@ export default function WorkerProfilePage() {
                 <div className="mt-3 pt-3 border-t border-border">
                   <div className="flex items-center gap-2 text-xs text-muted-foreground">
                     <Shield className="w-3.5 h-3.5 text-[#c9a227]" />
-                    Valid authorization under SinoGlobal international deployment policy
+                    Valid authorization under Dynamic Offshore Drilling international deployment policy
                   </div>
                 </div>
               )}
@@ -407,9 +407,9 @@ export default function WorkerProfilePage() {
         <div className="bg-muted/40 border border-border rounded-2xl p-5 flex items-start gap-4">
           <BadgeCheck className="w-8 h-8 text-[#c9a227] shrink-0 mt-0.5" />
           <div>
-            <p className="font-semibold text-foreground text-sm mb-1">Verified SinoGlobal Employee Record</p>
+            <p className="font-semibold text-foreground text-sm mb-1">Verified Dynamic Offshore Drilling Employee Record</p>
             <p className="text-xs text-muted-foreground leading-relaxed">
-              This profile is authenticated via a unique access token issued by SinoGlobal Enterprise Co., Ltd. HR department.
+              This profile is authenticated via a unique access token issued by Dynamic Offshore Drilling Inc HR department.
               If any information appears incorrect, please contact your HR representative immediately.
             </p>
           </div>

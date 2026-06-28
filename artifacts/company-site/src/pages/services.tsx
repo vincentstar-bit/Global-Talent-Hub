@@ -30,7 +30,7 @@ const divisions = [
     employees: "4,200+",
     countries: 35,
     img: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=800&h=450&fit=crop",
-    desc: "SinoGlobal Capital manages a diversified portfolio of investments across private equity, real estate, infrastructure funds, and public markets. Our team of 4,200+ finance professionals serves sovereign wealth funds, institutional investors, and corporate clients across 35 countries.",
+    desc: "Dynamic Offshore Capital manages a diversified portfolio of investments across private equity, real estate, infrastructure funds, and public markets. Our team of 4,200+ finance professionals serves sovereign wealth funds, institutional investors, and corporate clients across 35 countries.",
     services: ["Private equity & venture capital", "M&A advisory & transaction management", "Treasury & FX risk management", "Infrastructure project finance", "Structured trade finance", "Sovereign advisory services"],
     projects: [
       { name: "SE Asia Infrastructure Fund", value: "$800M", year: "2024" },
@@ -47,7 +47,7 @@ const divisions = [
     employees: "8,500+",
     countries: 18,
     img: "https://images.unsplash.com/photo-1579154204601-01588f351e67?w=800&h=450&fit=crop",
-    desc: "BioSino Medical — our pharmaceutical division — develops, manufactures, and distributes essential medicines and vaccines across Asia, Africa, and the Middle East. With 3,200 researchers across 6 R&D centres, we focus on diseases prevalent in emerging markets that are underserved by global pharma.",
+    desc: "Dynamic Offshore Medical — our pharmaceutical division — develops, manufactures, and distributes essential medicines and vaccines across Asia, Africa, and the Middle East. With 3,200 researchers across 6 R&D centres, we focus on diseases prevalent in emerging markets that are underserved by global pharma.",
     services: ["Pharmaceutical R&D & clinical trials", "Generic and branded medicine manufacturing", "Vaccine development & cold-chain distribution", "Hospital design & healthcare infrastructure", "Medical device distribution", "Healthcare workforce training programs"],
     projects: [
       { name: "SGE-2204 Oncology Programme", value: "Phase III", year: "2024" },
@@ -64,7 +64,7 @@ const divisions = [
     employees: "9,800+",
     countries: 38,
     img: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=800&h=450&fit=crop",
-    desc: "SinoGlobal Logistics is a full-service supply chain management company, operating warehousing, freight forwarding, customs clearance, and last-mile delivery networks across 38 countries. We specialise in linking Chinese manufacturers with emerging market consumers through efficient, tech-enabled logistics.",
+    desc: "Dynamic Offshore Logistics is a full-service supply chain management company, operating warehousing, freight forwarding, customs clearance, and last-mile delivery networks across 38 countries. We specialise in linking Chinese manufacturers with emerging market consumers through efficient, tech-enabled logistics.",
     services: ["International freight forwarding (sea, air, rail)", "Bonded warehouse management", "Cross-border customs clearance", "Cold chain logistics", "E-commerce fulfilment services", "Supply chain consulting & optimisation"],
     projects: [
       { name: "China-Europe Rail Freight Hub", value: "$450M", year: "2023" },
@@ -81,7 +81,7 @@ const divisions = [
     employees: "6,200+",
     countries: 22,
     img: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&h=450&fit=crop",
-    desc: "SinoGlobal Technologies provides enterprise software, cloud infrastructure, AI solutions, and cybersecurity services to governments, financial institutions, and large enterprises across 22 countries. Our cloud platform serves 12+ million users daily and powers mission-critical applications for 80+ government clients.",
+    desc: "Dynamic Offshore Technologies provides enterprise software, cloud infrastructure, AI solutions, and cybersecurity services to governments, financial institutions, and large enterprises across 22 countries. Our cloud platform serves 12+ million users daily and powers mission-critical applications for 80+ government clients.",
     services: ["Enterprise cloud platform (SinoCloud)", "AI & machine learning solutions", "Cybersecurity & data protection", "Government digital transformation", "ERP system implementation", "Digital identity & smart card systems"],
     projects: [
       { name: "Kenya National Digital ID Platform", value: "$85M", year: "2024" },
@@ -98,7 +98,7 @@ const divisions = [
     employees: "4,100+",
     countries: 8,
     img: "https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?w=800&h=450&fit=crop",
-    desc: "SinoGlobal R&D invests 8% of annual group revenue into breakthrough research across materials science, clean energy, biotechnology, and advanced manufacturing. With laboratories in Beijing, Shanghai, Singapore, London, and Munich, we file an average of 120 patents per year.",
+    desc: "Dynamic Offshore R&D invests 8% of annual group revenue into breakthrough research across materials science, clean energy, biotechnology, and advanced manufacturing. With laboratories in Beijing, Shanghai, Singapore, London, and Munich, we file an average of 120 patents per year.",
     services: ["Advanced materials research", "Clean energy & hydrogen technology", "Biotechnology & genomics", "Smart manufacturing & robotics", "Quantum computing applications", "University & government research partnerships"],
     projects: [
       { name: "Solid-State Battery Programme", value: "$200M", year: "Ongoing" },
@@ -116,7 +116,7 @@ export default function ServicesPage() {
       {/* Hero */}
       <section className="relative bg-[#0a1628] pt-32 pb-24 overflow-hidden">
         <div className="absolute inset-0">
-          <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=1400&h=600&fit=crop" alt="SinoGlobal operations" className="w-full h-full object-cover opacity-10" />
+          <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=1400&h=600&fit=crop" alt="Dynamic Offshore Drilling operations" className="w-full h-full object-cover opacity-10" />
           <div className="absolute inset-0 bg-gradient-to-r from-[#0a1628] to-transparent" />
         </div>
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -226,7 +226,7 @@ export default function ServicesPage() {
       <section className="py-20 bg-[#0a1628]">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-4xl font-bold text-white mb-4">Ready to Work With Us?</h2>
-          <p className="text-white/60 mb-8 text-lg">Our business development teams are based in 43 countries. Let's discuss how SinoGlobal can serve your needs.</p>
+          <p className="text-white/60 mb-8 text-lg">Our business development teams are based in 43 countries. Let's discuss how Dynamic Offshore Drilling can serve your needs.</p>
           <div className="flex flex-wrap justify-center gap-4">
             <Link href="/contact" className="px-8 py-4 bg-[#c9a227] text-[#0a1628] font-bold rounded hover:bg-[#d4af37] transition-colors inline-flex items-center gap-2">
               Contact a Division <ArrowRight className="w-4 h-4" />

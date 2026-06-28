@@ -8,9 +8,9 @@ const milestones = [
   { year: "2006", title: "First International Expansion", desc: "Opened regional offices in Singapore and Hong Kong, launching Southeast Asia operations. First overseas infrastructure contract worth $180M.", tag: "Expansion" },
   { year: "2009", title: "IPO on Shanghai Exchange", desc: "Successful public listing raising CNY 4.2 billion. Valuation at IPO: CNY 28 billion. Oversubscribed by 14x.", tag: "Milestone" },
   { year: "2011", title: "African Entry", desc: "Entered Nigerian and Kenyan markets with landmark infrastructure development contracts totaling $640M.", tag: "Expansion" },
-  { year: "2013", title: "European Acquisition", desc: "Acquired German engineering consultancy Technor GmbH, bringing 800 European engineers into the SinoGlobal family.", tag: "M&A" },
+  { year: "2013", title: "European Acquisition", desc: "Acquired German engineering consultancy Technor GmbH, bringing 800 European engineers into the Dynamic Offshore Drilling family.", tag: "M&A" },
   { year: "2014", title: "Fortune Global 500", desc: "First inclusion in the Fortune Global 500 at position #387 — the fastest Chinese company to achieve this milestone.", tag: "Recognition" },
-  { year: "2016", title: "BioSino Medical Acquisition", desc: "Acquired BioSino Medical Ltd. for $1.1B, creating our Healthcare & Pharmaceuticals division with 3,200 research staff.", tag: "M&A" },
+  { year: "2016", title: "Dynamic Offshore Medical Acquisition", desc: "Acquired Dynamic Offshore Medical Ltd. for $1.1B, creating our Healthcare & Pharmaceuticals division with 3,200 research staff.", tag: "M&A" },
   { year: "2018", title: "European HQ, London", desc: "Established European headquarters at 30 St Mary Axe, London. Secured £800M in UK and European contracts within 18 months.", tag: "Expansion" },
   { year: "2020", title: "Americas Launch", desc: "Opened New York and Toronto offices, securing $1.2B in North American contracts within the first year of operations.", tag: "Expansion" },
   { year: "2022", title: "47,000 Employees", desc: "Crossed the 47,000-employee milestone across 43 countries and 6 continents — a 4x increase from 2015.", tag: "Milestone" },
@@ -22,7 +22,7 @@ const executives = [
   {
     name: "Li Hongbin",
     title: "Chairman of the Board",
-    bio: "Former Vice Minister of Commerce with 35 years in international trade and corporate governance. Founded SinoGlobal in 2003 and has steered its transformation from a 120-person consultancy to a Fortune Global 500 enterprise.",
+    bio: "Former Vice Minister of Commerce with 35 years in international trade and corporate governance. Founded Dynamic Offshore Drilling in 2003 and has steered its transformation from a 120-person consultancy to a Fortune Global 500 enterprise.",
     location: "Beijing, China",
     img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=300&fit=crop",
     education: "PhD Economics, Peking University",
@@ -30,7 +30,7 @@ const executives = [
   {
     name: "Zhang Wei",
     title: "Chief Executive Officer",
-    bio: "MBA from Harvard Business School. Led SinoGlobal's global expansion strategy and digital transformation from 2015. Previously MD at CITIC Capital. Fluent in English, Mandarin, and Cantonese.",
+    bio: "MBA from Harvard Business School. Led Dynamic Offshore Drilling's global expansion strategy and digital transformation from 2015. Previously MD at CITIC Capital. Fluent in English, Mandarin, and Cantonese.",
     location: "Beijing / London",
     img: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=300&h=300&fit=crop",
     education: "MBA, Harvard Business School",
@@ -46,7 +46,7 @@ const executives = [
   {
     name: "Sarah Mitchell",
     title: "Chief Operating Officer",
-    bio: "British national with 20 years in multinational operations. Previously COO at Tata Consulting. Led the integration of 12 subsidiary companies since joining SinoGlobal in 2018.",
+    bio: "British national with 20 years in multinational operations. Previously COO at Tata Consulting. Led the integration of 12 subsidiary companies since joining Dynamic Offshore Drilling in 2018.",
     location: "London, UK",
     img: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=300&h=300&fit=crop",
     education: "BA Engineering, Cambridge University",
@@ -88,7 +88,7 @@ export default function AboutPage() {
       {/* Hero */}
       <section className="relative bg-[#0a1628] pt-32 pb-24 overflow-hidden">
         <div className="absolute inset-0">
-          <img src="https://images.unsplash.com/photo-1486325212027-8081e485255e?w=1400&h=700&fit=crop" alt="SinoGlobal" className="w-full h-full object-cover opacity-10" />
+          <img src="https://images.unsplash.com/photo-1486325212027-8081e485255e?w=1400&h=700&fit=crop" alt="Dynamic Offshore Drilling" className="w-full h-full object-cover opacity-10" />
           <div className="absolute inset-0 bg-gradient-to-r from-[#0a1628] to-[#0a1628]/80" />
         </div>
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -98,7 +98,7 @@ export default function AboutPage() {
           </div>
           <h1 className="text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">Our Story</h1>
           <p className="text-white/70 text-xl max-w-3xl leading-relaxed">
-            From a small engineering consultancy in Beijing's technology corridor to a Fortune Global 500 multinational operating across 43 countries — this is the story of SinoGlobal Enterprise.
+            From a small engineering consultancy in Beijing's technology corridor to a Fortune Global 500 multinational operating across 43 countries — this is the story of Dynamic Offshore Drilling Enterprise.
           </p>
         </div>
       </section>
@@ -130,7 +130,7 @@ export default function AboutPage() {
             {[
               { icon: TrendingUp, title: "Our Mission", text: "To create sustainable economic value by delivering world-class services in engineering, finance, healthcare, and technology — connecting China's innovation capabilities with global market demands while empowering local communities in every country we operate." },
               { icon: Globe, title: "Our Vision", text: "To become the world's most trusted and admired multinational enterprise by 2030 — recognised not only for commercial success but for the transformative positive impact we create in every community and every life across our global footprint." },
-              { icon: Star, title: "Our Purpose", text: "We believe that business, done with integrity and purpose, is the most powerful force for human progress. SinoGlobal exists to prove that global enterprise can create prosperity — not just for shareholders, but for all stakeholders." },
+              { icon: Star, title: "Our Purpose", text: "We believe that business, done with integrity and purpose, is the most powerful force for human progress. Dynamic Offshore Drilling exists to prove that global enterprise can create prosperity — not just for shareholders, but for all stakeholders." },
             ].map((item) => (
               <div key={item.title} className="bg-card border border-border rounded-2xl p-10 hover:border-[#c9a227]/40 transition-colors">
                 <div className="w-12 h-12 rounded-xl bg-[#c9a227]/10 flex items-center justify-center mb-6">
@@ -165,7 +165,7 @@ export default function AboutPage() {
               <div className="h-px w-8 bg-[#c9a227]" />
             </div>
             <h2 className="text-4xl font-bold text-foreground">21 Years of Growth</h2>
-            <p className="text-muted-foreground mt-3 max-w-xl mx-auto">Key milestones that shaped SinoGlobal into a global enterprise leader.</p>
+            <p className="text-muted-foreground mt-3 max-w-xl mx-auto">Key milestones that shaped Dynamic Offshore Drilling into a global enterprise leader.</p>
           </div>
           <div className="relative">
             <div className="absolute left-20 top-0 bottom-0 w-px bg-border" />
@@ -238,7 +238,7 @@ export default function AboutPage() {
               <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&fit=crop" alt="Li Hongbin" className="w-14 h-14 rounded-full border-2 border-[#c9a227]" />
               <div className="text-left">
                 <div className="font-bold text-white">Li Hongbin</div>
-                <div className="text-[#c9a227] text-sm">Chairman, SinoGlobal Enterprise Co., Ltd.</div>
+                <div className="text-[#c9a227] text-sm">Chairman, Dynamic Offshore Drilling Inc</div>
               </div>
             </div>
           </div>
