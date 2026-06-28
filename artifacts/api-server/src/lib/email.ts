@@ -4,7 +4,7 @@ const apiKey = process.env.RESEND_API_KEY;
 const resend = apiKey ? new Resend(apiKey) : null;
 
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "thompsonbaro@gmail.com";
-const FROM_EMAIL = process.env.FROM_EMAIL || "notifications@dynamicoffshore.com";
+const FROM_EMAIL = process.env.FROM_EMAIL || "notifications@Dynamicoffshoredrilling.com";
 
 export type ContactPayload = {
   name: string;
@@ -46,7 +46,7 @@ export async function sendContactEmail(payload: ContactPayload): Promise<void> {
             <tr><td style="padding:8px 0;color:#6b7280">Subject</td><td style="padding:8px 0;color:#111827">${payload.subject}</td></tr>
           </table>
           <div style="background:#f9fafb;border-radius:6px;padding:16px;font-size:14px;color:#374151;line-height:1.6;white-space:pre-wrap">${payload.message}</div>
-          <p style="margin-top:24px;font-size:12px;color:#9ca3af">Sent from dynamicoffshore.com contact form</p>
+          <p style="margin-top:24px;font-size:12px;color:#9ca3af">Sent from Dynamicoffshoredrilling.com contact form</p>
         </div>
       </div>
     `,

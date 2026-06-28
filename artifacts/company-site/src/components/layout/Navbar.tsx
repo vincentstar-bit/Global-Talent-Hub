@@ -230,8 +230,8 @@ export default function Navbar() {
               <a href="tel:+861088886666" className="flex items-center gap-1.5 hover:text-[#c9a227] transition-colors">
                 <Phone className="w-3 h-3" /> +86 10 8888 6666
               </a>
-              <a href="mailto:info@dynamicoffshore.com" className="flex items-center gap-1.5 hover:text-[#c9a227] transition-colors">
-                <Mail className="w-3 h-3" /> info@dynamicoffshore.com
+              <a href="mailto:info@Dynamicoffshoredrilling.com" className="flex items-center gap-1.5 hover:text-[#c9a227] transition-colors">
+                <Mail className="w-3 h-3" /> info@Dynamicoffshoredrilling.com
               </a>
               <span className="text-white/20">|</span>
               <span className="flex items-center gap-1"><CalendarDays className="w-3 h-3" /> Mon–Fri 09:00–18:00 CST</span>

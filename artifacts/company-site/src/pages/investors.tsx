@@ -222,9 +222,9 @@ export default function InvestorsPage() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
             {[
-              { name: "Director of IR", person: "Monica Chen", email: "ir@dynamicoffshore.com", phone: "+86 10 8888 6666 ext. 810", region: "Global" },
-              { name: "IR Manager — Europe", person: "James Worthington", email: "ir.europe@dynamicoffshore.com", phone: "+44 20 7888 4410", region: "Europe / Americas" },
-              { name: "IR Manager — Asia", person: "Alicia Tan", email: "ir.asia@dynamicoffshore.com", phone: "+65 6888 9910", region: "Asia Pacific" },
+              { name: "Director of IR", person: "Monica Chen", email: "ir@Dynamicoffshoredrilling.com", phone: "+86 10 8888 6666 ext. 810", region: "Global" },
+              { name: "IR Manager — Europe", person: "James Worthington", email: "ir.europe@Dynamicoffshoredrilling.com", phone: "+44 20 7888 4410", region: "Europe / Americas" },
+              { name: "IR Manager — Asia", person: "Alicia Tan", email: "ir.asia@Dynamicoffshoredrilling.com", phone: "+65 6888 9910", region: "Asia Pacific" },
             ].map((c) => (
               <div key={c.name} className="bg-card border border-border rounded-xl p-6 hover:border-[#c9a227]/40 transition-colors">
                 <div className="text-xs font-semibold text-[#c9a227] uppercase tracking-wide mb-2">{c.region}</div>

@@ -173,9 +173,9 @@ export default function NewsroomPage() {
               <h2 className="text-2xl font-bold text-foreground mb-6">Media Contacts</h2>
               <div className="space-y-4">
                 {[
-                  { name: "Global Media Relations", email: "press@dynamicoffshore.com", phone: "+86 10 8888 6666 ext. 800" },
-                  { name: "Investor Relations", email: "ir@dynamicoffshore.com", phone: "+86 10 8888 6666 ext. 810" },
-                  { name: "ESG & Sustainability", email: "esg@dynamicoffshore.com", phone: "+86 10 8888 6666 ext. 820" },
+                  { name: "Global Media Relations", email: "press@Dynamicoffshoredrilling.com", phone: "+86 10 8888 6666 ext. 800" },
+                  { name: "Investor Relations", email: "ir@Dynamicoffshoredrilling.com", phone: "+86 10 8888 6666 ext. 810" },
+                  { name: "ESG & Sustainability", email: "esg@Dynamicoffshoredrilling.com", phone: "+86 10 8888 6666 ext. 820" },
                 ].map((c) => (
                   <div key={c.name} className="bg-card border border-border rounded-xl p-5">
                     <div className="font-semibold text-foreground text-sm mb-2">{c.name}</div>
