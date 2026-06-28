@@ -3,6 +3,7 @@ import { db } from "@workspace/db";
 import { leaveRequestsTable, workersTable, leaveTypesTable } from "@workspace/db";
 import { eq, and } from "drizzle-orm";
 import { requireAdmin } from "./auth";
+import { sendLeaveRequestConfirmation, sendLeaveStatusUpdate } from "../lib/email";
 
 const router = Router();
 
@@ -66,7 +67,22 @@ router.get("/leave-requests", requireAdmin, async (req, res) => {
 router.post("/leave-requests", async (req, res) => {
   try {
     const [request] = await db.insert(leaveRequestsTable).values(req.body).returning();
-    return res.status(201).json(await enrichRequest(request));
+    const enriched = await enrichRequest(request);
+
+    // Send confirmation email (fire-and-forget, don't block response)
+    if (request.contactEmail) {
+      sendLeaveRequestConfirmation({
+        workerName: enriched.workerName || "Worker",
+        toEmail: request.contactEmail,
+        leaveTypeName: enriched.leaveTypeName || "Leave",
+        startDate: request.startDate,
+        endDate: request.endDate,
+        requestId: request.id,
+        reason: request.reason ?? undefined,
+      }).catch((err) => console.error("[email] confirmation send failed:", err));
+    }
+
+    return res.status(201).json(enriched);
   } catch (err) {
     req.log.error(err);
     return res.status(500).json({ error: "Internal server error" });
@@ -90,7 +106,24 @@ router.patch("/leave-requests/:id", requireAdmin, async (req, res) => {
     const id = parseInt(req.params.id);
     const [request] = await db.update(leaveRequestsTable).set(req.body).where(eq(leaveRequestsTable.id, id)).returning();
     if (!request) return res.status(404).json({ error: "Not found" });
-    return res.json(await enrichRequest(request));
+    const enriched = await enrichRequest(request);
+
+    // Send status update email when admin approves or rejects
+    const newStatus = req.body.status;
+    if ((newStatus === "approved" || newStatus === "rejected") && request.contactEmail) {
+      sendLeaveStatusUpdate({
+        workerName: enriched.workerName || "Worker",
+        toEmail: request.contactEmail,
+        leaveTypeName: enriched.leaveTypeName || "Leave",
+        startDate: request.startDate,
+        endDate: request.endDate,
+        requestId: request.id,
+        status: newStatus,
+        adminNote: request.adminNote ?? undefined,
+      }).catch((err) => console.error("[email] status update send failed:", err));
+    }
+
+    return res.json(enriched);
   } catch (err) {
     req.log.error(err);
     return res.status(500).json({ error: "Internal server error" });

@@ -85,6 +85,106 @@ export async function sendWorkerEventEmail(payload: WorkerEventPayload): Promise
   });
 }
 
+export async function sendLeaveRequestConfirmation(params: {
+  workerName: string;
+  toEmail: string;
+  leaveTypeName: string;
+  startDate: string;
+  endDate: string;
+  requestId: number;
+  reason?: string;
+}): Promise<void> {
+  if (!resend) { warnNoKey(); return; }
+
+  await resend.emails.send({
+    from: FROM_EMAIL,
+    to: params.toEmail,
+    subject: `Leave Request Received — ${params.leaveTypeName} (Ref #${params.requestId})`,
+    html: `
+      <div style="font-family:sans-serif;max-width:600px;margin:auto;border:1px solid #e5e7eb;border-radius:8px;overflow:hidden">
+        <div style="background:#0a1628;padding:24px 32px">
+          <h2 style="color:#c9a227;margin:0;font-size:20px">Dynamic Offshore Drilling — Leave Request Received</h2>
+        </div>
+        <div style="padding:32px;background:#fff">
+          <p style="font-size:16px;color:#111827;margin-top:0">Dear <strong>${params.workerName}</strong>,</p>
+          <p style="font-size:14px;color:#374151;line-height:1.6">Your leave request has been successfully submitted and is now under review by the HR department. You will be notified by email once a decision has been made.</p>
+          <div style="background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:20px;margin:24px 0">
+            <p style="margin:0 0 4px;font-size:11px;color:#92400e;text-transform:uppercase;letter-spacing:0.05em;font-weight:600">Reference Number</p>
+            <p style="margin:0 0 16px;font-size:22px;font-weight:700;color:#0a1628">REF-${String(params.requestId).padStart(5, "0")}</p>
+            <table style="width:100%;border-collapse:collapse;font-size:13px">
+              <tr><td style="padding:5px 0;color:#6b7280;width:110px">Leave Type</td><td style="padding:5px 0;font-weight:600;color:#111827">${params.leaveTypeName}</td></tr>
+              <tr><td style="padding:5px 0;color:#6b7280">Start Date</td><td style="padding:5px 0;color:#111827">${params.startDate}</td></tr>
+              <tr><td style="padding:5px 0;color:#6b7280">End Date</td><td style="padding:5px 0;color:#111827">${params.endDate}</td></tr>
+              <tr><td style="padding:5px 0;color:#6b7280">Status</td><td style="padding:5px 0"><span style="background:#fef3c7;color:#92400e;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600">Pending Review</span></td></tr>
+              ${params.reason ? `<tr><td style="padding:5px 0;color:#6b7280;vertical-align:top">Reason</td><td style="padding:5px 0;color:#374151">${params.reason}</td></tr>` : ""}
+            </table>
+          </div>
+          <p style="font-size:14px;color:#374151;line-height:1.6">You can track the status of your request at any time through the <strong>Worker Portal</strong> using the email address you provided.</p>
+          <p style="margin-top:24px;font-size:12px;color:#9ca3af">Dynamic Offshore Drilling Enterprise — HR Department</p>
+        </div>
+      </div>
+    `,
+  });
+}
+
+export async function sendLeaveStatusUpdate(params: {
+  workerName: string;
+  toEmail: string;
+  leaveTypeName: string;
+  startDate: string;
+  endDate: string;
+  requestId: number;
+  status: "approved" | "rejected";
+  adminNote?: string;
+}): Promise<void> {
+  if (!resend) { warnNoKey(); return; }
+
+  const isApproved = params.status === "approved";
+  const statusLabel = isApproved ? "Approved" : "Declined";
+  const accentColor = isApproved ? "#059669" : "#dc2626";
+  const bgColor     = isApproved ? "#f0fdf4" : "#fef2f2";
+  const borderColor = isApproved ? "#bbf7d0" : "#fecaca";
+  const badgeStyle  = isApproved
+    ? "background:#dcfce7;color:#166534;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600"
+    : "background:#fee2e2;color:#991b1b;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600";
+
+  await resend.emails.send({
+    from: FROM_EMAIL,
+    to: params.toEmail,
+    subject: `Leave Request ${statusLabel} — ${params.leaveTypeName} (Ref #${params.requestId})`,
+    html: `
+      <div style="font-family:sans-serif;max-width:600px;margin:auto;border:1px solid #e5e7eb;border-radius:8px;overflow:hidden">
+        <div style="background:#0a1628;padding:24px 32px">
+          <h2 style="color:#c9a227;margin:0;font-size:20px">Dynamic Offshore Drilling — Leave Request ${statusLabel}</h2>
+        </div>
+        <div style="padding:32px;background:#fff">
+          <p style="font-size:16px;color:#111827;margin-top:0">Dear <strong>${params.workerName}</strong>,</p>
+          <p style="font-size:14px;color:#374151;line-height:1.6">
+            ${isApproved
+              ? "We are pleased to inform you that your leave request has been <strong>approved</strong>. Please make any necessary arrangements before your leave begins."
+              : "We regret to inform you that your leave request has been <strong>declined</strong>. Please contact the HR department if you have any questions or wish to discuss further."}
+          </p>
+          <div style="background:${bgColor};border:1px solid ${borderColor};border-radius:8px;padding:20px;margin:24px 0">
+            <table style="width:100%;border-collapse:collapse;font-size:13px">
+              <tr><td style="padding:5px 0;color:#6b7280;width:110px">Reference</td><td style="padding:5px 0;font-weight:700;color:#0a1628">REF-${String(params.requestId).padStart(5, "0")}</td></tr>
+              <tr><td style="padding:5px 0;color:#6b7280">Leave Type</td><td style="padding:5px 0;font-weight:600;color:#111827">${params.leaveTypeName}</td></tr>
+              <tr><td style="padding:5px 0;color:#6b7280">Start Date</td><td style="padding:5px 0;color:#111827">${params.startDate}</td></tr>
+              <tr><td style="padding:5px 0;color:#6b7280">End Date</td><td style="padding:5px 0;color:#111827">${params.endDate}</td></tr>
+              <tr><td style="padding:5px 0;color:#6b7280">Decision</td><td style="padding:5px 0"><span style="${badgeStyle}">${statusLabel}</span></td></tr>
+            </table>
+            ${params.adminNote ? `
+            <div style="margin-top:16px;border-top:1px solid ${borderColor};padding-top:14px">
+              <p style="margin:0 0 6px;font-size:11px;color:#6b7280;text-transform:uppercase;letter-spacing:0.05em;font-weight:600">Note from HR</p>
+              <p style="margin:0;font-size:14px;color:#374151;line-height:1.6">${params.adminNote}</p>
+            </div>` : ""}
+          </div>
+          <p style="margin-top:24px;font-size:12px;color:#9ca3af">Dynamic Offshore Drilling Enterprise — HR Department<br>For queries, reply to this email or contact your HR manager directly.</p>
+        </div>
+      </div>
+    `,
+  });
+}
+
 export async function sendWorkerWelcomeEmail(params: {
   workerName: string;
   workerEmail: string;
