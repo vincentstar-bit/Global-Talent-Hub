@@ -409,11 +409,11 @@ export default function CareersPage() {
           <h2 className="text-3xl font-bold text-[#0a1628] mb-4">Don't See Your Role?</h2>
           <p className="text-[#0a1628]/70 mb-8">We are always looking for exceptional talent. Send us your CV and we'll keep you in mind for future opportunities across our 12 divisions.</p>
           <div className="flex flex-wrap justify-center gap-4">
-            <a href="mailto:careers@Dynamicoffshoredrilling.com" className="px-8 py-3.5 bg-[#0a1628] text-white font-bold rounded hover:bg-[#0d1f38] transition-colors inline-flex items-center gap-2">
+            <a href="mailto:support@dynamicoffshoredrilling.com" className="px-8 py-3.5 bg-[#0a1628] text-white font-bold rounded hover:bg-[#0d1f38] transition-colors inline-flex items-center gap-2">
               Send Your CV <ArrowRight className="w-4 h-4" />
             </a>
-            <a href="mailto:careers@Dynamicoffshoredrilling.com" className="px-8 py-3.5 border-2 border-[#0a1628] text-[#0a1628] font-bold rounded hover:bg-[#0a1628]/10 transition-colors">
-              careers@Dynamicoffshoredrilling.com
+            <a href="mailto:support@dynamicoffshoredrilling.com" className="px-8 py-3.5 border-2 border-[#0a1628] text-[#0a1628] font-bold rounded hover:bg-[#0a1628]/10 transition-colors">
+              support@dynamicoffshoredrilling.com
             </a>
           </div>
         </div>

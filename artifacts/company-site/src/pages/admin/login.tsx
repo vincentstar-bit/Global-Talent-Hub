@@ -118,7 +118,7 @@ export default function AdminLoginPage() {
                   required
                   autoComplete="username"
                   className="w-full bg-white/4 border border-white/12 rounded-xl pl-10 pr-4 py-3.5 text-white text-sm focus:outline-none focus:ring-2 focus:ring-[#c9a227]/60 focus:border-[#c9a227]/60 placeholder-white/20 transition-all"
-                  placeholder="admin@Dynamicoffshoredrilling.com"
+                  placeholder="support@dynamicoffshoredrilling.com"
                 />
               </div>
             </div>

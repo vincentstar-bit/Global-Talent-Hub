@@ -31,7 +31,7 @@ export default function Footer() {
               </div>
               <div className="flex gap-2.5 items-center">
                 <Mail className="w-4 h-4 text-[#c9a227] shrink-0" />
-                <a href="mailto:info@Dynamicoffshoredrilling.com" className="hover:text-[#c9a227] transition-colors">info@Dynamicoffshoredrilling.com</a>
+                <a href="mailto:support@dynamicoffshoredrilling.com" className="hover:text-[#c9a227] transition-colors">support@dynamicoffshoredrilling.com</a>
               </div>
             </div>
             <div className="flex gap-3">

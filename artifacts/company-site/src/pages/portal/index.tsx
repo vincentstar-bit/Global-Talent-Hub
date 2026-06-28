@@ -128,7 +128,7 @@ export default function PortalPage() {
             <div>
               <p className="font-bold text-foreground text-sm mb-1">Your Data is Secure</p>
               <p className="text-muted-foreground text-xs leading-relaxed max-w-2xl">
-                Access is restricted to verified employees only. Each session is authenticated via a unique access token. Dynamic Offshore Drilling Enterprise does not store your session beyond your visit. For security concerns, contact <span className="text-foreground">hr@Dynamicoffshoredrilling.com</span>.
+                Access is restricted to verified employees only. Each session is authenticated via a unique access token. Dynamic Offshore Drilling Enterprise does not store your session beyond your visit. For security concerns, contact <span className="text-foreground">support@dynamicoffshoredrilling.com</span>.
               </p>
             </div>
           </div>
