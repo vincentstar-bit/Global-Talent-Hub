@@ -8,13 +8,24 @@ import { sendLeaveRequestConfirmation, sendLeaveStatusUpdate } from "../lib/emai
 const router = Router();
 
 async function enrichRequest(r: any) {
-  const [worker] = await db.select({ firstName: workersTable.firstName, lastName: workersTable.lastName })
-    .from(workersTable).where(eq(workersTable.id, r.workerId));
-  const [leaveType] = await db.select({ name: leaveTypesTable.name })
-    .from(leaveTypesTable).where(eq(leaveTypesTable.id, r.leaveTypeId));
+  const [worker] = await db
+    .select({ firstName: workersTable.firstName, lastName: workersTable.lastName, email: workersTable.email })
+    .from(workersTable)
+    .where(eq(workersTable.id, r.workerId));
+
+  const [leaveType] = await db
+    .select({ name: leaveTypesTable.name })
+    .from(leaveTypesTable)
+    .where(eq(leaveTypesTable.id, r.leaveTypeId));
+
+  // Prefer the contactEmail the worker entered on the form; fall back to their profile email
+  const notifyEmail = r.contactEmail || worker?.email || null;
+
   return {
     ...r,
     workerName: worker ? `${worker.firstName} ${worker.lastName}` : null,
+    workerEmail: worker?.email ?? null,
+    notifyEmail,
     leaveTypeName: leaveType?.name ?? null,
     createdAt: r.createdAt instanceof Date ? r.createdAt.toISOString() : r.createdAt,
   };
@@ -50,7 +61,7 @@ router.get("/leave-requests/worker/:token", async (req, res) => {
 router.get("/leave-requests", requireAdmin, async (req, res) => {
   try {
     const { workerId, status } = req.query as Record<string, string>;
-    let conditions: any[] = [];
+    const conditions: any[] = [];
     if (workerId) conditions.push(eq(leaveRequestsTable.workerId, parseInt(workerId)));
     if (status) conditions.push(eq(leaveRequestsTable.status, status));
     const requests = conditions.length > 0
@@ -69,11 +80,11 @@ router.post("/leave-requests", async (req, res) => {
     const [request] = await db.insert(leaveRequestsTable).values(req.body).returning();
     const enriched = await enrichRequest(request);
 
-    // Send confirmation email (fire-and-forget, don't block response)
-    if (request.contactEmail) {
+    const toEmail = enriched.notifyEmail;
+    if (toEmail) {
       sendLeaveRequestConfirmation({
         workerName: enriched.workerName || "Worker",
-        toEmail: request.contactEmail,
+        toEmail,
         leaveTypeName: enriched.leaveTypeName || "Leave",
         startDate: request.startDate,
         endDate: request.endDate,
@@ -104,26 +115,37 @@ router.get("/leave-requests/:id", async (req, res) => {
 router.patch("/leave-requests/:id", requireAdmin, async (req, res) => {
   try {
     const id = parseInt(req.params.id);
-    const [request] = await db.update(leaveRequestsTable).set(req.body).where(eq(leaveRequestsTable.id, id)).returning();
+    const [request] = await db
+      .update(leaveRequestsTable)
+      .set(req.body)
+      .where(eq(leaveRequestsTable.id, id))
+      .returning();
     if (!request) return res.status(404).json({ error: "Not found" });
     const enriched = await enrichRequest(request);
 
-    // Send status update email when admin approves or rejects
     const newStatus = req.body.status;
-    if ((newStatus === "approved" || newStatus === "rejected") && request.contactEmail) {
-      sendLeaveStatusUpdate({
-        workerName: enriched.workerName || "Worker",
-        toEmail: request.contactEmail,
-        leaveTypeName: enriched.leaveTypeName || "Leave",
-        startDate: request.startDate,
-        endDate: request.endDate,
-        requestId: request.id,
-        status: newStatus,
-        adminNote: request.adminNote ?? undefined,
-      }).catch((err) => console.error("[email] status update send failed:", err));
+    const toEmail = enriched.notifyEmail;
+
+    let emailSent = false;
+    if ((newStatus === "approved" || newStatus === "rejected") && toEmail) {
+      try {
+        await sendLeaveStatusUpdate({
+          workerName: enriched.workerName || "Worker",
+          toEmail,
+          leaveTypeName: enriched.leaveTypeName || "Leave",
+          startDate: request.startDate,
+          endDate: request.endDate,
+          requestId: request.id,
+          status: newStatus,
+          adminNote: request.adminNote ?? undefined,
+        });
+        emailSent = true;
+      } catch (err) {
+        console.error("[email] status update send failed:", err);
+      }
     }
 
-    return res.json(enriched);
+    return res.json({ ...enriched, emailSent, emailSentTo: emailSent ? toEmail : null });
   } catch (err) {
     req.log.error(err);
     return res.status(500).json({ error: "Internal server error" });
