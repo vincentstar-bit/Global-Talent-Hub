@@ -54,10 +54,24 @@ router.get("/workers", requireAdmin, async (req, res) => {
   }
 });
 
+function sanitizeWorkerInput(body: Record<string, any>) {
+  const nullableFields = ["email", "phone", "assignedCountry", "countryEntryDate", "countryStayYears", "photoUrl", "nationality", "passportNumber", "hiredBy", "notes"];
+  const result = { ...body };
+  for (const field of nullableFields) {
+    if (result[field] === "" || result[field] === undefined) {
+      result[field] = null;
+    }
+  }
+  if (result.countryStayYears !== null && result.countryStayYears !== undefined) {
+    result.countryStayYears = Number(result.countryStayYears) || null;
+  }
+  return result;
+}
+
 router.post("/workers", requireAdmin, async (req, res) => {
   try {
     const accessToken = generateAccessToken();
-    const data = { ...req.body, accessToken };
+    const data = { ...sanitizeWorkerInput(req.body), accessToken };
     const [worker] = await db.insert(workersTable).values(data).returning();
     return res.status(201).json(serializeWorker(worker));
   } catch (err) {
