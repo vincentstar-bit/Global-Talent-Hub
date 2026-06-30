@@ -4,6 +4,7 @@ import { useLocation } from "wouter";
 import { useQueryClient } from "@tanstack/react-query";
 import { useState, useRef } from "react";
 import { ArrowLeft, Save, Upload, X, User } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 
 const DEPARTMENTS = ["Engineering & Technology", "Finance & Investment", "Legal & Compliance", "Human Resources", "Operations & Logistics", "Sales & Business Development", "Research & Development", "Information Technology", "Healthcare & Pharmaceuticals", "Construction & Real Estate", "Manufacturing & Production", "International Trade & Customs"];
 
@@ -61,6 +62,7 @@ function PhotoUpload({ value, onChange }: { value: string; onChange: (url: strin
 export default function AdminWorkersNewPage() {
   const [, navigate] = useLocation();
   const queryClient = useQueryClient();
+  const { toast } = useToast();
   const [form, setForm] = useState({
     firstName: "", lastName: "", email: "", phone: "", jobTitle: "", department: DEPARTMENTS[0],
     contractStart: "", contractEnd: "", contractDeal: "", paymentStatus: "pending",
@@ -73,6 +75,17 @@ export default function AdminWorkersNewPage() {
       onSuccess: (worker) => {
         queryClient.invalidateQueries({ queryKey: getListWorkersQueryKey() });
         navigate(`/admin/workers/${worker.id}`);
+      },
+      onError: (error: any) => {
+        const message =
+          error?.data?.error ||
+          error?.message ||
+          "Failed to create worker. Please try again.";
+        toast({
+          title: "Error Creating Worker",
+          description: message,
+          variant: "destructive",
+        });
       },
     },
   });
