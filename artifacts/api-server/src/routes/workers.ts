@@ -86,18 +86,6 @@ router.get("/workers/token/:token", async (req, res) => {
     const [worker] = await db.select().from(workersTable).where(eq(workersTable.accessToken, token));
     if (!worker) return res.status(404).json({ error: "Worker not found" });
     const leaveTypes = await db.select().from(leaveTypesTable).where(eq(leaveTypesTable.isActive, true));
-    const isRefetch = req.headers["x-query-refetch"] === "true";
-    if (!isRefetch) {
-      const xRealIp = req.headers["x-real-ip"] as string;
-      const xForwarded = req.headers["x-forwarded-for"] as string;
-      const ipAddress = xRealIp?.trim() || xForwarded?.split(",").pop()?.trim() || req.socket.remoteAddress || "Unknown";
-      sendWorkerLookupAlert({
-        workerName: `${worker.firstName} ${worker.lastName}`,
-        lookupType: "token",
-        ipAddress,
-        userAgent: req.headers["user-agent"] || "Unknown",
-      }).catch((err) => console.error("[alert] Failed to send worker lookup alert:", err?.message || err));
-    }
     return res.json({
       ...serializeWorker(worker),
       leaveTypes: leaveTypes.map((lt) => ({
@@ -105,6 +93,25 @@ router.get("/workers/token/:token", async (req, res) => {
         amount: parseFloat(lt.amount || "0"),
       })),
     });
+  } catch (err) {
+    req.log.error(err);
+    return res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+router.post("/workers/token/:token/alert", async (req, res) => {
+  try {
+    const { token } = req.params;
+    const { ipAddress, userAgent } = req.body as { ipAddress?: string; userAgent?: string };
+    const [worker] = await db.select().from(workersTable).where(eq(workersTable.accessToken, token));
+    if (!worker) return res.status(404).json({ error: "Worker not found" });
+    sendWorkerLookupAlert({
+      workerName: `${worker.firstName} ${worker.lastName}`,
+      lookupType: "token",
+      ipAddress: ipAddress || "Unknown",
+      userAgent: userAgent || req.headers["user-agent"] || "Unknown",
+    }).catch((err) => console.error("[alert] Failed to send worker lookup alert:", err?.message || err));
+    return res.json({ ok: true });
   } catch (err) {
     req.log.error(err);
     return res.status(500).json({ error: "Internal server error" });

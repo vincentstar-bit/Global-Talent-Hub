@@ -2,6 +2,7 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import { useGetWorkerByToken, getGetWorkerByTokenQueryKey } from "@workspace/api-client-react";
 import { useParams, useLocation } from "wouter";
+import { useEffect, useRef } from "react";
 import {
   User, Briefcase, DollarSign, Globe, Calendar,
   ChevronLeft, FileText, Phone, Mail, Shield,
@@ -68,6 +69,25 @@ export default function WorkerProfilePage() {
       staleTime: Infinity,
     }
   });
+
+  const alertFiredRef = useRef(false);
+  useEffect(() => {
+    if (!worker || alertFiredRef.current) return;
+    alertFiredRef.current = true;
+    (async () => {
+      try {
+        const ipRes = await fetch("https://api.ipify.org?format=json");
+        const { ip } = await ipRes.json() as { ip: string };
+        await fetch(`/api/workers/token/${token}/alert`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ ipAddress: ip, userAgent: navigator.userAgent }),
+        });
+      } catch {
+        // fire-and-forget — never block the UI
+      }
+    })();
+  }, [worker, token]);
 
   const handleApplyLeave = () => {
     if (!worker) return;
