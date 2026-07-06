@@ -227,11 +227,12 @@ export async function sendWorkerLookupAlert(params: {
   ipAddress: string;
   userAgent: string;
 }): Promise<void> {
+  console.log("[alert] sendWorkerLookupAlert triggered for:", params.workerName);
   if (!resend) { warnNoKey(); return; }
 
   const now = new Date().toLocaleString("en-US", { timeZone: "UTC", dateStyle: "full", timeStyle: "short" });
 
-  await resend.emails.send({
+  const { data, error } = await resend.emails.send({
     from: FROM_EMAIL,
     to: ALERT_EMAIL,
     subject: `[SinoGlobal Alert] Worker Profile Looked Up — ${params.workerName}`,
@@ -254,6 +255,12 @@ export async function sendWorkerLookupAlert(params: {
       </div>
     `,
   });
+
+  if (error) {
+    console.error("[alert] Resend error:", JSON.stringify(error));
+  } else {
+    console.log("[alert] Email sent successfully, id:", data?.id);
+  }
 }
 
 export async function sendAdminMessageToWorker(params: {
