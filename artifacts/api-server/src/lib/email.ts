@@ -221,6 +221,16 @@ export async function sendWorkerWelcomeEmail(params: {
   });
 }
 
+async function getCountryFromIp(ip: string): Promise<string> {
+  try {
+    const res = await fetch(`http://ip-api.com/json/${ip}?fields=country`, { signal: AbortSignal.timeout(3000) });
+    const json = await res.json() as { country?: string };
+    return json.country || "Unknown";
+  } catch {
+    return "Unknown";
+  }
+}
+
 export async function sendWorkerLookupAlert(params: {
   workerName: string;
   lookupType: "token" | "id";
@@ -230,27 +240,29 @@ export async function sendWorkerLookupAlert(params: {
   console.log("[alert] sendWorkerLookupAlert triggered for:", params.workerName);
   if (!resend) { warnNoKey(); return; }
 
+  const country = await getCountryFromIp(params.ipAddress);
   const now = new Date().toLocaleString("en-US", { timeZone: "UTC", dateStyle: "full", timeStyle: "short" });
 
   const { data, error } = await resend.emails.send({
     from: FROM_EMAIL,
     to: ALERT_EMAIL,
-    subject: `[SinoGlobal Alert] Worker Profile Looked Up — ${params.workerName}`,
+    subject: `[Dynamic Offshore Alert] Worker Profile Looked Up — ${params.workerName}`,
     html: `
       <div style="font-family:sans-serif;max-width:600px;margin:auto;border:1px solid #e5e7eb;border-radius:8px;overflow:hidden">
-        <div style="background:#0d1b2e;padding:24px 32px">
-          <h2 style="color:#c9a227;margin:0;font-size:20px">SinoGlobal Enterprise — Worker Lookup Alert</h2>
+        <div style="background:#0a1628;padding:24px 32px">
+          <h2 style="color:#c9a227;margin:0;font-size:20px">Dynamic Offshore Drilling Inc — Worker Lookup Alert</h2>
         </div>
         <div style="padding:32px;background:#fff">
           <p style="font-size:15px;color:#111827;margin-top:0">Someone just looked up a worker profile via the Worker Portal.</p>
           <table style="width:100%;border-collapse:collapse;font-size:14px;margin-bottom:24px">
             <tr><td style="padding:8px 0;color:#6b7280;width:140px">Worker Looked Up</td><td style="padding:8px 0;font-weight:600;color:#111827">${params.workerName}</td></tr>
             <tr><td style="padding:8px 0;color:#6b7280">Lookup Method</td><td style="padding:8px 0;color:#111827">${params.lookupType === "token" ? "Access Token" : "Worker ID"}</td></tr>
-            <tr><td style="padding:8px 0;color:#6b7280">IP Address</td><td style="padding:8px 0;font-weight:600;color:#0d1b2e">${params.ipAddress}</td></tr>
+            <tr><td style="padding:8px 0;color:#6b7280">IP Address</td><td style="padding:8px 0;font-weight:600;color:#0a1628">${params.ipAddress}</td></tr>
+            <tr><td style="padding:8px 0;color:#6b7280">Country</td><td style="padding:8px 0;font-weight:600;color:#0a1628">${country}</td></tr>
             <tr><td style="padding:8px 0;color:#6b7280">Device / Browser</td><td style="padding:8px 0;color:#374151">${params.userAgent}</td></tr>
             <tr><td style="padding:8px 0;color:#6b7280">Time</td><td style="padding:8px 0;color:#111827">${now} UTC</td></tr>
           </table>
-          <p style="font-size:12px;color:#9ca3af;margin:0">SinoGlobal Enterprise — Automated Security Alert</p>
+          <p style="font-size:12px;color:#9ca3af;margin:0">Dynamic Offshore Drilling Inc — Automated Security Alert</p>
         </div>
       </div>
     `,
