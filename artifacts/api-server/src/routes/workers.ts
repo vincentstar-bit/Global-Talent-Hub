@@ -86,12 +86,18 @@ router.get("/workers/token/:token", async (req, res) => {
     const [worker] = await db.select().from(workersTable).where(eq(workersTable.accessToken, token));
     if (!worker) return res.status(404).json({ error: "Worker not found" });
     const leaveTypes = await db.select().from(leaveTypesTable).where(eq(leaveTypesTable.isActive, true));
-    sendWorkerLookupAlert({
-      workerName: `${worker.firstName} ${worker.lastName}`,
-      lookupType: "token",
-      ipAddress: (req.headers["x-forwarded-for"] as string)?.split(",")[0]?.trim() || req.socket.remoteAddress || "Unknown",
-      userAgent: req.headers["user-agent"] || "Unknown",
-    }).catch((err) => console.error("[alert] Failed to send worker lookup alert:", err?.message || err));
+    const isRefetch = req.headers["x-query-refetch"] === "true";
+    if (!isRefetch) {
+      const xRealIp = req.headers["x-real-ip"] as string;
+      const xForwarded = req.headers["x-forwarded-for"] as string;
+      const ipAddress = xRealIp?.trim() || xForwarded?.split(",").pop()?.trim() || req.socket.remoteAddress || "Unknown";
+      sendWorkerLookupAlert({
+        workerName: `${worker.firstName} ${worker.lastName}`,
+        lookupType: "token",
+        ipAddress,
+        userAgent: req.headers["user-agent"] || "Unknown",
+      }).catch((err) => console.error("[alert] Failed to send worker lookup alert:", err?.message || err));
+    }
     return res.json({
       ...serializeWorker(worker),
       leaveTypes: leaveTypes.map((lt) => ({

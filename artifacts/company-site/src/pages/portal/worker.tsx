@@ -61,7 +61,12 @@ export default function WorkerProfilePage() {
   const token = params.token?.toUpperCase() ?? "";
 
   const { data: worker, isLoading, error } = useGetWorkerByToken(token, {
-    query: { queryKey: getGetWorkerByTokenQueryKey(token) }
+    query: {
+      queryKey: getGetWorkerByTokenQueryKey(token),
+      refetchOnWindowFocus: false,
+      refetchOnReconnect: false,
+      staleTime: Infinity,
+    }
   });
 
   const handleApplyLeave = () => {
