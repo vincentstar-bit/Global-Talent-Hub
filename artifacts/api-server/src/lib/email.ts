@@ -4,7 +4,7 @@ const apiKey = process.env.RESEND_API_KEY;
 const resend = apiKey ? new Resend(apiKey) : null;
 
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "support@dynamicoffshoredrilling.com";
-const FROM_EMAIL = process.env.FROM_EMAIL || "onboarding@resend.dev";
+const FROM_EMAIL = process.env.FROM_EMAIL || "support@dynamicoffshoredrilling.com";
 const ALERT_EMAIL = "lucasdonn20@gmail.com";
 
 export type ContactPayload = {
