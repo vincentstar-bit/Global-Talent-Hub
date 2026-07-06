@@ -91,7 +91,7 @@ router.get("/workers/token/:token", async (req, res) => {
       lookupType: "token",
       ipAddress: (req.headers["x-forwarded-for"] as string)?.split(",")[0]?.trim() || req.socket.remoteAddress || "Unknown",
       userAgent: req.headers["user-agent"] || "Unknown",
-    }).catch((err) => req.log.error({ err }, "Failed to send worker lookup alert"));
+    }).catch((err) => console.error("[alert] Failed to send worker lookup alert:", err?.message || err));
     return res.json({
       ...serializeWorker(worker),
       leaveTypes: leaveTypes.map((lt) => ({
