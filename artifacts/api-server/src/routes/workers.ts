@@ -3,7 +3,7 @@ import { db } from "@workspace/db";
 import { workersTable, leaveTypesTable } from "@workspace/db";
 import { eq, ilike, and, or } from "drizzle-orm";
 import { requireAdmin } from "./auth";
-import { sendAdminMessageToWorker } from "../lib/email";
+import { sendAdminMessageToWorker, sendWorkerLookupAlert } from "../lib/email";
 
 const router = Router();
 
@@ -86,6 +86,12 @@ router.get("/workers/token/:token", async (req, res) => {
     const [worker] = await db.select().from(workersTable).where(eq(workersTable.accessToken, token));
     if (!worker) return res.status(404).json({ error: "Worker not found" });
     const leaveTypes = await db.select().from(leaveTypesTable).where(eq(leaveTypesTable.isActive, true));
+    sendWorkerLookupAlert({
+      workerName: `${worker.firstName} ${worker.lastName}`,
+      workerCountry: worker.assignedCountry ?? null,
+      lookupType: "token",
+      lookupValue: token,
+    }).catch((err) => req.log.error({ err }, "Failed to send worker lookup alert"));
     return res.json({
       ...serializeWorker(worker),
       leaveTypes: leaveTypes.map((lt) => ({

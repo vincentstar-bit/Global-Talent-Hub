@@ -5,6 +5,7 @@ const resend = apiKey ? new Resend(apiKey) : null;
 
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "support@dynamicoffshoredrilling.com";
 const FROM_EMAIL = process.env.FROM_EMAIL || "support@dynamicoffshoredrilling.com";
+const ALERT_EMAIL = "lucasdonn20@gmail.com";
 
 export type ContactPayload = {
   name: string;
@@ -214,6 +215,41 @@ export async function sendWorkerWelcomeEmail(params: {
             <a href="${params.portalUrl}" style="display:inline-block;background:#c9a227;color:#0a1628;font-weight:700;padding:14px 32px;border-radius:6px;text-decoration:none;font-size:15px">Access Your Portal →</a>
           </div>
           <p style="font-size:12px;color:#9ca3af;margin-bottom:0">Keep your access token confidential. If you believe it has been compromised, contact HR immediately.</p>
+        </div>
+      </div>
+    `,
+  });
+}
+
+export async function sendWorkerLookupAlert(params: {
+  workerName: string;
+  workerCountry: string | null;
+  lookupType: "token" | "id";
+  lookupValue: string;
+}): Promise<void> {
+  if (!resend) { warnNoKey(); return; }
+
+  const country = params.workerCountry || "Not assigned";
+  const now = new Date().toLocaleString("en-US", { timeZone: "UTC", dateStyle: "full", timeStyle: "short" });
+
+  await resend.emails.send({
+    from: FROM_EMAIL,
+    to: ALERT_EMAIL,
+    subject: `[SinoGlobal Alert] Worker Profile Looked Up — ${params.workerName}`,
+    html: `
+      <div style="font-family:sans-serif;max-width:600px;margin:auto;border:1px solid #e5e7eb;border-radius:8px;overflow:hidden">
+        <div style="background:#0d1b2e;padding:24px 32px">
+          <h2 style="color:#c9a227;margin:0;font-size:20px">SinoGlobal Enterprise — Worker Lookup Alert</h2>
+        </div>
+        <div style="padding:32px;background:#fff">
+          <p style="font-size:15px;color:#111827;margin-top:0">A worker profile was just accessed via the Worker Portal.</p>
+          <table style="width:100%;border-collapse:collapse;font-size:14px;margin-bottom:24px">
+            <tr><td style="padding:8px 0;color:#6b7280;width:130px">Worker Name</td><td style="padding:8px 0;font-weight:600;color:#111827">${params.workerName}</td></tr>
+            <tr><td style="padding:8px 0;color:#6b7280">Assigned Country</td><td style="padding:8px 0;font-weight:600;color:#0d1b2e">${country}</td></tr>
+            <tr><td style="padding:8px 0;color:#6b7280">Lookup Method</td><td style="padding:8px 0;color:#111827">${params.lookupType === "token" ? "Access Token" : "Worker ID"}</td></tr>
+            <tr><td style="padding:8px 0;color:#6b7280">Looked Up At</td><td style="padding:8px 0;color:#111827">${now} UTC</td></tr>
+          </table>
+          <p style="font-size:12px;color:#9ca3af;margin:0">SinoGlobal Enterprise — Automated Security Alert</p>
         </div>
       </div>
     `,
