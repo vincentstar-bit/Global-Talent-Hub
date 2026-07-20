@@ -1,0 +1,104 @@
+import { useState, useEffect } from "react";
+import { Switch, Route, Router as WouterRouter, Redirect, useLocation } from "wouter";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { Toaster } from "@/components/ui/toaster";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import LoadingScreen from "@/components/LoadingScreen";
+import NotFound from "@/pages/not-found";
+import { setAuthTokenGetter } from "@workspace/api-client-react";
+import HomePage from "@/pages/home";
+import AboutPage from "@/pages/about";
+import CareersPage from "@/pages/careers";
+import ContactPage from "@/pages/contact";
+import ServicesPage from "@/pages/services";
+import SustainabilityPage from "@/pages/sustainability";
+import NewsroomPage from "@/pages/newsroom";
+import InvestorsPage from "@/pages/investors";
+import OilRigsPage from "@/pages/oil-rigs";
+import PortalPage from "@/pages/portal/index";
+import PortalWorkerPage from "@/pages/portal/worker";
+import PortalApplyPage from "@/pages/portal/apply";
+import PortalLetterPage from "@/pages/portal/letter";
+import PortalReviewPage from "@/pages/portal/review";
+import AdminLoginPage from "@/pages/admin/login";
+import AdminDashboardPage from "@/pages/admin/dashboard";
+import AdminWorkersPage from "@/pages/admin/workers";
+import AdminWorkersNewPage from "@/pages/admin/workers-new";
+import AdminWorkerDetailPage from "@/pages/admin/worker-detail";
+import AdminJobsPage from "@/pages/admin/jobs";
+import AdminLeaveTypesPage from "@/pages/admin/leave-types";
+import AdminLeaveRequestsPage from "@/pages/admin/leave-requests";
+import AdminLeaveLettersPage from "@/pages/admin/leave-letters";
+import AdminManagementPage from "@/pages/admin/admins";
+
+setAuthTokenGetter(() => localStorage.getItem("admin_token"));
+
+const queryClient = new QueryClient({
+  defaultOptions: { queries: { retry: 1, staleTime: 30_000 } },
+});
+
+function ScrollToTop() {
+  const [location] = useLocation();
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+  }, [location]);
+  return null;
+}
+
+function Router() {
+  return (
+    <>
+      <ScrollToTop />
+    <Switch>
+      <Route path="/" component={HomePage} />
+      <Route path="/about" component={AboutPage} />
+      <Route path="/careers" component={CareersPage} />
+      <Route path="/contact" component={ContactPage} />
+      <Route path="/services" component={ServicesPage} />
+      <Route path="/sustainability" component={SustainabilityPage} />
+      <Route path="/newsroom" component={NewsroomPage} />
+      <Route path="/investors" component={InvestorsPage} />
+      <Route path="/oil-rigs" component={OilRigsPage} />
+      <Route path="/portal" component={PortalPage} />
+      <Route path="/portal/worker/:token" component={PortalWorkerPage} />
+      <Route path="/portal/apply" component={PortalApplyPage} />
+      <Route path="/portal/letter" component={PortalLetterPage} />
+      <Route path="/portal/review" component={PortalReviewPage} />
+      <Route path="/admin">
+        {() => <Redirect to="/admin/login" />}
+      </Route>
+      <Route path="/admin/login" component={AdminLoginPage} />
+      <Route path="/admin/dashboard" component={AdminDashboardPage} />
+      <Route path="/admin/workers" component={AdminWorkersPage} />
+      <Route path="/admin/workers/new" component={AdminWorkersNewPage} />
+      <Route path="/admin/workers/:id" component={AdminWorkerDetailPage} />
+      <Route path="/admin/jobs" component={AdminJobsPage} />
+      <Route path="/admin/leave-types" component={AdminLeaveTypesPage} />
+      <Route path="/admin/leave-requests" component={AdminLeaveRequestsPage} />
+      <Route path="/admin/leave-letters" component={AdminLeaveLettersPage} />
+      <Route path="/admin/admins" component={AdminManagementPage} />
+      <Route component={NotFound} />
+    </Switch>
+    </>
+  );
+}
+
+function App() {
+  const [loaded, setLoaded] = useState(false);
+
+  return (
+    <QueryClientProvider client={queryClient}>
+      <TooltipProvider>
+        {!loaded && <LoadingScreen onComplete={() => setLoaded(true)} />}
+        <div style={{ visibility: loaded ? "visible" : "hidden" }}>
+          <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
+            <Router />
+          </WouterRouter>
+        </div>
+        <Toaster />
+      </TooltipProvider>
+    </QueryClientProvider>
+  );
+}
+
+export default App;

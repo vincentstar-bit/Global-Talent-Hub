@@ -1,0 +1,1 @@
+- [Supabase DB connection](supabase-db.md) — app uses SUPABASE_DATABASE_URL secret (not Replit's built-in DB); SSL required.
