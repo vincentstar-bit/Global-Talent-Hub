@@ -2,7 +2,6 @@
 
 # compiled output
 dist
-!artifacts/api-server/dist
 tmp
 out-tsc
 *.tsbuildinfo
@@ -48,8 +47,3 @@ Thumbs.db
 # Replit
 .cache/
 .local/
-
-# Environment secrets — never commit these
-.env
-.env.*
-!.env.example
