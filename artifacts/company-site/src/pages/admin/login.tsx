@@ -21,7 +21,7 @@ export default function AdminLoginPage() {
         queryClient.setQueryData(getGetAdminMeQueryKey(), session);
         navigate("/admin/dashboard");
       },
-      onError: () => setError("Invalid credentials. Please check your email and password."),
+      onError: () => setError("Invalid credentials. Please check your username and password."),
     },
   });
 
@@ -108,17 +108,17 @@ export default function AdminLoginPage() {
 
           <form onSubmit={handleSubmit} className="space-y-5">
             <div>
-              <label className="text-xs font-semibold text-white/60 uppercase tracking-wider block mb-2">Email Address</label>
+              <label className="text-xs font-semibold text-white/60 uppercase tracking-wider block mb-2">Username</label>
               <div className="relative">
                 <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-white/25" />
                 <input
-                  type="email"
+                  type="text"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
                   required
                   autoComplete="username"
                   className="w-full bg-white/4 border border-white/12 rounded-xl pl-10 pr-4 py-3.5 text-white text-sm focus:outline-none focus:ring-2 focus:ring-[#c9a227]/60 focus:border-[#c9a227]/60 placeholder-white/20 transition-all"
-                  placeholder="support@dynamicoffshoredrilling.com"
+                  placeholder="Enter your username"
                 />
               </div>
             </div>
