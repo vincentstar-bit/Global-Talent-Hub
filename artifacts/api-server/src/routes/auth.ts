@@ -4,23 +4,42 @@ import { adminsTable } from "@workspace/db";
 import { eq } from "drizzle-orm";
 import { scrypt, randomBytes, timingSafeEqual } from "node:crypto";
 import { promisify } from "node:util";
+import jwt from "jsonwebtoken";
 
 const scryptAsync = promisify(scrypt);
-
 const router = Router();
 
 const SUPER_USERNAME = process.env.ADMIN_USERNAME;
 const SUPER_PASSWORD = process.env.ADMIN_PASSWORD;
+const JWT_SECRET = process.env.SESSION_SECRET;
 
 if (!SUPER_USERNAME || !SUPER_PASSWORD) {
   throw new Error("ADMIN_USERNAME and ADMIN_PASSWORD environment variables must be set.");
 }
+if (!JWT_SECRET) {
+  throw new Error("SESSION_SECRET environment variable must be set.");
+}
 
+interface AdminSession {
+  username: string;
+  role: string;
+  isSuperAdmin: boolean;
+}
 
-const sessions = new Map<string, { username: string; role: string; isSuperAdmin: boolean }>();
+function signToken(payload: AdminSession): string {
+  return jwt.sign(payload, JWT_SECRET!, { expiresIn: "24h" });
+}
 
-function generateSessionId() {
-  return randomBytes(32).toString("hex");
+function verifyToken(token: string): AdminSession | null {
+  try {
+    const decoded = jwt.verify(token, JWT_SECRET!);
+    if (typeof decoded === "object" && decoded !== null && "username" in decoded) {
+      return decoded as AdminSession;
+    }
+    return null;
+  } catch {
+    return null;
+  }
 }
 
 async function hashPassword(password: string): Promise<string> {
@@ -41,22 +60,22 @@ router.post("/auth/admin/login", async (req, res) => {
   const { username, password } = req.body;
   if (!username || !password) return res.status(400).json({ error: "Username and password are required" });
 
+  // Super admin check
   if (username === SUPER_USERNAME && password === SUPER_PASSWORD) {
-    const sessionId = generateSessionId();
-    const session = { username, role: "admin", isSuperAdmin: true };
-    sessions.set(sessionId, session);
-    res.cookie("admin_session", sessionId, { httpOnly: true, sameSite: "none", secure: true, maxAge: 24 * 60 * 60 * 1000 });
-    return res.json({ token: sessionId, ...session });
+    const session: AdminSession = { username, role: "admin", isSuperAdmin: true };
+    const token = signToken(session);
+    res.cookie("admin_session", token, { httpOnly: true, sameSite: "none", secure: true, maxAge: 24 * 60 * 60 * 1000 });
+    return res.json({ token, ...session });
   }
 
+  // DB admin check
   try {
     const [admin] = await db.select().from(adminsTable).where(eq(adminsTable.username, username));
     if (admin && await verifyPassword(password, admin.passwordHash)) {
-      const sessionId = generateSessionId();
-      const session = { username, role: "admin", isSuperAdmin: false };
-      sessions.set(sessionId, session);
-      res.cookie("admin_session", sessionId, { httpOnly: true, sameSite: "none", secure: true, maxAge: 24 * 60 * 60 * 1000 });
-      return res.json({ token: sessionId, ...session });
+      const session: AdminSession = { username, role: "admin", isSuperAdmin: false };
+      const token = signToken(session);
+      res.cookie("admin_session", token, { httpOnly: true, sameSite: "none", secure: true, maxAge: 24 * 60 * 60 * 1000 });
+      return res.json({ token, ...session });
     }
   } catch (err) {
     console.error("[auth] DB lookup failed:", err);
@@ -66,8 +85,6 @@ router.post("/auth/admin/login", async (req, res) => {
 });
 
 router.post("/auth/admin/logout", (req, res) => {
-  const sessionId = req.cookies?.admin_session;
-  if (sessionId) sessions.delete(sessionId);
   res.clearCookie("admin_session");
   res.json({ ok: true });
 });
@@ -76,15 +93,18 @@ router.get("/auth/admin/me", (req, res) => {
   const authHeader = req.headers?.authorization;
   const bearerToken = authHeader?.startsWith("Bearer ") ? authHeader.slice(7) : null;
   const cookieToken = req.cookies?.admin_session;
-  const sessionId = bearerToken || cookieToken;
-  const session = sessionId ? sessions.get(sessionId) : null;
+  const token = bearerToken || cookieToken;
+  const session = token ? verifyToken(token) : null;
   if (!session) return res.status(401).json({ error: "Not authenticated" });
   return res.json(session);
 });
 
 router.post("/auth/admin/reset-password", async (req: any, res: any) => {
-  const sessionId = req.cookies?.admin_session;
-  const session = sessionId ? sessions.get(sessionId) : null;
+  const authHeader = req.headers?.authorization;
+  const bearerToken = authHeader?.startsWith("Bearer ") ? authHeader.slice(7) : null;
+  const cookieToken = req.cookies?.admin_session;
+  const token = bearerToken || cookieToken;
+  const session = token ? verifyToken(token) : null;
   if (!session) return res.status(401).json({ error: "Not authenticated" });
 
   const { currentPassword, newPassword } = req.body;
@@ -142,7 +162,7 @@ router.post("/auth/admins", requireAdmin, requireSuperAdmin, async (req: any, re
       username: username.trim(),
       passwordHash,
       displayName: displayName?.trim() || null,
-      createdBy: req.adminSession?.username || SUPER_USERNAME,
+      createdBy: req.adminSession?.username || SUPER_USERNAME!,
     }).returning({ id: adminsTable.id, username: adminsTable.username, displayName: adminsTable.displayName, createdAt: adminsTable.createdAt, createdBy: adminsTable.createdBy });
     return res.status(201).json(created);
   } catch (err: any) {
@@ -169,8 +189,8 @@ export function requireAdmin(req: any, res: any, next: any) {
   const authHeader = req.headers?.authorization;
   const bearerToken = authHeader?.startsWith("Bearer ") ? authHeader.slice(7) : null;
   const cookieToken = req.cookies?.admin_session;
-  const sessionId = bearerToken || cookieToken;
-  const session = sessionId ? sessions.get(sessionId) : null;
+  const token = bearerToken || cookieToken;
+  const session = token ? verifyToken(token) : null;
   if (!session) return res.status(401).json({ error: "Unauthorized" });
   req.adminSession = session;
   next();
