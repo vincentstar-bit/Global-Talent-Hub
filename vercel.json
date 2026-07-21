@@ -1,6 +1,5 @@
 {
   "version": 2,
-  "framework": null,
   "installCommand": "pnpm install --no-frozen-lockfile",
   "buildCommand": "pnpm --filter @workspace/company-site run build",
   "outputDirectory": "artifacts/company-site/dist/public",
