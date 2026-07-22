@@ -2,7 +2,7 @@ import AdminLayout from "@/components/layout/AdminLayout";
 import { useGetWorker, useUpdateWorker, useListLeaveRequests, getGetWorkerQueryKey, getListWorkersQueryKey, getListLeaveRequestsQueryKey } from "@workspace/api-client-react";
 import { useParams, useLocation } from "wouter";
 import { useQueryClient } from "@tanstack/react-query";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { ArrowLeft, Save, User, Copy, CheckCheck, Calendar, Upload, X } from "lucide-react";
 import { differenceInDays, parseISO, addYears } from "date-fns";
 
@@ -54,6 +54,8 @@ export default function AdminWorkerDetailPage() {
   const queryClient = useQueryClient();
   const [copied, setCopied] = useState(false);
   const [form, setForm] = useState<any>(null);
+  const [saveStatus, setSaveStatus] = useState<"idle" | "success" | "error">("idle");
+  const [saveError, setSaveError] = useState<string | null>(null);
 
   const { data: worker, isLoading } = useGetWorker(id, { query: { queryKey: getGetWorkerQueryKey(id) } });
   const { data: leaveRequests } = useListLeaveRequests(
@@ -70,6 +72,15 @@ export default function AdminWorkerDetailPage() {
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: getGetWorkerQueryKey(id) });
         queryClient.invalidateQueries({ queryKey: getListWorkersQueryKey() });
+        setSaveStatus("success");
+        setSaveError(null);
+        setTimeout(() => setSaveStatus("idle"), 4000);
+      },
+      onError: (err: any) => {
+        const msg = err?.response?.data?.error ?? err?.message ?? "Failed to save changes.";
+        setSaveError(msg);
+        setSaveStatus("error");
+        setTimeout(() => setSaveStatus("idle"), 6000);
       },
     },
   });
@@ -227,6 +238,19 @@ export default function AdminWorkerDetailPage() {
                   </div>
                 ))}
               </div>
+            </div>
+          )}
+
+          {saveStatus === "success" && (
+            <div className="flex items-center gap-2 px-4 py-3 bg-green-50 border border-green-200 text-green-800 rounded-lg text-sm">
+              <CheckCheck className="w-4 h-4 shrink-0" />
+              <span>Changes saved successfully.</span>
+            </div>
+          )}
+          {saveStatus === "error" && (
+            <div className="flex items-center gap-2 px-4 py-3 bg-red-50 border border-red-200 text-red-800 rounded-lg text-sm">
+              <X className="w-4 h-4 shrink-0" />
+              <span>{saveError}</span>
             </div>
           )}
 

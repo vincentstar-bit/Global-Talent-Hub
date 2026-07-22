@@ -134,7 +134,10 @@ router.get("/workers/:id", requireAdmin, async (req, res) => {
 router.patch("/workers/:id", requireAdmin, async (req, res) => {
   try {
     const id = parseInt(req.params.id);
-    const [worker] = await db.update(workersTable).set(req.body).where(eq(workersTable.id, id)).returning();
+    // Strip read-only / identity fields so they can never be overwritten
+    const { id: _id, accessToken: _token, createdAt: _ca, ...rest } = req.body;
+    const sanitized = sanitizeWorkerInput(rest);
+    const [worker] = await db.update(workersTable).set(sanitized).where(eq(workersTable.id, id)).returning();
     if (!worker) return res.status(404).json({ error: "Worker not found" });
     return res.json(serializeWorker(worker));
   } catch (err) {
