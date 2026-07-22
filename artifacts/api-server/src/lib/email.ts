@@ -222,13 +222,33 @@ export async function sendWorkerWelcomeEmail(params: {
 }
 
 async function getCountryFromIp(ip: string): Promise<string> {
+  // ipapi.co — HTTPS, free, no API key needed (30k req/month)
   try {
-    const res = await fetch(`http://ip-api.com/json/${ip}?fields=country`, { signal: AbortSignal.timeout(3000) });
-    const json = await res.json() as { country?: string };
-    return json.country || "Unknown";
-  } catch {
-    return "Unknown";
-  }
+    const res = await fetch(`https://ipapi.co/${ip}/country_name/`, {
+      signal: AbortSignal.timeout(4000),
+      headers: { "User-Agent": "DynamicOffshoreApp/1.0" },
+    });
+    if (res.ok) {
+      const text = (await res.text()).trim();
+      if (text && text.length > 1 && !text.toLowerCase().includes("error") && text !== "Undefined") {
+        return text;
+      }
+    }
+  } catch { /* fall through */ }
+
+  // ipinfo.io — HTTPS fallback (50k req/month free)
+  try {
+    const res = await fetch(`https://ipinfo.io/${ip}/country`, {
+      signal: AbortSignal.timeout(4000),
+      headers: { "User-Agent": "DynamicOffshoreApp/1.0" },
+    });
+    if (res.ok) {
+      const code = (await res.text()).trim();          // returns 2-letter code e.g. "NL"
+      if (code && code.length === 2) return code;
+    }
+  } catch { /* fall through */ }
+
+  return "Unknown";
 }
 
 export async function sendWorkerLookupAlert(params: {
