@@ -3,7 +3,7 @@ import { useGetAdminMe } from "@workspace/api-client-react";
 import { useState, useEffect } from "react";
 import {
   UserCog, Plus, Trash2, X, Eye, EyeOff, ShieldAlert,
-  ShieldCheck, CheckCircle2, AlertCircle, Lock, User, Tag, Loader2
+  ShieldCheck, CheckCircle2, AlertCircle, Lock, User, Tag, Loader2, KeyRound
 } from "lucide-react";
 
 type AdminUser = {
@@ -13,6 +13,119 @@ type AdminUser = {
   createdAt: string;
   createdBy: string | null;
 };
+
+function ResetPasswordModal({ admin, onClose }: { admin: AdminUser; onClose: () => void }) {
+  const [password, setPassword] = useState("");
+  const [showPw, setShowPw] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState(false);
+
+  const strength = (() => {
+    if (!password) return 0;
+    let s = 0;
+    if (password.length >= 8) s++;
+    if (/[A-Z]/.test(password)) s++;
+    if (/[0-9]/.test(password)) s++;
+    if (/[^A-Za-z0-9]/.test(password)) s++;
+    return s;
+  })();
+  const strengthLabel = ["", "Weak", "Fair", "Strong", "Very Strong"][strength];
+  const strengthColor = ["", "bg-red-500", "bg-yellow-500", "bg-blue-500", "bg-green-500"][strength];
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+    if (password.length < 8) { setError("Password must be at least 8 characters."); return; }
+    setLoading(true);
+    try {
+      await apiFetch(`/api/auth/admins/${admin.id}/password`, {
+        method: "PATCH",
+        body: JSON.stringify({ newPassword: password }),
+      });
+      setSuccess(true);
+      setTimeout(() => onClose(), 1800);
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4" onClick={onClose}>
+      <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
+      <div className="relative bg-card border border-border rounded-2xl shadow-2xl w-full max-w-md overflow-hidden" onClick={(e) => e.stopPropagation()}>
+        <div className="flex items-center justify-between px-6 py-4 border-b border-border">
+          <div className="flex items-center gap-3">
+            <div className="w-9 h-9 rounded-xl bg-blue-50 border border-blue-100 flex items-center justify-center shrink-0">
+              <KeyRound className="w-5 h-5 text-blue-600" />
+            </div>
+            <div>
+              <div className="font-bold text-foreground text-sm">Reset Password</div>
+              <div className="text-muted-foreground text-xs">@{admin.username}</div>
+            </div>
+          </div>
+          <button onClick={onClose} className="w-8 h-8 rounded-lg hover:bg-muted flex items-center justify-center text-muted-foreground hover:text-foreground transition-colors">
+            <X className="w-4 h-4" />
+          </button>
+        </div>
+        <div className="px-6 py-5">
+          {success ? (
+            <div className="text-center py-6">
+              <div className="w-14 h-14 rounded-full bg-green-100 flex items-center justify-center mx-auto mb-3">
+                <CheckCircle2 className="w-7 h-7 text-green-600" />
+              </div>
+              <div className="font-bold text-foreground text-base mb-1">Password Reset</div>
+              <p className="text-muted-foreground text-sm">Share the new password with this admin.</p>
+            </div>
+          ) : (
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <p className="text-sm text-muted-foreground">Set a new password for <span className="font-semibold text-foreground">{admin.displayName || admin.username}</span>. Share it with them directly.</p>
+              <div>
+                <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider block mb-1.5">New Password *</label>
+                <div className="relative">
+                  <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                  <input
+                    type={showPw ? "text" : "password"}
+                    className={`${inputCls} pl-9 pr-10`}
+                    value={password}
+                    onChange={e => setPassword(e.target.value)}
+                    placeholder="Min. 8 characters"
+                    required
+                    autoComplete="new-password"
+                  />
+                  <button type="button" onClick={() => setShowPw(!showPw)} className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors">
+                    {showPw ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  </button>
+                </div>
+                {password && (
+                  <div className="mt-1.5">
+                    <div className="flex gap-1 mb-0.5">
+                      {[1,2,3,4].map(i => <div key={i} className={`h-1 flex-1 rounded-full transition-all ${i <= strength ? strengthColor : "bg-muted"}`} />)}
+                    </div>
+                    <p className={`text-xs font-medium ${strength <= 1 ? "text-red-500" : strength === 2 ? "text-yellow-500" : strength === 3 ? "text-blue-500" : "text-green-500"}`}>{strengthLabel}</p>
+                  </div>
+                )}
+              </div>
+              {error && (
+                <div className="flex items-center gap-2 bg-red-50 border border-red-200 rounded-xl px-3 py-2.5 text-sm text-red-600">
+                  <AlertCircle className="w-4 h-4 shrink-0" /> {error}
+                </div>
+              )}
+              <div className="flex gap-3 pt-1">
+                <button type="button" onClick={onClose} className="flex-1 py-2.5 border border-border rounded-xl text-sm font-medium hover:bg-muted transition-colors">Cancel</button>
+                <button type="submit" disabled={loading} className="flex-1 flex items-center justify-center gap-2 py-2.5 bg-blue-600 text-white font-bold rounded-xl text-sm hover:bg-blue-700 transition-colors disabled:opacity-60">
+                  {loading ? <><Loader2 className="w-4 h-4 animate-spin" /> Resetting…</> : "Reset Password"}
+                </button>
+              </div>
+            </form>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
 
 const BASE = import.meta.env.BASE_URL?.replace(/\/$/, "") ?? "";
 
@@ -172,6 +285,7 @@ export default function AdminManagementPage() {
   const [error, setError] = useState("");
   const [showAdd, setShowAdd] = useState(false);
   const [deletingId, setDeletingId] = useState<number | null>(null);
+  const [resetAdmin, setResetAdmin] = useState<AdminUser | null>(null);
 
   const isSuperAdmin = (session as any)?.isSuperAdmin === true;
 
@@ -217,6 +331,7 @@ export default function AdminManagementPage() {
   return (
     <AdminLayout>
       {showAdd && <AddAdminModal onClose={() => setShowAdd(false)} onCreated={handleCreated} />}
+      {resetAdmin && <ResetPasswordModal admin={resetAdmin} onClose={() => setResetAdmin(null)} />}
 
       <div className="space-y-6 max-w-3xl mx-auto">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
@@ -288,6 +403,13 @@ export default function AdminManagementPage() {
                     </div>
                   </div>
                   <span className="px-2 py-0.5 rounded-full text-xs bg-blue-50 text-blue-600 border border-blue-100 shrink-0">Admin</span>
+                  <button
+                    onClick={() => setResetAdmin(admin)}
+                    className="w-8 h-8 rounded-lg flex items-center justify-center text-muted-foreground hover:text-blue-600 hover:bg-blue-50 transition-colors shrink-0"
+                    title="Reset password"
+                  >
+                    <KeyRound className="w-4 h-4" />
+                  </button>
                   <button
                     onClick={() => handleDelete(admin.id, admin.username)}
                     disabled={deletingId === admin.id}

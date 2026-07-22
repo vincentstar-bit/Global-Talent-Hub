@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { db } from "@workspace/db";
 import { adminsTable } from "@workspace/db";
-import { eq } from "drizzle-orm";
+import { eq, ilike } from "drizzle-orm";
 import { scrypt, randomBytes, timingSafeEqual } from "node:crypto";
 import { promisify } from "node:util";
 import jwt from "jsonwebtoken";
@@ -68,9 +68,9 @@ router.post("/auth/admin/login", async (req, res) => {
     return res.json({ token, ...session });
   }
 
-  // DB admin check
+  // DB admin check — case-insensitive so "Support@..." matches "support@..."
   try {
-    const [admin] = await db.select().from(adminsTable).where(eq(adminsTable.username, username));
+    const [admin] = await db.select().from(adminsTable).where(ilike(adminsTable.username, username.trim()));
     if (admin && await verifyPassword(password, admin.passwordHash)) {
       const session: AdminSession = { username, role: "admin", isSuperAdmin: false };
       const token = signToken(session);
@@ -169,6 +169,24 @@ router.post("/auth/admins", requireAdmin, requireSuperAdmin, async (req: any, re
     if (err?.code === "23505") return res.status(409).json({ error: "Username already exists" });
     console.error("[auth] create admin error:", err);
     return res.status(500).json({ error: "Failed to create admin" });
+  }
+});
+
+router.patch("/auth/admins/:id/password", requireAdmin, requireSuperAdmin, async (req: any, res: any) => {
+  const id = Number(req.params.id);
+  if (!Number.isFinite(id)) return res.status(400).json({ error: "Invalid id" });
+  const { newPassword } = req.body;
+  if (!newPassword || typeof newPassword !== "string" || newPassword.length < 8) {
+    return res.status(400).json({ error: "Password must be at least 8 characters" });
+  }
+  try {
+    const newHash = await hashPassword(newPassword);
+    const updated = await db.update(adminsTable).set({ passwordHash: newHash }).where(eq(adminsTable.id, id)).returning({ id: adminsTable.id });
+    if (!updated.length) return res.status(404).json({ error: "Admin not found" });
+    return res.json({ ok: true });
+  } catch (err) {
+    console.error("[auth] reset admin password error:", err);
+    return res.status(500).json({ error: "Failed to reset password" });
   }
 });
 
