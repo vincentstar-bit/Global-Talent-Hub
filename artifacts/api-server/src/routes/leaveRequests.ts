@@ -3,7 +3,7 @@ import { db } from "@workspace/db";
 import { leaveRequestsTable, workersTable, leaveTypesTable } from "@workspace/db";
 import { eq, and } from "drizzle-orm";
 import { requireAdmin } from "./auth";
-import { sendLeaveRequestConfirmation, sendLeaveStatusUpdate } from "../lib/email";
+import { sendLeaveRequestConfirmation, sendLeaveStatusUpdate, sendAdminMessageToWorker } from "../lib/email";
 
 const router = Router();
 
@@ -149,6 +149,44 @@ router.patch("/leave-requests/:id", requireAdmin, async (req, res) => {
   } catch (err) {
     req.log.error(err);
     return res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+router.post("/leave-requests/:id/email", requireAdmin, async (req: any, res: any) => {
+  try {
+    const id = parseInt(req.params.id);
+    const { subject, message } = req.body ?? {};
+
+    if (!subject || typeof subject !== "string" || !subject.trim()) {
+      return res.status(400).json({ error: "Subject is required." });
+    }
+    if (!message || typeof message !== "string" || message.trim().length < 5) {
+      return res.status(400).json({ error: "Message must be at least 5 characters." });
+    }
+
+    const [request] = await db.select().from(leaveRequestsTable).where(eq(leaveRequestsTable.id, id));
+    if (!request) return res.status(404).json({ error: "Leave request not found" });
+
+    const enriched = await enrichRequest(request);
+    const toEmail = enriched.notifyEmail;
+    if (!toEmail) return res.status(400).json({ error: "No email address on file for this leave request." });
+
+    const senderName = req.adminSession?.username
+      ? `${req.adminSession.username} (HR Admin)`
+      : "HR Administration";
+
+    await sendAdminMessageToWorker({
+      workerName: enriched.workerName || "Worker",
+      toEmail,
+      subject: subject.trim(),
+      message: message.trim(),
+      senderName,
+    });
+
+    return res.json({ ok: true, sentTo: toEmail });
+  } catch (err) {
+    req.log.error(err);
+    return res.status(500).json({ error: "Failed to send email." });
   }
 });
 

@@ -395,12 +395,14 @@ export default function AdminManagementPage() {
                     <User className="w-5 h-5 text-muted-foreground" />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <div className="font-semibold text-foreground text-sm">{admin.displayName || admin.username}</div>
-                    <div className="text-xs text-muted-foreground">
-                      @{admin.username}
-                      {admin.createdBy && ` · Added by ${admin.createdBy}`}
-                      {admin.createdAt && ` · ${new Date(admin.createdAt).toLocaleDateString()}`}
-                    </div>
+                    <div className="font-semibold text-foreground text-sm truncate">{admin.displayName || admin.username}</div>
+                    <div className="text-xs text-muted-foreground truncate">@{admin.username}</div>
+                    {(admin.createdBy || admin.createdAt) && (
+                      <div className="text-xs text-muted-foreground/60 mt-0.5">
+                        {admin.createdBy && `Added by ${admin.createdBy}`}
+                        {admin.createdAt && ` · ${new Date(admin.createdAt).toLocaleDateString()}`}
+                      </div>
+                    )}
                   </div>
                   <span className="px-2 py-0.5 rounded-full text-xs bg-blue-50 text-blue-600 border border-blue-100 shrink-0">Admin</span>
                   <button

@@ -17,6 +17,112 @@ type DecisionModal = {
 
 type Toast = { message: string; type: "success" | "warning" };
 
+type EmailModal = { id: number; workerName: string; toEmail: string };
+
+const BASE = import.meta.env.BASE_URL?.replace(/\/$/, "") ?? "";
+async function apiFetch(path: string, options?: RequestInit) {
+  const token = localStorage.getItem("admin_token");
+  const res = await fetch(`${BASE}${path}`, {
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+    },
+    ...options,
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.error || "Request failed");
+  return data;
+}
+
+function EmailRequestorModal({
+  modal, onClose, onSent,
+}: {
+  modal: EmailModal;
+  onClose: () => void;
+  onSent: (email: string) => void;
+}) {
+  const [subject, setSubject] = useState("");
+  const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+    if (!subject.trim()) { setError("Subject is required."); return; }
+    if (message.trim().length < 5) { setError("Message must be at least 5 characters."); return; }
+    setLoading(true);
+    try {
+      await apiFetch(`/api/leave-requests/${modal.id}/email`, {
+        method: "POST",
+        body: JSON.stringify({ subject, message }),
+      });
+      onSent(modal.toEmail);
+      onClose();
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+      <div className="absolute inset-0 bg-black/50" onClick={onClose} />
+      <div className="relative bg-card border border-border rounded-xl shadow-2xl w-full max-w-md">
+        <div className="flex items-center justify-between p-5 border-b border-border">
+          <div className="flex items-center gap-3">
+            <Mail className="w-5 h-5 text-[#c9a227]" />
+            <div>
+              <h2 className="font-bold text-base text-foreground">Email Requestor</h2>
+              <p className="text-xs text-muted-foreground mt-0.5">{modal.workerName} · {modal.toEmail}</p>
+            </div>
+          </div>
+          <button onClick={onClose} className="p-1 rounded hover:bg-muted transition-colors">
+            <X className="w-4 h-4 text-muted-foreground" />
+          </button>
+        </div>
+        <form onSubmit={handleSubmit} className="p-5 space-y-4">
+          <div>
+            <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider block mb-1.5">Subject *</label>
+            <input
+              type="text"
+              value={subject}
+              onChange={e => setSubject(e.target.value)}
+              placeholder="e.g. Regarding your leave request…"
+              className="w-full border border-border rounded-lg px-3 py-2.5 text-sm bg-background focus:outline-none focus:ring-2 focus:ring-[#c9a227]/50 focus:border-[#c9a227] placeholder-muted-foreground/50"
+              required
+            />
+          </div>
+          <div>
+            <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider block mb-1.5">Message *</label>
+            <textarea
+              value={message}
+              onChange={e => setMessage(e.target.value)}
+              rows={5}
+              placeholder="Write your message here…"
+              className="w-full border border-border rounded-lg px-3 py-2.5 text-sm bg-background focus:outline-none focus:ring-2 focus:ring-[#c9a227]/50 focus:border-[#c9a227] resize-none placeholder-muted-foreground/50"
+              required
+            />
+          </div>
+          {error && (
+            <div className="flex items-center gap-2 bg-red-50 border border-red-200 rounded-lg px-3 py-2.5 text-sm text-red-600">
+              <AlertTriangle className="w-4 h-4 shrink-0" /> {error}
+            </div>
+          )}
+          <div className="flex gap-3 pt-1">
+            <button type="button" onClick={onClose} className="flex-1 px-4 py-2.5 border border-border rounded-lg text-sm font-medium hover:bg-muted transition-colors">Cancel</button>
+            <button type="submit" disabled={loading} className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 bg-[#c9a227] text-[#0a1628] font-bold rounded-lg text-sm hover:bg-[#d4af37] transition-colors disabled:opacity-60">
+              {loading ? <div className="w-4 h-4 border-2 border-[#0a1628] border-t-transparent rounded-full animate-spin" /> : <><Send className="w-4 h-4" /> Send Email</>}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+}
+
 function DecisionModalDialog({
   modal, onClose, onConfirm, isPending,
 }: {
@@ -150,6 +256,7 @@ export default function AdminLeaveRequestsPage() {
   const [statusFilter, setStatusFilter] = useState("");
   const [modal, setModal] = useState<DecisionModal | null>(null);
   const [toast, setToast] = useState<Toast | null>(null);
+  const [emailModal, setEmailModal] = useState<EmailModal | null>(null);
 
   const showToast = (message: string, type: Toast["type"]) => {
     setToast({ message, type });
@@ -200,6 +307,14 @@ export default function AdminLeaveRequestsPage() {
   return (
     <AdminLayout>
       {toast && <ToastBanner toast={toast} onDismiss={() => setToast(null)} />}
+
+      {emailModal && (
+        <EmailRequestorModal
+          modal={emailModal}
+          onClose={() => setEmailModal(null)}
+          onSent={(email) => showToast(`Email sent to ${email}.`, "success")}
+        />
+      )}
 
       {modal && (
         <DecisionModalDialog
@@ -321,25 +436,35 @@ export default function AdminLeaveRequestsPage() {
                     </p>
                   </div>
 
-                  {/* Action buttons — only for pending */}
-                  {r.status === "pending" && (
-                    <div className="flex flex-col gap-2 flex-shrink-0">
+                  {/* Action buttons */}
+                  <div className="flex flex-col gap-2 flex-shrink-0">
+                    {r.notifyEmail && (
                       <button
-                        onClick={() => openModal(r, "approve")}
-                        disabled={update.isPending}
-                        className="flex items-center gap-1.5 px-3 py-1.5 bg-green-100 text-green-700 border border-green-200 rounded text-sm font-medium hover:bg-green-200 transition-colors disabled:opacity-60 whitespace-nowrap"
+                        onClick={() => setEmailModal({ id: r.id, workerName: r.workerName || `Worker #${r.workerId}`, toEmail: r.notifyEmail })}
+                        className="flex items-center gap-1.5 px-3 py-1.5 bg-[#c9a227]/10 text-[#8a6d10] border border-[#c9a227]/30 rounded text-sm font-medium hover:bg-[#c9a227]/20 transition-colors whitespace-nowrap"
                       >
-                        <CheckCircle className="w-3.5 h-3.5" /> Approve
+                        <Mail className="w-3.5 h-3.5" /> Email
                       </button>
-                      <button
-                        onClick={() => openModal(r, "reject")}
-                        disabled={update.isPending}
-                        className="flex items-center gap-1.5 px-3 py-1.5 bg-red-50 text-red-700 border border-red-200 rounded text-sm font-medium hover:bg-red-100 transition-colors disabled:opacity-60 whitespace-nowrap"
-                      >
-                        <XCircle className="w-3.5 h-3.5" /> Reject
-                      </button>
-                    </div>
-                  )}
+                    )}
+                    {r.status === "pending" && (
+                      <>
+                        <button
+                          onClick={() => openModal(r, "approve")}
+                          disabled={update.isPending}
+                          className="flex items-center gap-1.5 px-3 py-1.5 bg-green-100 text-green-700 border border-green-200 rounded text-sm font-medium hover:bg-green-200 transition-colors disabled:opacity-60 whitespace-nowrap"
+                        >
+                          <CheckCircle className="w-3.5 h-3.5" /> Approve
+                        </button>
+                        <button
+                          onClick={() => openModal(r, "reject")}
+                          disabled={update.isPending}
+                          className="flex items-center gap-1.5 px-3 py-1.5 bg-red-50 text-red-700 border border-red-200 rounded text-sm font-medium hover:bg-red-100 transition-colors disabled:opacity-60 whitespace-nowrap"
+                        >
+                          <XCircle className="w-3.5 h-3.5" /> Reject
+                        </button>
+                      </>
+                    )}
+                  </div>
                 </div>
               </div>
             ))}
