@@ -175,7 +175,7 @@ router.post("/leave-requests/:id/email", requireAdmin, async (req: any, res: any
       ? `${req.adminSession.username} (HR Admin)`
       : "HR Administration";
 
-    await sendAdminMessageToWorker({
+    const emailId = await sendAdminMessageToWorker({
       workerName: enriched.workerName || "Worker",
       toEmail,
       subject: subject.trim(),
@@ -183,7 +183,7 @@ router.post("/leave-requests/:id/email", requireAdmin, async (req: any, res: any
       senderName,
     });
 
-    return res.json({ ok: true, sentTo: toEmail });
+    return res.json({ ok: true, sentTo: toEmail, emailId });
   } catch (err) {
     req.log.error(err);
     return res.status(500).json({ error: "Failed to send email." });

@@ -301,10 +301,10 @@ export async function sendAdminMessageToWorker(params: {
   subject: string;
   message: string;
   senderName: string;
-}): Promise<void> {
-  if (!resend) { warnNoKey(); return; }
+}): Promise<string> {
+  if (!resend) { warnNoKey(); return "no-key"; }
 
-  await resend.emails.send({
+  const { data, error } = await resend.emails.send({
     from: FROM_EMAIL,
     to: params.toEmail,
     replyTo: ADMIN_EMAIL,
@@ -331,4 +331,11 @@ export async function sendAdminMessageToWorker(params: {
       </div>
     `,
   });
+
+  if (error) {
+    console.error("[admin-email] Resend error sending to", params.toEmail, ":", JSON.stringify(error));
+    throw new Error(error.message || "Resend rejected the email");
+  }
+  console.log("[admin-email] Sent to", params.toEmail, "id:", data?.id);
+  return data?.id ?? "sent";
 }
